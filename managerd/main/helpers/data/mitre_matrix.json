@@ -1,0 +1,406 @@
+[
+	{
+		"id": "T1136",
+		"title": "Create Account",
+		"tactics": ["persistence"],
+		"impulse_iocs": ["groups", "users"],
+		"description": "Adversaries with a sufficient level of access may create a local system, domain, or cloud tenant account. Such accounts may be used for persistence that do not require persistent remote access tools to be deployed on the system. In cloud environments, adversaries may create accounts that only have access to specific services, which can reduce the chance of detection."		
+	},
+
+	{
+		"id": "T1078",
+		"title": "Valid Accounts",
+		"tactics": ["Defense Evasion", "Persistence", "Privilege Escalation", "Initial Access"],
+		"impulse_iocs": ["last"],
+		"description": "Adversaries may obtain and abuse credentials of existing accounts as a means of gaining Initial Access, Persistence, Privilege Escalation, or Defense Evasion. Compromised credentials may be used to bypass access controls placed on various resources on systems within the network and may even be used for persistent access to remote systems and externally available services, such as VPNs, Outlook Web Access and remote desktop. Compromised credentials may also grant an adversary increased privilege to specific systems or access to restricted areas of the network. Adversaries may choose not to use malware or tools in conjunction with the legitimate access those credentials provide to make it harder to detect their presence. In some cases, adversaries may abuse inactive accounts: for example, those belonging to individuals who are no longer part of an organization. Using these accounts may allow the adversary to evade detection, as the original account user will not be present to identify any anomalous activity taking place on their account.[1] The overlap of permissions for local, domain, and cloud accounts across a network of systems is of concern because the adversary may be able to pivot across accounts and systems to reach a high level of access (i.e., domain or enterprise administrator) to bypass access controls set within the enterprise."		
+	},
+
+	{
+		"id": "T1563",
+		"title": "Remote Service Session Hijacking",
+		"tactics": ["Lateral Movement"],
+		"description": "Adversaries may take control of preexisting sessions with remote services to move laterally in an environment. Users may use valid credentials to log into a service specifically designed to accept remote connections, such as telnet, SSH, and RDP. When a user logs into a service, a session will be established that will allow them to maintain a continuous interaction with that service. Adversaries may commandeer these sessions to carry out actions on remote systems. Remote Service Session Hijacking differs from use of Remote Services because it hijacks an existing session rather than creating a new session using Valid Accounts."		
+	},
+	
+	{
+		"id": "T1021",
+		"title": "Remote Services",
+		"tactics": ["Lateral Movement"],
+		"description": "Adversaries may use Valid Accounts to log into a service specifically designed to accept remote connections, such as telnet, SSH, and VNC. The adversary may then perform actions as the logged-on user. In an enterprise environment, servers and workstations can be organized into domains. Domains provide centralized identity management, allowing users to login using one set of credentials across the entire network. If an adversary is able to obtain a set of valid domain credentials, they could login to many different machines using remote access protocols such as secure shell (SSH) or remote desktop protocol (RDP).[1][2] Legitimate applications (such as Software Deployment Tools and other administrative programs) may utilize Remote Services to access remote hosts. For example, Apple Remote Desktop (ARD) on macOS is native software used for remote management. ARD leverages a blend of protocols, including VNC to send the screen and control buffers and SSH for secure file transfer.[3][4][5] Adversaries can abuse applications such as ARD to gain remote code execution and perform lateral movement. In versions of macOS prior to 10.14, an adversary can escalate an SSH session to an ARD session which enables an adversary to accept TCC (Transparency, Consent, and Control) prompts without user interaction and gain access to data."		
+	},
+	
+	{
+		"id": "T1059.006",
+		"title": "Command and Scripting Interpreter: Python",
+		"tactics": ["Execution"],
+		"impulse_iocs": ["python_packages"],
+		"description": "Adversaries may abuse Python commands and scripts for execution. Python is a very popular scripting/programming language, with capabilities to perform many functions. Python can be executed interactively from the command-line (via the python.exe interpreter) or via scripts (.py) that can be written and distributed to different systems. Python code can also be compiled into binary executables. Python comes with many built-in packages to interact with the underlying system, such as file operations and device I/O. Adversaries can use these libraries to download and execute commands or other scripts as well as perform various malicious behaviors."		
+	},
+
+	{
+		"id": "T1059",
+		"title": "Command and Scripting Interpreter",
+		"tactics": ["Execution"],
+		"description": "Adversaries may abuse command and script interpreters to execute commands, scripts, or binaries. These interfaces and languages provide ways of interacting with computer systems and are a common feature across many different platforms. Most systems come with some built-in command-line interface and scripting capabilities, for example, macOS and Linux distributions include some flavor of Unix Shell while Windows installations include the Windows Command Shell and PowerShell. There are also cross-platform interpreters such as Python, as well as those commonly associated with client applications such as JavaScript and Visual Basic. Adversaries may abuse these technologies in various ways as a means of executing arbitrary commands. Commands and scripts can be embedded in Initial Access payloads delivered to victims as lure documents or as secondary payloads downloaded from an existing C2. Adversaries may also execute commands through interactive terminals/shells, as well as utilize various Remote Services in order to achieve remote Execution."		
+	},		
+	{
+		"id": "T1082",
+		"title": "System Information Discovery",
+		"tactics": ["Discovery"],
+		"description": "An adversary may attempt to get detailed information about the operating system and hardware, including version, patches, hotfixes, service packs, and architecture. Adversaries may use the information from System Information Discovery during automated discovery to shape follow-on behaviors, including whether or not the adversary fully infects the target and/or attempts specific actions."		
+	},
+	{
+		"id": "T1057",
+		"title": "Process Discovery",
+		"tactics": ["Discovery"],
+		"description": "Adversaries may attempt to get information about running processes on a system. Information obtained could be used to gain an understanding of common software/applications running on systems within the network. Adversaries may use the information from Process Discovery during automated discovery to shape follow-on behaviors, including whether or not the adversary fully infects the target and/or attempts specific actions."		
+	},
+	{
+		"id": "T1201",
+		"title": "Password Policy Discovery",
+		"tactics": ["Discovery"],
+		"description": "Adversaries may attempt to access detailed information about the password policy used within an enterprise network or cloud environment. Password policies are a way to enforce complex passwords that are difficult to guess or crack through Brute Force. This information may help the adversary to create a list of common passwords and launch dictionary and/or brute force attacks which adheres to the policy (e.g. if the minimum password length should be 8, then not trying passwords such as 'pass123'; not checking for more than 3-4 passwords per account if the lockout is set to 6 as to not lock out accounts)."		
+	},
+	{
+		"id": "T1083",
+		"title": "File and Directory Discovery",
+		"tactics": ["Discovery"],
+		"description": "Adversaries may enumerate files and directories or may search in specific locations of a host or network share for certain information within a file system. Adversaries may use the information from File and Directory Discovery during automated discovery to shape follow-on behaviors, including whether or not the adversary fully infects the target and/or attempts specific actions."		
+	},
+	{
+		"id": "T1087",
+		"tactics": "Discovery",
+		"title": ["Account Discovery"],
+		"description": "Adversaries may attempt to get a listing of accounts on a system or within an environment. This information can help adversaries determine which accounts exist to aid in follow-on behavior."		
+	},
+	{
+		"id": "T1072",
+		"tactics": ["Execution", "Lateral Movement"],
+		"title": "Software Deployment Tools",
+		"description": "Adversaries may gain access to and use third-party software suites installed within an enterprise network, such as administration, monitoring, and deployment systems, to move laterally through the network. Third-party applications and software deployment systems may be in use in the network environment for administration purposes (e.g., SCCM, HBSS, Altiris, etc.)."		
+	},
+	{
+		"id": "T1560",
+		"tactics": ["Collection"],
+		"title": "Archive Collected Data",
+		"description": "An adversary may compress and/or encrypt data that is collected prior to exfiltration. Compressing the data can help to obfuscate the collected data and minimize the amount of data sent over the network. Encryption can be used to hide information that is being exfiltrated from detection or make exfiltration less conspicuous upon inspection by a defender. Both compression and encryption are done prior to exfiltration, and can be performed using a utility, 3rd party library, or custom method."		
+	},
+	{
+		"id": "T1053",
+		"title": "Scheduled Task/Job",
+		"tactics": ["Execution", "Persistence", "Privilege", "Escalation"],
+		"description": "Adversaries may abuse task scheduling functionality to facilitate initial or recurring execution of malicious code. Utilities exist within all major operating systems to schedule programs or scripts to be executed at a specified date and time. A task can also be scheduled on a remote system, provided the proper authentication is met (ex: RPC and file and printer sharing in Windows environments). Scheduling a task on a remote system typically may require being a member of an admin or otherwise privileged group on the remote system.[1] Adversaries may use task scheduling to execute programs at system startup or on a scheduled basis for persistence. These mechanisms can also be abused to run a process under the context of a specified account (such as one with elevated permissions/privileges). Similar to System Binary Proxy Execution, adversaries have also abused task scheduling to potentially mask one-time execution under a trusted system process."		
+	},	
+	{
+		"id": "T1053.003",
+		"title": "Scheduled Task/Job: Cron",
+		"tactics": ["Execution", "Persistence", "Privilege Escalation"],
+		"impulse_iocs": ["crontab"],
+		"description": "Adversaries may abuse the cron utility to perform task scheduling for initial or recurring execution of malicious code.[1] The cron utility is a time-based job scheduler for Unix-like operating systems. The crontab file contains the schedule of cron entries to be run and the specified times for execution. Any crontab files are stored in operating system-specific file paths. An adversary may use cron in Linux or Unix environments to execute programs at system startup or on a scheduled basis for Persistence."		
+	},
+	{
+		"id": "T1072",
+		"title": "Software Deployment Tools",
+		"tactics": ["Execution", "Lateral Movement"],
+		"impulse_iocs": ["deb_packages"],
+		"description": "Adversaries may gain access to and use third-party software suites installed within an enterprise network, such as administration, monitoring, and deployment systems, to move laterally through the network. Third-party applications and software deployment systems may be in use in the network environment for administration purposes (e.g., SCCM, HBSS, Altiris, etc.). Access to a third-party network-wide or enterprise-wide software system may enable an adversary to have remote code execution on all systems that are connected to such a system. The access may be used to laterally move to other systems, gather information, or cause a specific effect, such as wiping the hard drives on all endpoints. The permissions required for this action vary by system configuration; local credentials may be sufficient with direct access to the third-party system, or specific domain credentials may be required. However, the system may require an administrative account to log in or to perform it's intended purpose."		
+	},
+	{
+		"id": "T1046",
+		"title": "Network Service Discovery",
+		"tactics": ["Discovery"],
+		"impulse_iocs": ["nmap_installed"],
+		"description": "Adversaries may attempt to get a listing of services running on remote hosts and local network infrastructure devices, including those that may be vulnerable to remote software exploitation. Common methods to acquire this information include port and/or vulnerability scans using tools that are brought onto a system.[1] Within cloud environments, adversaries may attempt to discover services running on other cloud hosts. Additionally, if the cloud environment is connected to a on-premises environment, adversaries may be able to identify services running on non-cloud systems as well. Within macOS environments, adversaries may use the native Bonjour application to discover services running on other macOS hosts within a network. The Bonjour mDNSResponder daemon automatically registers and advertises a host’s registered services on the network. For example, adversaries can use a mDNS query (such as dns-sd -B _ssh._tcp .) to find other systems broadcasting the ssh service."		
+	},
+	
+	{
+		"id": "T1040",
+		"title": "Network Sniffing",
+		"tactics": ["Credential Access", "Discovery"],
+		"impulse_iocs": ["tcpdump_installed", "wireshark_installed"],
+		"description": "Adversaries may sniff network traffic to capture information about an environment, including authentication material passed over the network. Network sniffing refers to using the network interface on a system to monitor or capture information sent over a wired or wireless connection. An adversary may place a network interface into promiscuous mode to passively access data in transit over the network, or use span ports to capture a larger amount of data."		
+	},
+
+	{
+		"id": "T1021.004",
+		"title": "Remote Services: SSH",
+		"tactics": ["Lateral Movement"],
+		"impulse_iocs": ["openssh_server_installed"],
+		"description": "Adversaries may use Valid Accounts to log into remote machines using Secure Shell (SSH). The adversary may then perform actions as the logged-on user. SSH is a protocol that allows authorized users to open remote shells on other computers. Many Linux and macOS versions come with SSH installed by default, although typically disabled until the user enables it. The SSH server can be configured to use standard password authentication or public-private keypairs in lieu of or in addition to a password. In this authentication scenario, the user’s public key must be in a special file on the computer running the server that lists which keypairs are allowed to login as that user."		
+	},
+	
+	{
+		"id": "T1029",
+		"title": "Scheduled Transfer",
+		"tactics": ["Exfiltration"],
+		"description": "Adversaries may schedule data exfiltration to be performed only at certain times of day or at certain intervals. This could be done to blend traffic patterns with normal activity or availability. When scheduled exfiltration is used, other exfiltration techniques likely apply as well to transfer the information out of the network, such as Exfiltration Over C2 Channel or Exfiltration Over Alternative Protocol."		
+	},
+	
+	{
+		"id": "T1011",
+		"title": "Exfiltration Over Other Network Medium",
+		"tactics": ["Exfiltration"],
+		"description": "Adversaries may attempt to exfiltrate data over a different network medium than the command and control channel. If the command and control network is a wired Internet connection, the exfiltration may occur, for example, over a WiFi connection, modem, cellular data connection, Bluetooth, or another radio frequency (RF) channel. Adversaries may choose to do this if they have sufficient access or proximity, and the connection might not be secured or defended as well as the primary Internet-connected channel because it is not routed through the same enterprise network."		
+	},
+
+	{
+		"id": "T1041",
+		"title": "Exfiltration Over C2 Channel",
+		"tactics": ["Exfiltration"],
+		"description": "Adversaries may steal data by exfiltrating it over an existing command and control channel. Stolen data is encoded into the normal communications channel using the same protocol as command and control communications."		
+	},
+	{
+		"id": "T1048",
+		"title": "Exfiltration Over Alternative Protocol",
+		"tactics": ["Exfiltration"],
+		"description": "Adversaries may steal data by exfiltrating it over a different protocol than that of the existing command and control channel. The data may also be sent to an alternate network location from the main command and control server. Alternate protocols include FTP, SMTP, HTTP/S, DNS, SMB, or any other network protocol not being used as the main command and control channel. Different protocol channels could also include Web services such as cloud storage. Adversaries may also opt to encrypt and/or obfuscate these alternate channels. Exfiltration Over Alternative Protocol can be done using various common operating system utilities such as Net/SMB or FTP.[1] On macOS and Linux curl may be used to invoke protocols such as HTTP/S or FTP/S to exfiltrate data from a system.[2]"		
+	},
+	{
+		"id": "T1020",
+		"title": "Automated Exfiltration",
+		"tactics": ["Exfiltration"],
+		"description": "Adversaries may exfiltrate data, such as sensitive documents, through the use of automated processing after being gathered during Collection. When automated exfiltration is used, other exfiltration techniques likely apply as well to transfer the information out of the network, such as Exfiltration Over C2 Channel and Exfiltration Over Alternative Protocol."		
+	},
+	{
+		"id": "T1071",
+		"title": "Application Layer Protocol",
+		"tactics": ["Command and Control"],
+		"description": "Adversaries may communicate using application layer protocols to avoid detection/network filtering by blending in with existing traffic. Commands to the remote system, and often the results of those commands, will be embedded within the protocol traffic between the client and server. Adversaries may utilize many different protocols, including those used for web browsing, transferring files, electronic mail, or DNS. For connections that occur internally within an enclave (such as those between a proxy or pivot node and other nodes), commonly used protocols are SMB, SSH, or RDP."		
+	},
+
+	{
+		"id": "T1219",
+		"title": "Remote Access Software",
+		"tactics": ["Command and Control"],
+		"description": "An adversary may use legitimate desktop support and remote access software, such as Team Viewer, AnyDesk, Go2Assist, LogMein, AmmyyAdmin, etc, to establish an interactive command and control channel to target systems within networks. These services are commonly used as legitimate technical support software, and may be allowed by application control within a target environment. Remote access tools like VNC, Ammyy, and Teamviewer are used frequently when compared with other legitimate software commonly used by adversaries.[1] Remote access tools may be installed and used post-compromise as alternate communications channel for redundant access or as a way to establish an interactive remote desktop session with the target system. They may also be used as a component of malware to establish a reverse connection or back-connect to a service or adversary controlled system. Installation of many remote access tools may also include persistence (ex: the tool's installation routine creates a Windows Service). Admin tools such as TeamViewer have been used by several groups targeting institutions in countries of interest to the Russian state and criminal campaigns"		
+	},
+
+	{
+		"id": "DS0028",
+		"title": "Logon Session",
+		"tactics": ["Collection"],
+		"description": "Logon occurring on a system or resource (local, domain, or cloud) to which a user/device is gaining access after successful authentication and authorizaton"		
+	},
+	
+	{
+		"id": "T1547.006",
+		"title": "Boot or Logon Autostart Execution: Kernel Modules and Extensions",
+		"tactics": ["Persistence", "Privilege Escalation"],
+		"impulse_iocs": ["kernel_modules"],
+		"description": "Adversaries may modify the kernel to automatically execute programs on system boot. Loadable Kernel Modules (LKMs) are pieces of code that can be loaded and unloaded into the kernel upon demand. They extend the functionality of the kernel without the need to reboot the system. For example, one type of module is the device driver, which allows the kernel to access hardware connected to the system.[1] When used maliciously, LKMs can be a type of kernel-mode Rootkit that run with the highest operating system privilege (Ring 0).[2] Common features of LKM based rootkits include: hiding itself, selective hiding of files, processes and network activity, as well as log tampering, providing authenticated backdoors, and enabling root access to non-privileged users.[3] Kernel extensions, also called kext, are used in macOS to load functionality onto a system similar to LKMs for Linux. Since the kernel is responsible for enforcing security and the kernel extensions run as apart of the kernel, kexts are not governed by macOS security policies. Kexts are loaded and unloaded through kextload and kextunload commands. Kexts need to be signed with a developer ID that is granted privileges by Apple allowing it to sign Kernel extensions. Developers without these privileges may still sign kexts but they will not load unless SIP is disabled. If SIP is enabled, the kext signature is verified before being added to the AuxKC.[4] Since macOS Catalina 10.15, kernel extensions have been deprecated in favor of System Extensions. However, kexts are still allowed as Legacy System Extensions since there is no System Extension for Kernel Programming Interfaces. Adversaries can use LKMs and kexts to conduct Persistence and/or Privilege Escalation on a system. Examples have been found in the wild, and there are some relevant open source projects as well."		
+	},
+	
+	{
+		"id": "T1423",
+		"title": "Network Service Scanning",
+		"tactics": ["Discovery"],
+		"description": "Adversaries may attempt to get a listing of services running on remote hosts, including those that may be vulnerable to remote software exploitation. Methods to acquire this information include port scans and vulnerability scans from the mobile device. This technique may take advantage of the mobile device's access to an internal enterprise network either through local connectivity or through a Virtual Private Network (VPN)."		
+	},
+
+	{
+		"id": "T1105",
+		"title": "Ingress Tool Transfer",
+		"tactics": ["Command and Control"],
+		"description": "Adversaries may transfer tools or other files from an external system into a compromised environment. Tools or files may be copied from an external adversary-controlled system to the victim network through the command and control channel or through alternate protocols such as ftp. Once present, adversaries may also transfer/spread tools between victim devices within a compromised environment (i.e. Lateral Tool Transfer). Files can also be transferred using various Web Services as well as native or otherwise present tools on the victim system.[1] On Windows, adversaries may use various utilities to download tools, such as copy, finger, and PowerShell commands such as IEX(New-Object Net.WebClient).downloadString() and Invoke-WebRequest. On Linux and macOS systems, a variety of utilities also exist, such as curl, scp, sftp, tftp, rsync, finger, and wget."		
+	},
+	{
+		"id": "T1049",
+		"title": "System Network Connections Discovery",
+		"tactics": ["Discovery"],
+		"description": "Adversaries may attempt to get a listing of network connections to or from the compromised system they are currently accessing or from remote systems by querying for information over the network. An adversary who gains access to a system that is part of a cloud-based environment may map out Virtual Private Clouds or Virtual Networks in order to determine what systems and services are connected. The actions performed are likely the same types of discovery techniques depending on the operating system, but the resulting information may include details about the networked cloud environment relevant to the adversary's goals. Cloud providers may have different ways in which their virtual networks operate.[1][2][3] Similarly, adversaries who gain access to network devices may also perform similar discovery activities to gather information about connected systems and services. Utilities and commands that acquire this information include netstat, net use, and net session with Net. In Mac and Linux, netstat and lsof can be used to list current connections. who -a and w can be used to show which users are currently logged in, similar to net session. Additionally, built-in features native to network devices and Network Device CLI may be used."		
+	},
+	{
+		"id": "TA0010",
+		"title": "Exfiltration",
+		"tactics": ["Exfiltration"],
+		"description": "The adversary is trying to steal data. Exfiltration consists of techniques that adversaries may use to steal data from your network. Once they’ve collected data, adversaries often package it to avoid detection while removing it. This can include compression and encryption. Techniques for getting data out of a target network typically include transferring it over their command and control channel or an alternate channel and may also include putting size limits on the transmission."		
+	},
+	{
+		"id": "T1070",
+		"title": "Indicator Removal on Host",
+		"tactics": ["Defense Evasion"],
+		"description": "Adversaries may delete or modify artifacts generated on a host system to remove evidence of their presence or hinder defenses. Various artifacts may be created by an adversary or something that can be attributed to an adversary’s actions. Typically these artifacts are used as defensive indicators related to monitored events, such as strings from downloaded files, logs that are generated from user actions, and other data analyzed by defenders. Location, format, and type of artifact (such as command or login history) are often specific to each platform. Removal of these indicators may interfere with event collection, reporting, or other processes used to detect intrusion activity. This may compromise the integrity of security solutions by causing notable events to go unreported. This activity may also impede forensic analysis and incident response, due to lack of sufficient data to determine what occurred."		
+	},
+
+	{
+		"id": "T1548",
+		"title": "Abuse Elevation Control Mechanism",
+		"tactics": ["Privilege Escalation", "Defense Evasion"],
+		"description": "Adversaries may circumvent mechanisms designed to control elevate privileges to gain higher-level permissions. Most modern systems contain native elevation control mechanisms that are intended to limit privileges that a user can perform on a machine. Authorization has to be granted to specific users in order to perform tasks that can be considered of higher risk. An adversary can perform several methods to take advantage of built-in control mechanisms in order to escalate privileges on a system."		
+	},
+
+	{
+		"id": "T1548.001",
+		"title": "Abuse Elevation Control Mechanism: Setuid and Setgid",
+		"tactics": ["Privilege Escalation", "Defense Evasion"],
+		"description": "An adversary may abuse configurations where an application has the setuid or setgid bits set in order to get code running in a different (and possibly more privileged) user’s context. On Linux or macOS, when the setuid or setgid bits are set for an application binary, the application will run with the privileges of the owning user or group respectively.[1] Normally an application is run in the current user’s context, regardless of which user or group owns the application. However, there are instances where programs need to be executed in an elevated context to function properly, but the user running them may not have the specific required privileges. Instead of creating an entry in the sudoers file, which must be done by root, any user can specify the setuid or setgid flag to be set for their own applications (i.e. Linux and Mac File and Directory Permissions Modification). The chmod command can set these bits with bitmasking, chmod 4777 [file] or via shorthand naming, chmod u+s [file]. This will enable the setuid bit. To enable the setgit bit, chmod 2775 and chmod g+s can be used. Adversaries can use this mechanism on their own malware to make sure they're able to execute in elevated contexts in the future.[2] This abuse is often part of a /shell escape/ or other actions to bypass an execution environment with restricted permissions. Alternatively, adversaries may choose to find and target vulnerable binaries with the setuid or setgid bits already enabled (i.e. File and Directory Discovery). The setuid and setguid bits are indicated with an /s/ instead of an /x/ when viewing a file's attributes via ls -l. The find command can also be used to search for such files. For example, find / -perm +4000 2>/dev/null can be used to find files with setuid set and find / -perm +2000 2>/dev/null may be used for setgid. Binaries that have these bits set may then be abused by adversaries."		
+	},
+	
+	{
+		"id": "T1136.001",
+		"title": "Create Account: Local Account",
+		"tactics": ["Persistence"],
+		"description": "Adversaries may create a local account to maintain access to victim systems. Local accounts are those configured by an organization for use by users, remote support, services, or for administration on a single system or service. With a sufficient level of access, the net user /add command can be used to create a local account. On macOS systems the dscl -create command can be used to create a local account. Such accounts may be used to establish secondary credentialed access that do not require persistent remote access tools to be deployed on the system."		
+	},
+	
+	{
+		"id": "T1059.004",
+		"title": "Command and Scripting Interpreter: Unix Shell",
+		"tactics": ["Execution"],
+		"description": "Adversaries may abuse Unix shell commands and scripts for execution. Unix shells are the primary command prompt on Linux and macOS systems, though many variations of the Unix shell exist (e.g. sh, bash, zsh, etc.) depending on the specific OS or distribution.[1][2] Unix shells can control every aspect of a system, with certain commands requiring elevated privileges. Unix shells also support scripts that enable sequential execution of commands as well as other typical programming operations such as conditionals and loops. Common uses of shell scripts include long or repetitive tasks, or the need to run the same set of commands on multiple systems. Adversaries may abuse Unix shells to execute various commands or payloads. Interactive shells may be accessed through command and control channels or during lateral movement such as with SSH. Adversaries may also leverage shell scripts to deliver and execute multiple commands on victims or as part of payloads used for persistence."		
+	},
+
+	{
+		"id": "T1052",
+		"title": "Exfiltration Over Physical Medium",
+		"tactics": ["Exfiltration"],
+		"description": "Adversaries may attempt to exfiltrate data via a physical medium, such as a removable drive. In certain circumstances, such as an air-gapped network compromise, exfiltration could occur via a physical medium or device introduced by a user. Such media could be an external hard drive, USB drive, cellular phone, MP3 player, or other removable storage and processing device. The physical medium or device could be used as the final exfiltration point or to hop between otherwise disconnected systems."		
+	},
+	{
+		"id": "T1543.002",
+		"title": "Create or Modify System Process: Systemd Service",
+		"tactics": ["Persistence", "Privilege Escalation"],
+		"description": "Adversaries may create or modify systemd services to repeatedly execute malicious payloads as part of persistence. The systemd service manager is commonly used for managing background daemon processes (also known as services) and other system resources."		
+	},
+	{
+		"id": "T1564.001",
+		"title": "Hide Artifacts: Hidden Files and Directories",
+		"tactics": ["Defense Evasion"],
+		"description": "Adversaries may set files and directories to be hidden to evade detection mechanisms. To prevent normal users from accidentally changing special files on a system, most operating systems have the concept of a ‘hidden’ file. These files don’t show up when a user browses the file system with a GUI or when using normal commands on the command line. Users must explicitly ask to show the hidden files either via a series of Graphical User Interface (GUI) prompts or with command line switches (dir /a for Windows and ls –a for Linux and macOS)."		
+	},
+	{
+		"id": "T1205.001",
+		"title": "Traffic Signaling: Port Knocking",   
+		"tactics": ["Defense Evasion", "Persistence", "Command and Control"],
+		"description": "Adversaries may use port knocking to hide open ports used for persistence or command and control. To enable a port, an adversary sends a series of attempted connections to a predefined sequence of closed ports. After the sequence is completed, opening a port is often accomplished by the host based firewall, but could also be implemented by custom software. This technique has been observed both for the dynamic opening of a listening port as well as the initiating of a connection to a listening server on a different system. The observation of the signal packets to trigger the communication can be conducted through different methods. One means, originally implemented by Cd00r [1], is to use the libpcap libraries to sniff for the packets in question. Another method leverages raw sockets, which enables the malware to use ports that are already open for use by other programs."		
+	},
+
+	{
+		"id": "T1571",
+		"title": "Non-Standard Port",
+		"tactics": ["Command and Control"],
+		"description": "Adversaries may communicate using a protocol and port paring that are typically not associated. For example, HTTPS over port 8088[1] or port 587[2] as opposed to the traditional port 443. Adversaries may make changes to the standard port used by a protocol to bypass filtering or muddle analysis/parsing of network data."		
+	},
+	{
+		"id": "T0885",
+		"title": "Commonly Used Port",
+		"tactics": ["Command and Control"],
+		"description": "Adversaries may communicate over a commonly used port to bypass firewalls or network detection systems and to blend in with normal network activity, to avoid more detailed inspection. They may use the protocol associated with the port, or a completely different protocol. They may use commonly open ports, such as the examples provided below. TCP:80 (HTTP), TCP:443 (HTTPS), TCP/UDP:53 (DNS), TCP:1024-4999 (OPC on XP/Win2k3), TCP:49152-65535 (OPC on Vista and later), TCP:23 (TELNET), UDP:161 (SNMP), TCP:502 (MODBUS), TCP:102 (S7comm/ISO-TSAP), TCP:20000 (DNP3), TCP:44818 (Ethernet/IP)"		
+	},
+	{
+		"id": "T1222",
+		"title": "File and Directory Permissions Modification",
+		"tactics": ["Defense Evasion"],
+		"description": "Adversaries may modify file or directory permissions/attributes to evade access control lists (ACLs) and access protected files.[1][2] File and directory permissions are commonly managed by ACLs configured by the file or directory owner, or users with the appropriate permissions. File and directory ACL implementations vary by platform, but generally explicitly designate which users or groups can perform which actions (read, write, execute, etc.)."		
+	},
+
+	{
+		"id": "T1505.003",
+		"title": "Server Software Component: Web Shell",
+		"tactics": ["Persistence"],
+		"description": "Adversaries may backdoor web servers with web shells to establish persistent access to systems. A Web shell is a Web script that is placed on an openly accessible Web server to allow an adversary to use the Web server as a gateway into a network. A Web shell may provide a set of functions to execute or a command-line interface on the system that hosts the Web server. In addition to a server-side script, a Web shell may have a client interface program that is used to talk to the Web server (ex: China Chopper Web shell client)."		
+	},
+
+	{
+		"id": "T1562",
+		"title": "Impair Defenses",
+		"tactics": ["Defense Evasion"],
+		"description": "Adversaries may maliciously modify components of a victim environment in order to hinder or disable defensive mechanisms. This not only involves impairing preventative defenses, such as firewalls and anti-virus, but also detection capabilities that defenders can use to audit activity and identify malicious behavior. This may also span both native defenses as well as supplemental capabilities installed by users and administrators. Adversaries could also target event aggregation and analysis mechanisms, or otherwise disrupt these procedures by altering other system components."		
+	},
+	{
+		"id": "T1562.004",
+		"title": "Impair Defenses: Disable or Modify System Firewall",
+		"description": "Adversaries may disable or modify system firewalls in order to bypass controls limiting network usage. Changes could be disabling the entire mechanism as well as adding, deleting, or modifying particular rules. This can be done numerous ways depending on the operating system, including via command-line, editing Windows Registry keys, and Windows Control Panel. Modifying or disabling a system firewall may enable adversary C2 communications, lateral movement, and/or data exfiltration that would otherwise not be allowed.",
+		"tactics": ["Defense Evasion"]
+	},
+	{
+		"id": "T1574.006",
+		"title": "Hijack Execution Flow: Dynamic Linker Hijacking",
+		"tactics": ["Persistence", "Privilege Escalation", "Defense Evasion"],
+		"description": "Adversaries may execute their own malicious payloads by hijacking environment variables the dynamic linker uses to load shared libraries. During the execution preparation phase of a program, the dynamic linker loads specified absolute paths of shared libraries from environment variables and files, such as LD_PRELOAD on Linux or DYLD_INSERT_LIBRARIES on macOS. Libraries specified in environment variables are loaded first, taking precedence over system libraries with the same function name.[1][2][3] These variables are often used by developers to debug binaries without needing to recompile, deconflict mapped symbols, and implement custom functions without changing the original library.[4] On Linux and macOS, hijacking dynamic linker variables may grant access to the victim process's memory, system/network resources, and possibly elevated privileges. This method may also evade detection from security products since the execution is masked under a legitimate process. Adversaries can set environment variables via the command line using the export command, setenv function, or putenv function. Adversaries can also leverage Dynamic Linker Hijacking to export variables in a shell or set variables programmatically using higher level syntax such Python’s os.environ. On Linux, adversaries may set LD_PRELOAD to point to malicious libraries that match the name of legitimate libraries which are requested by a victim program, causing the operating system to load the adversary's malicious code upon execution of the victim program. LD_PRELOAD can be set via the environment variable or /etc/ld.so.preload file.[1][2] Libraries specified by LD_PRELOAD are loaded and mapped into memory by dlopen() and mmap() respectively.[5][6] [7][8] On macOS this behavior is conceptually the same as on Linux, differing only in how the macOS dynamic libraries (dyld) is implemented at a lower level. Adversaries can set the DYLD_INSERT_LIBRARIES environment variable to point to malicious libraries containing names of legitimate libraries or functions requested by a victim program.[9][10][11]"		
+	},
+	{
+		"id": "T1210",
+		"title": "Exploitation of Remote Services",
+		"tactics": ["Lateral Movement"],
+		"description": "Adversaries may exploit remote services to gain unauthorized access to internal systems once inside of a network. Exploitation of a software vulnerability occurs when an adversary takes advantage of a programming error in a program, service, or within the operating system software or kernel itself to execute adversary-controlled code. A common goal for post-compromise exploitation of remote services is for lateral movement to enable access to a remote system. An adversary may need to determine if the remote system is in a vulnerable state, which may be done through Network Service Discovery or other Discovery methods looking for common, vulnerable software that may be deployed in the network, the lack of certain patches that may indicate vulnerabilities, or security software that may be used to detect or contain remote exploitation. Servers are likely a high value target for lateral movement exploitation, but endpoint systems may also be at risk if they provide an advantage or access to additional resources. There are several well-known vulnerabilities that exist in common services such as SMB [1] and RDP [2] as well as applications that may be used within internal networks such as MySQL [3] and web server services.[4] Depending on the permissions level of the vulnerable remote service an adversary may achieve Exploitation for Privilege Escalation as a result of lateral movement exploitation as well."		
+	},
+	{
+		"id": "T1645",
+		"title": "Compromise Client Software Binary",
+		"tactics": ["Persistence"],
+		"description": "Adversaries may modify system software binaries to establish persistent access to devices. System software binaries are used by the underlying operating system and users over adb or terminal emulators. Adversaries may make modifications to client software binaries to carry out malicious tasks when those binaries are executed. For example, malware may come with a pre-compiled malicious binary intended to overwrite the genuine one on the device. Since these binaries may be routinely executed by the system or user, the adversary can leverage this for persistent access to the device."		
+	},
+	{
+		"id": "T1608.003",
+		"title": "Stage Capabilities: Install Digital Certificate",
+		"tactics": ["Resource Development"],
+		"description": "Adversaries may install SSL/TLS certificates that can be used during targeting. SSL/TLS certificates are files that can be installed on servers to enable secure communications between systems. Digital certificates include information about the key, information about its owner's identity, and the digital signature of an entity that has verified the certificate's contents are correct. If the signature is valid, and the person examining the certificate trusts the signer, then they know they can use that key to communicate securely with its owner. Certificates can be uploaded to a server, then the server can be configured to use the certificate to enable encrypted communication with it.[1] Adversaries may install SSL/TLS certificates that can be used to further their operations, such as encrypting C2 traffic (ex: Asymmetric Cryptography with Web Protocols) or lending credibility to a credential harvesting site. Installation of digital certificates may take place for a number of server types, including web servers and email servers. Adversaries can obtain digital certificates (see Digital Certificates) or create self-signed certificates (see Digital Certificates). Digital certificates can then be installed on adversary controlled infrastructure that may have been acquired (Acquire Infrastructure) or previously compromised (Compromise Infrastructure)."		
+	},
+	{
+		"id": "T1098",
+		"title": "Account Manipulation: SSH Authorized Keys",
+		"tactics": ["Persistence"],
+		"description": "Adversaries may modify the SSH authorized_keys file to maintain persistence on a victim host. Linux distributions and macOS commonly use key-based authentication to secure the authentication process of SSH sessions for remote management. The authorized_keys file in SSH specifies the SSH keys that can be used for logging into the user account for which the file is configured. This file is usually found in the user's home directory under <user-home>/.ssh/authorized_keys.[1] Users may edit the system’s SSH config file to modify the directives PubkeyAuthentication and RSAAuthentication to the value /yes/ to ensure public key and RSA authentication are enabled. The SSH config file is usually located under /etc/ssh/sshd_config"		
+	},
+	{
+		"id": "T1546.004",
+		"title": "Event Triggered Execution: Unix Shell Configuration Modification",
+		"tactics": ["Privilege Escalation", "Persistence"],
+		"description": "Adversaries may establish persistence through executing malicious commands triggered by a user’s shell. User Unix Shells execute several configuration scripts at different points throughout the session based on events. For example, when a user opens a command-line interface or remotely logs in (such as via SSH) a login shell is initiated. The login shell executes scripts from the system (/etc) and the user’s home directory (~/) to configure the environment. All login shells on a system use /etc/profile when initiated. These configuration scripts run at the permission level of their directory and are often used to set environment variables, create aliases, and customize the user’s environment. When the shell exits or terminates, additional shell scripts are executed to ensure the shell exits appropriately. "		
+	},
+	{
+		"id": "T1548.003",
+		"title": "Abuse Elevation Control Mechanism: Sudo and Sudo Caching",
+		"tactics": ["Privilege Escalation", "Defense Evasion"],
+		"description": "Adversaries may perform sudo caching and/or use the sudoers file to elevate privileges. Adversaries may do this to execute commands as other users or spawn processes with higher privileges. Within Linux and MacOS systems, sudo (sometimes referred to as /superuser do/ allows users to perform commands from terminals with elevated privileges and to control who can perform these commands on the system. The sudo command /allows a system administrator to delegate authority to give certain users (or groups of users) the ability to run some (or all) commands as root or another user while providing an audit trail of the commands and their arguments./[1] Since sudo was made for the system administrator, it has some useful configuration features such as a timestamp_timeout, which is the amount of time in minutes between instances of sudo before it will re-prompt for a password. This is because sudo has the ability to cache credentials for a period of time. Sudo creates (or touches) a file at /var/db/sudo with a timestamp of when sudo was last run to determine this timeout. Additionally, there is a tty_tickets variable that treats each new tty (terminal session) in isolation. This means that, for example, the sudo timeout of one tty will not affect another tty (you will have to type the password again)."		
+	},
+
+	{
+		"id": "T1070.004",
+		"title": "Indicator Removal on Host: File Deletion",
+		"tactics": ["Defense Evasion"],
+		"description": "Adversaries may delete files left behind by the actions of their intrusion activity. Malware, tools, or other non-native files dropped or created on a system by an adversary (ex: Ingress Tool Transfer) may leave traces to indicate to what was done within a network and how. Removal of these files can occur during an intrusion, or as part of a post-intrusion process to minimize the adversary's footprint. There are tools available from the host operating system to perform cleanup, but adversaries may use other tools as well.[1] Examples of built-in Command and Scripting Interpreter functions include del on Windows and rm or unlink on Linux and macOS."		
+	},
+
+	{
+		"id": "T1570",
+		"title": "Lateral Tool Transfer",
+		"tactics": ["Lateral Movement"],
+		"impulse_iocs": ["nmap_installed"],
+		"description": "Adversaries may transfer tools or other files between systems in a compromised environment. Once brought into the victim environment (i.e. Ingress Tool Transfer) files may then be copied from one system to another to stage adversary tools or other files over the course of an operation. Adversaries may copy files between internal victim systems to support lateral movement using inherent file sharing protocols such as file sharing over SMB/Windows Admin Shares to connected network shares or with authenticated connections via Remote Desktop Protocol."		
+	},
+	{
+		"id": "T1169",
+		"title": "Abuse Elevation Control Mechanism: Sudo and Sudo Caching",
+		"tactics": ["Privilege Escalation", "Defense Evasion"],
+		"description": "Adversaries may perform sudo caching and/or use the sudoers file to elevate privileges. Adversaries may do this to execute commands as other users or spawn processes with higher privileges."		
+	},
+	{
+		"id": "T1496",
+		"title": "Resource Hijacking",
+		"tactics": ["Impact"],
+		"description": "Adversaries may leverage the resources of co-opted systems in order to solve resource intensive problems, which may impact system and/or hosted service availability. One common purpose for Resource Hijacking is to validate transactions of cryptocurrency networks and earn virtual currency. Adversaries may consume enough system resources to negatively impact and/or cause affected machines to become unresponsive.[1] Servers and cloud-based systems are common targets because of the high potential for available resources, but user endpoint systems may also be compromised and used for Resource Hijacking and cryptocurrency mining.[2] Containerized environments may also be targeted due to the ease of deployment via exposed APIs and the potential for scaling mining activities by deploying or compromising multiple containers within an environment or cluster.[3][4] Additionally, some cryptocurrency mining malware identify then kill off processes for competing malware to ensure it’s not competing for resources.[5] Adversaries may also use malware that leverages a system's network bandwidth as part of a botnet in order to facilitate Network Denial of Service campaigns and/or to seed malicious torrents."		
+	},
+	{
+		"id": "",
+		"title": "",
+		"tactics": "",
+		"description": ""		
+	},
+
+	{
+		"id": "",
+		"title": "",
+		"tactics": "",
+		"description": ""		
+	},
+
+	{
+		"id": "",
+		"title": "",
+		"tactics": "",
+		"description": ""		
+	}
+
+]

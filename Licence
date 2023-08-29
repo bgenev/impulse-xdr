@@ -1,0 +1,75 @@
+   
+   END USER LICENSE AGREEMENT
+
+   The following End User License Agreement (EULA) regarding Impulse xSIEM - referred to as "software" - is
+   made between Impulse xSIEM,  - referred to as "licensor" - and anyone who is
+   installing, accessing or in any other way using the software - referred to
+   as "user".
+
+  1. The software is distributed as free to use but restricted. There are two types of licenses issued, these are:
+
+   a. Core License
+   
+   This version includes all core product features but could only monitor a limited number of remote machines and 
+   could not use restricted features such as: 
+
+      - email alerts for high-severity events
+      - multiple users and role-based access control
+      - case management and investigations
+		- creating and managing unlimited custom threat detection packs
+      - premium threat detection packs 
+      - support and professional services
+      - unlimited deployments
+
+   b. Premium License. 
+
+   The premium license provides access to all features and lets customers deploy the monitoring agent on unlimited
+   number of machines according to the number of licenses purchased. The license can be extended at the end of its 
+   duration.
+
+  2. There are no additional license fees for the software product, apart from the cost of the license, however support 
+   and professional servicecs are purchased separately. 
+
+  3. To buy a premium license, please go to the product's website. 
+
+     License key will be sent by email after payment is completed.
+     The license key is valid for the duration of the purchased licence and it
+     may not be rented or leased.
+
+  4. The software's core and premium version are only distributed via the official code repository and website.
+
+     a. Nobody may distribute the whole or separate parts of the software without written
+        permission of the author.
+
+     b. The software's free version may not be distributed inside of
+        any other software package without written permission. 
+
+     c. In case of violation, the allowance to use the software 
+        lapses immediately and automatically.
+
+  5. The software is distributed "as is". No warranty of any kind is expressed
+     or implied. You use the software at your own risk. Neither the author, the licensor
+     nor the agents of the licensor will be liable for data loss, damages,
+     loss of profits or any other kind of loss while using or misusing
+     this software.
+
+  6. The licensor shall be responsible for interpretation of the
+     agreement. Anytime the licensor made any modifications to the agreement,
+     the modified version shall be applicable to the user automatically.
+
+ 7. Installing and using the software signifies acceptance of these terms
+     and conditions of the license. If you do not agree with the terms of this
+     license, you must remove all software files from your storage devices
+     and cease to use the software.
+
+ 8. The customer acknowledges and agrees that he/she has read and understands this EULA. 
+   This EULA is the entire agreement between the licensor and the user and supersedes 
+   any prior or contemporaneous agreement or understanding, whether written or oral, 
+   and any other communications between the licensor and the user relating to the subject 
+   matter of this EULA.
+
+ 9. Author & Copyright: 
+    Bozhidar Genev, 
+    bgenev@impulse-siem.com, 
+    Impulse xSIEM
+

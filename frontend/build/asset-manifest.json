@@ -1,0 +1,21 @@
+{
+  "files": {
+    "main.css": "/static/css/main.a6858757.css",
+    "main.js": "/static/js/main.a0e8e201.js",
+    "static/media/Montserrat-Medium.ttf": "/static/media/Montserrat-Medium.e2d60bc49517598c0ce8.ttf",
+    "static/media/OpenSans-SemiBold.ttf": "/static/media/OpenSans-SemiBold.d31d0aaa8d4384de5eeb.ttf",
+    "static/media/OpenSans-Regular.ttf": "/static/media/OpenSans-Regular.9ccd5e1b1dbea150336d.ttf",
+    "static/media/ProximaNova-Light.ttf": "/static/media/ProximaNova-Light.4e6430d1b1cdd53aab1d.ttf",
+    "static/media/ProximaNova-Black.ttf": "/static/media/ProximaNova-Black.8bd42e12512786278deb.ttf",
+    "static/media/logo_production_white.png": "/static/media/logo_production_white.402c672472768aa3f472.png",
+    "static/media/abuseipdb_logo.png": "/static/media/abuseipdb_logo.41be563ae70d85d1d377.png",
+    "static/media/simons_proxima_semi_bold.ttf": "/static/media/simons_proxima_semi_bold.475cebe862f0c9bf37e8.ttf",
+    "static/media/simons_proxima_condensed.ttf": "/static/media/simons_proxima_condensed.d7b34303004ccd8eedfc.ttf",
+    "static/media/simons_proxima_regular.ttf": "/static/media/simons_proxima_regular.e3143307b178239510bb.ttf",
+    "index.html": "/index.html"
+  },
+  "entrypoints": [
+    "static/css/main.a6858757.css",
+    "static/js/main.a0e8e201.js"
+  ]
+}

@@ -1,0 +1,30 @@
+
+server {
+    listen 7001 ssl;
+    server_name _;
+    ssl_certificate /etc/ssl/certs/impulse.crt;
+    ssl_certificate_key /etc/ssl/private/impulse.key;
+    ssl_protocols TLSv1.2;
+
+    root /opt/impulse/frontend/build;
+    index  index.html;
+
+    location /api {
+      proxy_set_header X-Real-IP $remote_addr;
+      proxy_pass http://127.0.0.1:5020/api;
+      access_log /var/log/nginx/impulse.access.log;
+      error_log /var/log/nginx/impulse.error.log warn;      
+    }
+    
+}
+
+# server {
+#     listen 7002;
+#     server_name _;
+
+#     location /enroll {
+#         proxy_set_header X-Real-IP $remote_addr;
+#         proxy_pass http://127.0.0.1:5020/enroll;   
+#     }
+# }
+

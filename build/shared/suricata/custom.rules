@@ -1,0 +1,3 @@
+# alert tcp $EXTERNAL_NET any -> $HOME_NET 22 (msg:"SSH incoming test."; flow:stateless; flags:S+; sid:100006927; rev:1;)
+# alert icmp any any -> $HOME_NET any (msg:"ICMP connection attempt."; sid:10000023; rev:1;) 
+
