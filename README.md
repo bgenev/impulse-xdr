@@ -1,7 +1,7 @@
 ### Latest: Impulse xSIEM v1.1.5 Released!
 
 ### About
-Open-core security monitoring software tailored for virtual private servers (VPS), cloud networks (VPC) and personal workstations.
+Open-core security monitoring software for Linux virtual private servers (VPS), cloud networks (VPC) and personal workstations.
 
 Using Impulse, you can secure and start watching your AWS, Digital Ocean or other VPS/VPC infrastructure in under 20 minutes. 
 
