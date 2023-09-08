@@ -71,7 +71,7 @@ otherwise it gets blocked by the fleet firewall and you lose connection to the s
 
 e.g. /opt/impulse/whitelisted.txt
 ```
-<public_ip_client>
+5.249.147.39
 ```
 
 ## Start Installation 
