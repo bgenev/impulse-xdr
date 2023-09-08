@@ -33,3 +33,141 @@ Integrated with several high-quality threat intelligence providers to enrich you
 
 ### Self-Hosted & Open-Core
 Data never leaves you servers. 
+
+# Install Manager
+
+## Download 
+Download Impulse from the official GitHub repository
+
+```
+wget https://github.com/bgenev/impulse-siem/releases/download/v1.1.5/impulse_siem_v1.1.5.tar.gz
+```
+
+## Move to /opt
+Move the archive in /opt (must be in /opt) 
+
+## Untar 
+```
+tar -xf impulse_v1.1.2.tar.gz
+```
+
+## Enter your system's configuration values 
+Then cd into /opt/impulse and modify the values in impulse.conf. Use your system's values for IP_MANAGER and HOST_INTERFACE. 
+
+To get the IP and interface: 
+
+```
+ip a
+```
+
+## Create basic whitelist
+
+Prior to starting installation, open /opt/impulse/whitelisted.txt and add: 
+
+- the public ip of the computer that you will use to connect to the UI (use whatsmyip.com or similar). 
+- any VPN ip addresses that you might use to connect to the web interface.
+
+## Turn off VPN
+If you have a VPN application running, turn it off because it will interfere with Docker and prevent the installation process from starting.
+
+
+## Start Installation 
+Start the installation process with:
+
+```
+./install_manager.sh
+```
+
+It will ask you a few questions to verify the setup and then proceed.  
+
+# Post-Install 
+
+## Login credentials
+Your impulse admin user credentials are generated automatically and will be displayed in the terminal window. 
+
+You can also find them in:
+```
+/var/impulse/data/manager/manager_creds.txt
+```
+
+## Access User Interface 
+You can login to the manager's interface by going to: 
+
+```
+https://<MANAGER_IP>:7001/
+```
+
+You will see a standard browser notification informing you that you are loading a website with self-signed certificate. After clicking proceed, you will be redirected to the login screen where you can authenticate using the credentials that were generated during the build. 
+
+
+## IOCs baseline
+When you first login expect to see a lot of IOC events and 1 detection with 100+ signals. This is normal and is just the baseline that osquery builds when it is first installed on the system. There will be a lot less events afterwards.
+
+## Check status, stop or start the manager 
+```
+/opt/impulse/impulse-control.sh status
+```
+```
+/opt/impulse/impulse-control.sh stop
+```
+
+```
+/opt/impulse/impulse-control.sh start 
+```
+
+## IOCs whitelisting 
+
+If you notice that some of the software that you are running creates too many events, create an IOC exception for it by going to the IOC event -> Add Rule Exception and choosing the parameter that you want to exclude on. 
+
+## NOTE: default whitelisted events
+A number of standard system-generated events are whitelisted by default in the core osquery ruleset to reduce noise. Osquery is practically unusable for threat detection unless generic system events are filtered out - OS processes, sock events, calls to the threat intel APIs, etc. which add up to tens of thousands per day. 
+
+
+## Create free AbuseIPDB and VirusTotal accounts
+
+Add your keys to /opt/impulse/impulse.conf
+
+```
+ABUSEIPDB_API_KEY=<key_string>
+VIRUS_TOTAL_API_KEY=<key_string>
+```
+
+Then restart the manager 
+
+```
+/opt/impulse/impulse-control.sh stop
+/opt/impulse/impulse-control.sh start 
+```
+
+You might get a Docker networking issue preventing the manager from starting. In this case simply restart Docker, then restart the manager. 
+
+## Generate system events to test the installation 
+
+Open new port: 
+```
+nc -lvp 4003
+```
+
+Create new group:
+```
+addgroup rdmgroup1
+```
+
+Add new file: 
+```
+touch /etc/program1.sh
+```
+
+Add new background task:
+```
+touch /etc/cron.d/malicious_cron
+printf "*/10 * * * * sh /opt/example.sh" >> /etc/cron.d/malicious_cron
+```
+
+Install some package to generate many events for an all-around test:
+```
+apt install -y wordpress 
+```
+
+Sensors check for new events every 30 seconds, so expect a little delay. After that you will see the events appear in the "IOCs History" card of the /instance screen.
+
