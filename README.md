@@ -48,7 +48,7 @@ Move the archive in /opt (must be in /opt)
 
 ## Untar 
 ```
-tar -xf impulse_v1.1.2.tar.gz
+tar -xf impulse_siem_v1.1.5.tar.gz
 ```
 
 ## Enter your system's configuration values 
