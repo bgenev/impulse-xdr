@@ -57,6 +57,14 @@ To get the IP and interface:
 ip a
 ```
 
+e.g. impulse.conf manager:
+```
+...
+IP_MANAGER=192.168.0.37
+HOST_INTERFACE=eth1
+...
+```
+
 ## Create basic whitelist
 
 Prior to starting installation, open /opt/impulse/whitelisted.txt and add: 
