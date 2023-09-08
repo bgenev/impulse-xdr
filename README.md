@@ -73,6 +73,7 @@ e.g. /opt/impulse/whitelisted.txt
 ```
 5.249.147.39
 ```
+In the next release, it will automatically whitelist the IPs that you use to login to the interface.
 
 ## Start Installation 
 Start the installation process with:
