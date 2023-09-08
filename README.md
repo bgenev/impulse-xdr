@@ -68,7 +68,7 @@ Prior to starting installation, open /opt/impulse/whitelisted.txt and add:
 - any VPN ip addresses that you might use to connect to the web interface.
 
 ## Turn off VPN
-If you have a VPN application running, turn it off because it will interfere with Docker and prevent the installation process from starting.
+If you have a VPN application running, turn it off because it might interfere with Docker and prevent the installation process from starting.
 
 
 ## Start Installation 
