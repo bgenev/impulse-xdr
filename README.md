@@ -1,7 +1,10 @@
 ### Latest: Impulse xSIEM v1.1.5 Released!
 
 ### About
-Using Impulse, you can secure and start watching your VPS/VPC endpoints in under 20 minutes. 
+
+Impulse provides security monitoring and protection for Linux VPS/VPC servers and personal workstations.
+
+Using Impulse, you can secure your infrastructure in under 20 minutes. 
 
 It consists of a self-hosted security events manager and fleet of light and heavy sensors (based on osquery and suricata) that monitor and interact with hosts to protect them. 
 
