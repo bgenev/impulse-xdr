@@ -65,6 +65,10 @@ HOST_INTERFACE=eth1
 ...
 ```
 
+## Whitelist IP of client computer connecting to the interface
+Add the IP of the client computer, that you will use to connect to the interface, to /opt/impulse/whitelisted.txt
+otherwise it gets blocked by the fleet firewall and you lose connection to the server. 
+
 ## Start Installation 
 Start the installation process with:
 
