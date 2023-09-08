@@ -1,5 +1,6 @@
-### Impulse xSIEM v1.1.5 Released!
+### Latest: Impulse xSIEM v1.1.5 Released!
 
+### About
 Impulse xSIEM is an open-core security monitoring software tailored for virtual private servers (VPS), cloud networks (VPC) and personal workstations.
 
 It consists of a self-hosted security events manager and fleet of light and heavy sensors that monitor and interact with hosts to protect them. 
