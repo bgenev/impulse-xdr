@@ -72,7 +72,7 @@ Start the installation process with:
 ./install_manager.sh
 ```
 
-It will ask you a few questions to verify the setup and then proceed.  
+It will ask you a few questions to verify the setup and then proceed. If you don't have Docker installed, it will installed it for you.  
 
 # Post-Install 
 
