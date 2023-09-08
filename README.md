@@ -52,7 +52,7 @@ tar -xf impulse_siem_v1.1.5.tar.gz
 ```
 
 ## Enter your system's configuration values 
-Then cd into /opt/impulse and modify the values in impulse.conf. Use your system's values for IP_MANAGER and HOST_INTERFACE. 
+cd into /opt/impulse and modify the values in impulse.conf. Use your system's values for IP_MANAGER and HOST_INTERFACE. 
 
 To get the IP and interface: 
 
