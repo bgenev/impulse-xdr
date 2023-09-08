@@ -1,4 +1,4 @@
-### Latest: Impulse xSIEM v1.1.5 Released!
+### Latest: Impulse xSIEM v1.1.5 Released
 
 ### About
 
