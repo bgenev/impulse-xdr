@@ -28,7 +28,7 @@ Integrated with several high-quality threat intelligence providers to enrich you
 #### Self-Hosted & Open-Core
 Data never leaves you servers. 
 
-# Install Manager
+# Install the Manager
 
 ## Download 
 Download Impulse from the official GitHub repository
