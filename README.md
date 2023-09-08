@@ -114,7 +114,7 @@ When you first login expect to see a lot of IOC events and 1 detection with 100+
 If you notice that some of the software that you are running creates too many events, create an IOC exception for it by going to the IOC event -> Add Rule Exception and choosing the parameter that you want to exclude on. 
 
 ## NOTE: default whitelisted events
-A number of standard system-generated events are whitelisted by default in the core osquery ruleset to reduce noise. Osquery is practically unusable for threat detection unless generic system events are filtered out - OS processes, sock events, calls to the threat intel APIs, etc. which add up to tens of thousands per day. 
+A number of standard system-generated events are whitelisted by default in the core osquery ruleset to reduce noise- OS processes, sock events, calls to the threat intel APIs, etc. that add up to tens of thousands per day.
 
 
 ## Create free AbuseIPDB and VirusTotal accounts
