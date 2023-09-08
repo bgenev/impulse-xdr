@@ -65,17 +65,6 @@ HOST_INTERFACE=eth1
 ...
 ```
 
-## Create basic whitelist
-
-Prior to starting installation, open /opt/impulse/whitelisted.txt and add: 
-
-- the public ip of the computer that you will use to connect to the UI (use whatsmyip.com or similar). 
-- any VPN ip addresses that you might use to connect to the web interface.
-
-## Turn off VPN
-If you have a VPN application running, turn it off because it might interfere with Docker and prevent the installation process from starting.
-
-
 ## Start Installation 
 Start the installation process with:
 
