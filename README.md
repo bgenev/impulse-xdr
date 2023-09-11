@@ -2,11 +2,11 @@
 
 ### About
 
-Impulse provides security monitoring and protection for Linux VPS/VPC servers and personal workstations.
+Impulse provides deep security visibility and protection for Linux endpoints including VPS servers, cloud networks (VPC), local VMs, droplets, laptops, etc. 
 
-Using Impulse, you can secure your infrastructure in under 20 minutes. 
+It consists of sensors, built on top of performant telemetry extraction and transportation tools (osquery, rsyslog, grpc), that run on your monitored endpoints and forward data to a self-hosted security events manager. The manager indexes, aggregates and analyzes the incoming information, then provides analytics, insights and active response.
 
-It consists of a self-hosted security events manager and fleet of light and heavy sensors (based on osquery and suricata) that monitor and interact with hosts to protect them. 
+Its goal as a project is to help make Linux environments ultra secure and observable for every Linux user. 
 
 Here is what it can do for you: 
 
