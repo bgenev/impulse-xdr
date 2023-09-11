@@ -2,7 +2,7 @@
 
 ### About
 
-Impulse provides deep security visibility and protection for Linux endpoints including VPS servers, cloud networks (VPC), local VMs, droplets, laptops, etc. 
+Impulse provides deep security visibility and protection for Linux endpoints including VPS servers, cloud networks (VPC), VMs, droplets, laptops, etc. 
 
 It consists of sensors, built on top of performant telemetry extraction and transportation tools (osquery, rsyslog, grpc), that run on your monitored endpoints and forward data to a self-hosted security events manager. The manager indexes, aggregates and analyzes the incoming information, then provides analytics, insights and active response.
 
