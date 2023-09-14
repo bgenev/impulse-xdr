@@ -98,16 +98,6 @@ HOST_INTERFACE=eth1
 ...
 ```
 
-## Whitelist IP of client computer connecting to the interface
-Add the IP of the client computer, that you will use to connect to the interface, to /opt/impulse/whitelisted.txt
-otherwise it gets blocked by the fleet firewall and you lose connection to the server. You can use https://whatsmyip.com/ to find out your IP. 
-
-e.g. /opt/impulse/whitelisted.txt
-```
-5.249.147.39
-```
-In the next release, it will automatically whitelist the IPs that you use to login to the interface.
-
 ## Start Installation 
 Start the installation process with:
 
