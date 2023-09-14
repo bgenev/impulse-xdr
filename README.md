@@ -1,4 +1,4 @@
-### Latest: Impulse SIEM v1.1.7 Released
+### Latest: Impulse X SIEM v1.1.7 Released
 
 # Impulse X SIEM 
 
