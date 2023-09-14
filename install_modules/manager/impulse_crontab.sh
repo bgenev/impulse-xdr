@@ -4,8 +4,8 @@ PROJECT_ROOT_DIR=$1
 AGENT_TYPE=$2
 
 
-if [[ $AGENT_TYPE == 'heavy' ]]; then
-	kernelk_cron_file="
+kernelk_cron_file="
+
 # Detections 
 # multiproc
 */5 * * * * root $PROJECT_ROOT_DIR/tasks_manager/cron_tasks/detections.sh 
@@ -86,7 +86,6 @@ if [[ $AGENT_TYPE == 'heavy' ]]; then
 # Traffic Accounting 
 # */5 * * * * root $PROJECT_ROOT_DIR/tasks_manager/cron_tasks/traffic_accounting_cron.sh
 "
-fi
 
 echo "$kernelk_cron_file" > /etc/cron.d/impulse
 

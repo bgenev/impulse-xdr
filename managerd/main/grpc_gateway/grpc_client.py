@@ -1,5 +1,5 @@
 #
-# Copyright (c) 2021-2023, Bozhidar Genev - All Rights Reserved. Impulse xSIEM   
+# Copyright (c) 2021-2023, Bozhidar Genev - All Rights Reserved. Impulse X SIEM   
 # Impulse is licensed under the Impulse User License Agreement at the root of this project.
 #
 
@@ -60,7 +60,7 @@ def run_osquery_on_agent(grpc_agent_ip, osquery_cmd_string):
 		resp = stub.RunOSqueryOnAgent(
 			request, 
 			metadata=[handle_access_token(grpc_agent_ip)],
-			#timeout=10
+			timeout=1
 		)
 		resp = convert_protobuf_message_to_json(resp)
 		data = string_to_json(resp['osquery_results'])

@@ -16,8 +16,6 @@ services:
       - /var/impulse/etc/rsyslog/ssl/ca-cert.pem:/etc/ssl/impulse/ca-cert.pem
       - /var/impulse/etc/rsyslog/rsyslog.d:/etc/rsyslog.d
       - /var/impulse/log/suricata:/var/impulse/log/suricata
-      - /var/impulse/log/zeek:/var/impulse/log/zeek          
       - /var/log/osquery:/var/log/osquery
-      - /var/ossec/logs/alerts:/var/ossec/logs/alerts
     restart: always
 

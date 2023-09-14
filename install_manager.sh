@@ -1,7 +1,7 @@
 #!/bin/bash
 
 #
-# Copyright (c) 2021-2023, Bozhidar Genev, Impulse xSIEM. All Rights Reserved.    
+# Copyright (c) 2021-2023, Bozhidar Genev, Impulse X SIEM. All Rights Reserved.    
 # Impulse is licensed under the Impulse User License Agreement at the root of this project.
 #
 
@@ -87,7 +87,6 @@ mkdir -p /var/impulse/etc/grpc/tls
 mkdir -p /var/impulse/etc/ansible
 mkdir -p /var/impulse/etc/ansible/tls
 mkdir -p /var/impulse/etc/suricata
-mkdir -p /var/impulse/etc/zeek
 mkdir -p /var/impulse/etc/nginx
 mkdir -p /var/impulse/etc/rsyslog
 mkdir -p /var/impulse/etc/rsyslog/ssl
@@ -97,7 +96,6 @@ mkdir -p /var/impulse/etc/osquery/packs
 mkdir -p /var/impulse/etc/nftables
 
 mkdir -p /var/impulse/log/suricata
-mkdir -p /var/impulse/log/zeek 
 mkdir -p /var/impulse/lib
 mkdir -p /var/impulse/lib/suricata
 mkdir -p /var/impulse/lib/suricata/rules
@@ -202,11 +200,12 @@ docker exec -it impulse-datastore psql --username=postgres -d impulse_manager -c
 
 
 public_id=$(dig +short myip.opendns.com @resolver1.opendns.com)
-/usr/bin/docker exec -i impulse-datastore psql --username=postgres -d impulse_manager -c "INSERT INTO whitelisted_ips (ip_addr) VALUES ('"$public_id"')"
-/usr/bin/docker exec -i impulse-datastore psql --username=postgres -d impulse_manager -c "INSERT INTO whitelisted_ips (ip_addr) VALUES ('"$IP_MANAGER"')"
+
+docker exec -i impulse-datastore psql --username=postgres -d impulse_manager -c "INSERT INTO whitelisted_ips (ip_addr) SELECT ('"$public_id"') where not exists (SELECT ip_addr FROM whitelisted_ips WHERE ip_addr = '"$public_id"');"
+docker exec -i impulse-datastore psql --username=postgres -d impulse_manager -c "INSERT INTO whitelisted_ips (ip_addr) SELECT ('"$IP_MANAGER"') where not exists (SELECT ip_addr FROM whitelisted_ips WHERE ip_addr = '"$IP_MANAGER"');"
 
 if [[ $MANAGER_PROXY_IP != '' ]]; then
-/usr/bin/docker exec -i impulse-datastore psql --username=postgres -d impulse_manager -c "INSERT INTO whitelisted_ips (ip_addr) VALUES ('"$MANAGER_PROXY_IP"')"
+	/usr/bin/docker exec -i impulse-datastore psql --username=postgres -d impulse_manager -c "INSERT INTO whitelisted_ips (ip_addr) VALUES ('"$MANAGER_PROXY_IP"')"
 fi 
 
 $PROJECT_ROOT_DIR/install_modules/manager/whitelist_ips.sh
@@ -215,12 +214,16 @@ $PROJECT_ROOT_DIR/install_modules/manager/whitelist_ips.sh
 $PROJECT_ROOT_DIR/install_modules/shared/firewall.sh $SETUP_TYPE $IP_MANAGER $PACKAGE_MGR $OS_TYPE $FIREWALL_BACKEND
 
 echo "Post-Installation Setup..."
-if [[ $AGENT_TYPE == 'heavy' ]]; then
-	curl -i -X POST -H "Content-Type: application/json" --data '{"ip_addr":"'"$IP_HOST"'","manager_database":"'"$DB_NAME_MANAGER"'"}' http://127.0.0.1:5020/local-endpoint/fleet/register-manager
-	curl -i -X POST -H "Content-Type: application/json" --data '{"ip_addr":"'"$IP_HOST"'","agent_db":"'"$DB_NAME_MANAGER"'","alias":"manager"}' http://127.0.0.1:5020/local-endpoint/fleet/set-active-database
-fi
- 
-curl -i -X POST -H "Content-Type: application/json" --data '{"os_type":"'"$OS_TYPE"'","os_type_verbose":"'"$AGENT_OS_TYPE_VERBOSE"'", "manager_id": "'"$MANAGER_ID"'", "package_manager": "'"$PACKAGE_MGR"'"}' http://127.0.0.1:5020/local-endpoint/manager-init
+
+# if [[ $AGENT_TYPE == 'heavy' ]]; then
+# 	curl -i -X POST -H "Content-Type: application/json" --data '{"ip_addr":"'"$IP_HOST"'","manager_database":"'"$DB_NAME_MANAGER"'"}' http://127.0.0.1:5020/local-endpoint/fleet/register-manager
+# 	curl -i -X POST -H "Content-Type: application/json" --data '{"ip_addr":"'"$IP_HOST"'","agent_db":"'"$DB_NAME_MANAGER"'","alias":"manager"}' http://127.0.0.1:5020/local-endpoint/fleet/set-active-database
+# fi
+
+curl -i -X POST -H "Content-Type: application/json" --data '{"ip_addr":"'"$IP_HOST"'","manager_database":"'"$DB_NAME_MANAGER"'"}' http://127.0.0.1:5020/local-endpoint/fleet/register-manager
+curl -i -X POST -H "Content-Type: application/json" --data '{"ip_addr":"'"$IP_HOST"'","agent_db":"'"$DB_NAME_MANAGER"'","alias":"manager"}' http://127.0.0.1:5020/local-endpoint/fleet/set-active-database
+
+curl -i -X POST -H "Content-Type: application/json" --data '{"os_type":"'"$OS_TYPE"'","os_type_verbose":"'"$AGENT_OS_TYPE_VERBOSE"'", "manager_id": "'"$MANAGER_ID"'", "package_manager": "'"$PACKAGE_MGR"'", "manager_ip": "'"$IP_HOST"'"}' http://127.0.0.1:5020/local-endpoint/manager-init
 
 echo "Generate admin password for web interface..."
 WEB_INTERFACE_USERNAME="impulse"
@@ -234,6 +237,14 @@ echo "WEB_INTERFACE_USERNAME:"
 echo $WEB_INTERFACE_USERNAME
 echo "WEB_INTERFACE_PASSWORD:" 
 echo $WEB_INTERFACE_PASSWORD
+
+echo "" 
+echo "User interface access:" 
+echo "https://"$IP_MANAGER":7001/" 
+
+echo "" 
+echo "To stop, start or check manager status:" 
+echo "/opt/impulse/impulse-control stop/start/status" 
 
 touch /var/impulse/data/manager/manager_creds.txt
 chmod 600 /var/impulse/data/manager/manager_creds.txt

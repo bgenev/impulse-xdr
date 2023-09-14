@@ -163,7 +163,6 @@ services:
       - /var/impulse/etc/rsyslog/rsyslog.d:/etc/rsyslog.d
       - /var/log/osquery:/var/log/osquery
       - /var/impulse/log/suricata:/var/impulse/log/suricata
-      - /var/impulse/log/zeek:/var/impulse/log/zeek
       - /var/log/impulse:/var/log/impulse
     restart: always
 

@@ -128,27 +128,6 @@ $InputFileStateFile eve-smtp-'$NEW_AGENT_IP_HYPHENS'
 $InputFilePollInterval 10
 $InputRunFileMonitor
 
-# zeek-conn
-$InputFileName /var/log/impulse/agent-'$NEW_AGENT_IP_HYPHENS'/zeek-conn-agent.log 
-$InputFileTag zeek-conn-'$NEW_AGENT_IP_HYPHENS'
-$InputFileStateFile zeek-conn-'$NEW_AGENT_IP_HYPHENS'
-$InputFilePollInterval 10
-$InputRunFileMonitor
-
-# zeek-http
-$InputFileName /var/log/impulse/agent-'$NEW_AGENT_IP_HYPHENS'/zeek-http-agent.log 
-$InputFileTag zeek-http-'$NEW_AGENT_IP_HYPHENS'
-$InputFileStateFile zeek-http-'$NEW_AGENT_IP_HYPHENS'
-$InputFilePollInterval 10
-$InputRunFileMonitor
-
-# zeek-files
-$InputFileName /var/log/impulse/agent-'$NEW_AGENT_IP_HYPHENS'/zeek-files-agent.log 
-$InputFileTag zeek-files-'$NEW_AGENT_IP_HYPHENS'
-$InputFileStateFile zeek-files-'$NEW_AGENT_IP_HYPHENS'
-$InputFilePollInterval 10
-$InputRunFileMonitor
-
 
 template(name="osquery-template" type="list" option.sql="on") {
   constant(value="INSERT INTO osquery (message) values ('"'"'")
@@ -336,53 +315,6 @@ action(
 	user="postgres" 
 	pass=`echo $POSTGRES_PASSWORD` db="'$NEW_AGENT_DB'" 
 	template="eve-smtp-template"
-) 
-
-
-
-template(name="zeek-conn-template" type="list" option.sql="on") {                                                     
-  constant(value="INSERT INTO zeek_logs (conn) values ('"'"'")                                                         
-  property(name="msg")                                                                                              
-  constant(value="'"'"')")                                                                                             
-}
-if $programname == "'"zeek-conn-"$NEW_AGENT_IP_HYPHENS""'" then
-action(
-	type="ompgsql" 
-	server="127.0.0.1" 
-	port="7543" 
-	user="postgres" 
-	pass=`echo $POSTGRES_PASSWORD` db="'$NEW_AGENT_DB'" 
-	template="zeek-conn-template"
-) 
-
-template(name="zeek-http-template" type="list" option.sql="on") {                                                     
-  constant(value="INSERT INTO zeek_logs (http) values ('"'"'")                                                         
-  property(name="msg")                                                                                              
-  constant(value="'"'"')")                                                                                             
-}
-if $programname == "'"zeek-http-"$NEW_AGENT_IP_HYPHENS""'" then
-action(
-	type="ompgsql" 
-	server="127.0.0.1" 
-	port="7543" 
-	user="postgres" 
-	pass=`echo $POSTGRES_PASSWORD` db="'$NEW_AGENT_DB'" 
-	template="zeek-http-template"
-) 
-
-template(name="zeek-files-template" type="list" option.sql="on") {                                                     
-  constant(value="INSERT INTO zeek_logs (files) values ('"'"'")                                                         
-  property(name="msg")                                                                                              
-  constant(value="'"'"')")                                                                                             
-}
-if $programname == "'"zeek-files-"$NEW_AGENT_IP_HYPHENS""'" then
-action(
-	type="ompgsql" 
-	server="127.0.0.1" 
-	port="7543" 
-	user="postgres" 
-	pass=`echo $POSTGRES_PASSWORD` db="'$NEW_AGENT_DB'" 
-	template="zeek-files-template"
 ) 
 '
 

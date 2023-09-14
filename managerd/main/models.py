@@ -1,5 +1,5 @@
 #
-# Copyright (c) 2021-2023, Bozhidar Genev - All Rights Reserved. Impulse xSIEM   
+# Copyright (c) 2021-2023, Bozhidar Genev - All Rights Reserved. Impulse X SIEM   
 # Impulse is licensed under the Impulse User License Agreement at the root of this project.
 #
 
@@ -103,22 +103,11 @@ class SuricataSmtp(db.Model):
 	created_on = db.Column(db.DateTime, server_default=db.func.now())
 
 
-class Zeek(db.Model):
-	__tablename__ = 'zeek_logs'
-	id = db.Column(BIGINT, primary_key=True)
-	conn = db.Column(JSONB)
-	http = db.Column(JSONB)
-	files = db.Column(JSONB)
-	#community_id = db.column_property(conn['community_id'], db.String)	
-	created_on = db.Column(db.DateTime, server_default=db.func.now())
-
-
 class OSquery(db.Model):
 	__tablename__ = 'osquery'
 	id = db.Column(db.Integer, primary_key=True)
 	message = db.Column(JSONB)
 	created_on = db.Column(db.DateTime, server_default=db.func.now())
-
 
 class Detection(db.Model):
 	__tablename__ = 'detection'
@@ -130,8 +119,8 @@ class Detection(db.Model):
 	osquery_events_ids = db.Column(JSONB)
 	suricata_events_ids = db.Column(JSONB)
 	message = db.Column(JSONB)
+	osquery_events = db.Column(JSONB)
 	created_on = db.Column(db.DateTime, server_default=db.func.now())
-
 
 class UbaSsh(db.Model):
 	__tablename__ = 'uba_ssh'
@@ -313,8 +302,14 @@ class IPsSafetyStatus(db.Model):
 
 	blocked_status = db.Column(db.Boolean, default=False)
 	whitelisted = db.Column(db.Boolean, default=False)
-	date_blocked = db.Column( db.DateTime )
-	last_synced_with_db = db.Column( db.DateTime() )
+	date_blocked = db.Column(db.DateTime )
+
+	message = db.Column(JSONB)
+
+	last_synced_with_db = db.Column(db.DateTime())
+
+	created_on = db.Column(db.DateTime, server_default=db.func.now())
+
 
 
 class WhitelistedIps(db.Model):

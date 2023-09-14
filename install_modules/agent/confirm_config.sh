@@ -44,7 +44,7 @@ fi
 
 
 if [[ $AGENT_TYPE == 'heavy' ]]; then
-	read -p "Network interface to watch: $HOST_INTERFACE (y/n)? " CONT
+	read -p "Network interface: $HOST_INTERFACE (y/n)? " CONT
 	if [ "$CONT" = "y" ]; then
 		echo $HOST_INTERFACE" confirmed. Continue.";
 	elif [ "$CONT" = "n" ]; then
@@ -58,6 +58,6 @@ fi
 
 
 echo -e "Applying configurations and starting the build process. 
-It should take 10-20 mins to build depending on your internet speed and hardware."
+It should take 3-4 mins to install."
 
 sleep 1

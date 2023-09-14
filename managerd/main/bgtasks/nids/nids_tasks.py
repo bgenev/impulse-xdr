@@ -1,5 +1,5 @@
 #
-# Copyright (c) 2021-2023, Bozhidar Genev - All Rights Reserved. Impulse xSIEM   
+# Copyright (c) 2021-2023, Bozhidar Genev - All Rights Reserved. Impulse X SIEM   
 # Impulse is licensed under the Impulse User License Agreement at the root of this project.
 #
 
@@ -446,11 +446,6 @@ def update_suricata_conf_on_agents(manager_ip_addr, heavy_agents, file_string_co
 	# 	pass 
 
 
-
-
-
-
-
 # @celery_app.task
 # def block_ip_remote_host_task(agent_ip, manager_ip_addr, formatted_list, state_action):
 
@@ -606,24 +601,6 @@ def refresh_ip_threat_intel_data():
 			except Exception as e: 
 				print("exception: ", e) 
 				pass 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 # @celery_app.task

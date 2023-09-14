@@ -82,6 +82,7 @@ CREATE TABLE public.detection (
     osquery_events_ids jsonb,
     suricata_events_ids jsonb,
     message jsonb,
+    osquery_events jsonb,
     created_on timestamp without time zone DEFAULT now()
 );
 
@@ -865,42 +866,6 @@ ALTER SEQUENCE public.uba_ssh_id_seq OWNED BY public.uba_ssh.id;
 
 
 --
--- Name: zeek_logs; Type: TABLE; Schema: public; Owner: postgres
---
-
-CREATE TABLE public.zeek_logs (
-    id bigint NOT NULL,
-    conn jsonb,
-    http jsonb,
-    files jsonb,
-    created_on timestamp without time zone DEFAULT now()
-);
-
-
-ALTER TABLE public.zeek_logs OWNER TO postgres;
-
---
--- Name: zeek_logs_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
---
-
-CREATE SEQUENCE public.zeek_logs_id_seq
-    START WITH 1
-    INCREMENT BY 1
-    NO MINVALUE
-    NO MAXVALUE
-    CACHE 1;
-
-
-ALTER TABLE public.zeek_logs_id_seq OWNER TO postgres;
-
---
--- Name: zeek_logs_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
---
-
-ALTER SEQUENCE public.zeek_logs_id_seq OWNED BY public.zeek_logs.id;
-
-
---
 -- Name: data_transfers id; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
@@ -1059,13 +1024,6 @@ ALTER TABLE ONLY public.system_profile_historical ALTER COLUMN id SET DEFAULT ne
 --
 
 ALTER TABLE ONLY public.uba_ssh ALTER COLUMN id SET DEFAULT nextval('public.uba_ssh_id_seq'::regclass);
-
-
---
--- Name: zeek_logs id; Type: DEFAULT; Schema: public; Owner: postgres
---
-
-ALTER TABLE ONLY public.zeek_logs ALTER COLUMN id SET DEFAULT nextval('public.zeek_logs_id_seq'::regclass);
 
 
 --
@@ -1258,14 +1216,6 @@ ALTER TABLE ONLY public.system_profile_historical
 
 ALTER TABLE ONLY public.uba_ssh
     ADD CONSTRAINT uba_ssh_pkey PRIMARY KEY (id);
-
-
---
--- Name: zeek_logs zeek_logs_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
---
-
-ALTER TABLE ONLY public.zeek_logs
-    ADD CONSTRAINT zeek_logs_pkey PRIMARY KEY (id);
 
 
 --

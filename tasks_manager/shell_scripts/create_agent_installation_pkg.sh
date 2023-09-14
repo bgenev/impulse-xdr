@@ -47,18 +47,19 @@ AGENT_ID='$AGENT_ID'
 AGENT_SECRET_KEY='$AGENT_SECRET_KEY'
 
 ##################################################
+# There should be no space between key and value.
 
 # IP_AGENT: IP address of the monitored machine 
-# IP_MANAGER: manager instance interface 
-# AGENT_ID: id is provided by the manager on asset enrollment 
-# SETUP_TYPE: agent or manager for the manager instance 
-# NIDS_ENABLED: enable or disable NIDS capabilities. Only relevant if heavy agent.
-# NIDS_MODE: IPS or IDS.
-# IPS_SETUP: traffic forwarding to NFQ based on ports definition in impulse.conf or manual setup via iptables.
-# IPS_MODE_PORTS: ports to monitor in IPS mode. 
-# AGENT_TYPE: light - host ids and iocs capabilities, light + network ids capabilities. Suitable for assets open directly to the internet, e.g. gateway, bastion or standalone VPS instances not in cloud network. 
+# IP_MANAGER: manager instance public IP
+# AGENT_ID: id is provided by the manager on asset enrollment
+# SETUP_TYPE: "agent" in sensors conf and "manager" for the manager instance
+# NIDS_ENABLED: enable or disable NIDS capabilities. Only relevant if heavy agent
+# NIDS_MODE: mode is set to IDS by default (ref. docs)
+# IPS_SETUP: traffic forwarding to NFQ based on ports definition in impulse.conf or manual setup via iptables (ref. docs)
+# AGENT_TYPE: light/heavy. this must be selected prior to generating the archive. If you wish to change agent type, you must regenerate the archive by deleting the agent in Managed Assets of the UI and recreating it
 # AGENT_SECRET_KEY: provided by the manager on asset enrollment 
-# HOST_INTERFACE: network interface of the monitored machine. " 
+# HOST_INTERFACE: network interface of the monitored machine, e.g. eth0 
+
 '
 
 echo $AGENT_IMPULSE_CONF
@@ -95,19 +96,8 @@ cp -rf /opt/impulse/managerd/main/grpc_gateway/grpc_pb/* $NEW_AGENT_DIR_PATH/age
 ## pull via compose instead
 # if [[ $AGENT_TYPE == 'heavy' ]]; then
 #     cp -rf /opt/impulse/build/shared/docker/impulse_suricata_image.tar.gz $NEW_AGENT_DIR_PATH/build/shared/docker/
-#     cp -rf /opt/impulse/build/shared/docker/impulse_zeek_image.tar.gz $NEW_AGENT_DIR_PATH/build/shared/docker/
 # else 
 #     echo "Light so not copying nids deps."
-# fi
-
-## Download instead 
-# if [[ $PACKAGE_MANAGER == 'deb' ]]; 
-# then
-#     cp -rf /opt/impulse/build/shared/osquery/package_bin/osquery_5.8.2-1.linux_amd64.deb $NEW_AGENT_DIR_PATH/build/shared/osquery/package_bin/
-# elif [[  $PACKAGE_MANAGER == 'rpm' ]]; then
-#     cp -rf /opt/impulse/build/shared/osquery/package_bin/osquery-5.8.2-1.linux.x86_64.rpm $NEW_AGENT_DIR_PATH/build/shared/osquery/package_bin/
-# else
-# 	echo "No pkg manager specified. Exit"
 # fi
 
 ### Generate GRPC TLS keys, signed by the Manager's CA
@@ -115,7 +105,7 @@ cd $NEW_AGENT_DIR_PATH
 openssl req -newkey rsa:4096 -nodes -keyout server-key.pem -out server-req.pem -subj "/C=EU/ST=local/L=local/O=local/OU=localhost/CN=localhost/emailAddress=localhost"
 
 printf "subjectAltName=IP:"$IP_AGENT > server-ext.cnf
-openssl x509 -req -in server-req.pem -days 60 -CA /var/impulse/etc/grpc/tls/ca-cert.pem -CAkey /var/impulse/etc/grpc/tls/ca-key.pem -CAcreateserial -out server-cert.pem -extfile server-ext.cnf
+openssl x509 -req -in server-req.pem -days 90 -CA /var/impulse/etc/grpc/tls/ca-cert.pem -CAkey /var/impulse/etc/grpc/tls/ca-key.pem -CAcreateserial -out server-cert.pem -extfile server-ext.cnf
 mv server-key.pem $NEW_AGENT_DIR_PATH/build/agent/grpc/tls
 mv server-cert.pem $NEW_AGENT_DIR_PATH/build/agent/grpc/tls
 rm server-ext.cnf server-req.pem

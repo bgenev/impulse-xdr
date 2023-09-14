@@ -30,7 +30,7 @@ else
   exit
 fi
 
-read -p "Network interface to watch: $HOST_INTERFACE (y/n)? " CONT
+read -p "Network interface: $HOST_INTERFACE (y/n)? " CONT
 if [ "$CONT" = "y" ]; then
   echo $HOST_INTERFACE" confirmed. Continue.";
 
@@ -43,6 +43,6 @@ else
 fi
 
 echo -e "Applying configurations and starting the build process. 
-It should take 10-20 mins to build depending on your internet speed and hardware."
+It should take 7-12 mins to build depending on your internet speed and hardware."
 
 sleep 1

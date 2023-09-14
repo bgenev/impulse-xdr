@@ -1,5 +1,5 @@
 #
-# Copyright (c) 2021-2023, Bozhidar Genev - All Rights Reserved. Impulse xSIEM   
+# Copyright (c) 2021-2023, Bozhidar Genev - All Rights Reserved. Impulse X SIEM   
 # Impulse is licensed under the Impulse User License Agreement at the root of this project.
 #
 
@@ -21,8 +21,6 @@ IMPULSE_DB_PWD = agent_config.get('Env','IMPULSE_DB_SERVER_PWD')
 
 
 
-## TODO find a way to solve the case when events are spooled and only forwarded to the manager when it is back online. 
-## do we want to produce a detection in this case?
 def detection_run_parallel_db_conn_task(agent_ip):
 	OSQ_QUERY = """
 	select 
@@ -37,16 +35,30 @@ def detection_run_parallel_db_conn_task(agent_ip):
 
 	osquery_events = query_database_records(agent_ip, OSQ_QUERY, 'all')
 
-	#print("osquery_events: ", osquery_events)
-
 	osquery_events_list = []
 	osquery_events_ids = []
 
+	osquery_events_json = []
 	for item in osquery_events:
 		event_id=item[0]
 		osquery_event=item[1]
-		osquery_events_list.append( osquery_event["name"] )
-		osquery_events_ids.append( { "id": str(event_id) } )
+
+		osquery_events_json.append({ 
+			"event_obj": osquery_event, 
+			"identifier": { 
+				"event_id": event_id, 
+				"agent_ip": agent_ip 
+			} 
+		})
+
+		try:
+			osquery_events_list.append( osquery_event["name"] )
+		except:
+			pass
+
+		osquery_events_ids.append({ 
+			"id": str(event_id) 
+		})
 
 	osquery_events_count = Counter(osquery_events_list).most_common()
 	osquery_events_sorted = []
@@ -57,7 +69,7 @@ def detection_run_parallel_db_conn_task(agent_ip):
 	osquery_detection_score = []
 	osquery_signal_names = []
 
-	#print(agent_ip, " osquery_events_sorted: ", osquery_events_sorted)
+	detection_events_store = []
 
 	for signal in osquery_events_sorted:
 		name = signal["name"]
@@ -67,6 +79,9 @@ def detection_run_parallel_db_conn_task(agent_ip):
 			signal_result = count * score
 			osquery_detection_score.append(signal_result)
 			osquery_signal_names.append({"signal_name": str(name) })
+
+			#detection_events_store({""})
+
 		except:
 			pass 
 
@@ -87,6 +102,13 @@ def detection_run_parallel_db_conn_task(agent_ip):
 		score = str(total_detection_score)
 		signals_count = str(len(osquery_events_ids))
 
+		osquery_events_json = [{
+			"score": get_indicator_score(i['event_obj']['name']), 
+			"event": i['event_obj'],
+			"identifier": i['identifier']
+
+		} for i in osquery_events_json]
+
 		message = {
 			"score": str(score),
 			"score_label": score_label,
@@ -103,9 +125,9 @@ def detection_run_parallel_db_conn_task(agent_ip):
 		DETECTION_INSERT = """
 		insert into 
 			detection 
-		(score, score_label, signals, name_tags, osquery_events_ids, message) 
+		(score, score_label, signals, name_tags, osquery_events_ids, message, osquery_events) 
 			values 
-		('{score}', '{score_label}', '{signals}', '{name_tags}', '{osquery_events_ids}', '{message_json}')
+		('{score}', '{score_label}', '{signals}', '{name_tags}', '{osquery_events_ids}', '{message_json}', '{osquery_events}')
 		""".strip()
 
 		detection_insert_statement = DETECTION_INSERT.format(
@@ -114,7 +136,8 @@ def detection_run_parallel_db_conn_task(agent_ip):
 			signals=signals_count, 
 			name_tags=name_tags, 
 			osquery_events_ids=osquery_events_ids,
-			message_json=message_json 
+			message_json=message_json,
+			osquery_events=json.dumps(osquery_events_json) 
 		)		
 		insert_database_record(agent_ip, detection_insert_statement)
 	else:
@@ -124,12 +147,11 @@ def detection_run_parallel_db_conn_task(agent_ip):
 
 @celery_app.task
 def detection_run_parallel_db_conn(agent_ip):
-
 	try:
 		detection_run_parallel_db_conn_task(agent_ip)
 	except Exception as e:
-		print("exception: ", e)
-
+		print("Exception detection_run_parallel_db_conn: ", e)
+		pass 
 
 
 #@celery_app.task
