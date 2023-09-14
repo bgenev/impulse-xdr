@@ -70,7 +70,7 @@ However, a 4GB RAM, 2CPUs manager can easily handle IOCs monitoring for 20-30 se
 Download Impulse from the official GitHub repository
 
 ```
-wget https://github.com/bgenev/impulse-siem/releases/download/v1.1.5/impulse_siem_v1.1.5.tar.gz
+wget https://github.com/bgenev/impulse-siem/releases/download/v1.1.7/impulse_siem_v1.1.7.tar.gz
 ```
 
 ## Move to /opt
