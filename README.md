@@ -28,7 +28,7 @@ Automatically blocks suspicious IPs, stops processes, closes ports and quarantin
 Fleet firewall blocks offenders across the fleet.
 #### Malware scanner
 Integrated with VirursTotal to scan for malicious files on your hosts.
-#### Active Response
+#### Threat Intel
 Integrated with several high-quality threat intelligence providers to enrich your context data.
 #### Self-Hosted & Open-Core
 Data never leaves you servers. 
