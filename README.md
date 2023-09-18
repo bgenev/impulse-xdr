@@ -4,7 +4,7 @@
 
 Impulse is the easiest way to start monitoring your Linux endpoints - VPS servers, cloud networks (VPC), VMs, droplets, laptops, etc. 
 
-Setup deep visibility and protection for your infrastucture in two steps: 
+Set up deep visibility and protection for your infrastucture in two steps: 
 
 1. Install the self-hosted security events manager on one of your existing instances. It runs on all major Linux distributions and requires almost no configuration. 
 
