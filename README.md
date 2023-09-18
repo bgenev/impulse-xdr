@@ -13,7 +13,7 @@ Set up deep visibility and protection for your infrastucture in two steps:
 That's it. Security telemetry and analytics start flowing to your screen! 
 
 
-# Features: 
+## Features: 
 
 #### Security Analytics
 Ingests telemetry data from its fleet of monitoring sensors and provides security analytics & insights.
