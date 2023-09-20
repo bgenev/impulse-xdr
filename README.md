@@ -1,4 +1,4 @@
-### Latest: Impulse X SIEM v1.1.8 Released
+### Latest: Impulse X SIEM v1.1.9 Released
 
 # Impulse X SIEM 
 
@@ -79,7 +79,7 @@ However, a 4GB RAM, 2CPUs manager can easily handle IOCs monitoring for 20-30 se
 Download Impulse from the official GitHub repository
 
 ```
-wget https://github.com/bgenev/impulse-siem/releases/download/v.1.1.8/impulse_siem_v1.1.8.tar.gz
+wget https://github.com/bgenev/impulse-siem/releases/download/latest/impulse_siem_v1.1.9.tar.gz
 ```
 
 ## Move to /opt
@@ -87,7 +87,7 @@ Move the archive in /opt (must be in /opt)
 
 ## Untar 
 ```
-tar -xf impulse_siem_v1.1.8.tar.gz
+tar -xf impulse_siem_v1.1.9.tar.gz
 ```
 
 ## Enter your system's configuration values 
