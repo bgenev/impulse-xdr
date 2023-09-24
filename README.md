@@ -1,4 +1,4 @@
-### Latest: Impulse SIEM v1.1.11 Released
+#### Latest: v1.1.11 Released
 
 # The lean SIEM for Linux!
 
