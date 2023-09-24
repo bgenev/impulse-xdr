@@ -1,5 +1,5 @@
 #
-# Copyright (c) 2021-2023, Bozhidar Genev - All Rights Reserved. Impulse X SIEM   
+# Copyright (c) 2021-2023, Bozhidar Genev - All Rights Reserved. Impulse SIEM   
 # Impulse is licensed under the Impulse User License Agreement at the root of this project.
 #
 
@@ -692,7 +692,7 @@ def block_port_scanners(ip_addr, offenders_eve_flow_last_analysed_id):
 		from 
 			suricata_eve_flow 
 		where 
-			message->'dest_port' NOT IN ('80', '443') 
+			message->'dest_port' NOT IN ('80', '443', '7001', '7514', '50051') 
 		and 
 			id > '{id}';
 	""".strip().format(id=offenders_eve_flow_last_analysed_id)
@@ -744,7 +744,7 @@ def block_suspected_offenders_task(ip_addr, agent_type):
 
 	if agent_type == 'heavy':
 		block_suspected_nids(ip_addr, offenders_eve_alerts_last_analysed_id)
-		block_port_scanners(ip_addr, offenders_eve_flow_last_analysed_id)
+		#block_port_scanners(ip_addr, offenders_eve_flow_last_analysed_id)
 	else:
 		pass 
 

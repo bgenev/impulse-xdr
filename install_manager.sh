@@ -1,7 +1,7 @@
 #!/bin/bash
 
 #
-# Copyright (c) 2021-2023, Bozhidar Genev, Impulse X SIEM. All Rights Reserved.    
+# Copyright (c) 2021-2023, Bozhidar Genev, Impulse SIEM. All Rights Reserved.    
 # Impulse is licensed under the Impulse User License Agreement at the root of this project.
 #
 
@@ -45,7 +45,7 @@ else
 	echo "Python version > 3.7. Continue.."
 fi
 
-$PROJECT_ROOT_DIR/install_modules/shared/check_docker_installed.sh $OS_TYPE
+#$PROJECT_ROOT_DIR/install_modules/shared/check_docker_installed.sh $OS_TYPE
 
 IP_MANAGER=$(awk -F "=" '/IP_MANAGER/ {print $2}' impulse.conf | tr -d ' ')
 MANAGER_PROXY_IP=$(awk -F "=" '/MANAGER_PROXY_IP/ {print $2}' impulse.conf | tr -d ' ')
@@ -210,7 +210,6 @@ fi
 
 $PROJECT_ROOT_DIR/install_modules/manager/whitelist_ips.sh
 
-
 $PROJECT_ROOT_DIR/install_modules/shared/firewall.sh $SETUP_TYPE $IP_MANAGER $PACKAGE_MGR $OS_TYPE $FIREWALL_BACKEND
 
 echo "Post-Installation Setup..."
@@ -251,6 +250,8 @@ chmod 600 /var/impulse/data/manager/manager_creds.txt
 printf "username:"$WEB_INTERFACE_USERNAME >> /var/impulse/data/manager/manager_creds.txt
 printf "\npassword:"$WEB_INTERFACE_PASSWORD"\n" >> /var/impulse/data/manager/manager_creds.txt
 
+sleep 2
+/opt/impulse/impulse-control.sh status
 
 BUILD_END_TIME=$(date)
 echo "START time build: "$BUILD_START_TIME

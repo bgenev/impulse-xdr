@@ -1,5 +1,5 @@
 #
-# Copyright (c) 2021-2023, Bozhidar Genev - All Rights Reserved. Impulse X SIEM   
+# Copyright (c) 2021-2023, Bozhidar Genev, Impulse SIEM. All Rights Reserved.    
 # Impulse is licensed under the Impulse User License Agreement at the root of this project.
 #
 
@@ -93,7 +93,8 @@ def check_agent_status(grpc_agent_ip, get_system_info):
 		data = convert_protobuf_message_to_json(
 			stub.CheckAgentStatus(
 				request, 
-				metadata=[handle_access_token(grpc_agent_ip)]
+				metadata=[handle_access_token(grpc_agent_ip)],
+				timeout=2
 			) 
 		) 
 		return {'result': data, 'error': False}
@@ -110,7 +111,8 @@ def deploy_pack_on_agent(grpc_agent_ip, pack_data, filename):
 		data = convert_protobuf_message_to_json(
 			stub.DeployPackOnAgent(
 				request, 
-				metadata=[handle_access_token(grpc_agent_ip)]
+				metadata=[handle_access_token(grpc_agent_ip)],
+				timeout=2
 			) 
 		) 
 		return {'result': data, 'error': False}
@@ -126,7 +128,8 @@ def core_osq_pack_update(grpc_agent_ip, pack_data):
 		data = convert_protobuf_message_to_json(
 			stub.CoreOsqPackUpdate(
 				request, 
-				metadata=[handle_access_token(grpc_agent_ip)]
+				metadata=[handle_access_token(grpc_agent_ip)],
+				timeout=2
 			) 
 		) 
 		return {'result': data, 'error': False}
@@ -141,7 +144,8 @@ def delete_pack_on_agent(grpc_agent_ip, name):
 		data = convert_protobuf_message_to_json(
 			stub.DeletePackOnAgent(
 				request, 
-				metadata=[handle_access_token(grpc_agent_ip)]
+				metadata=[handle_access_token(grpc_agent_ip)],
+				timeout=2
 			) 
 		) 
 		return {'result': data, 'error': False}
@@ -156,7 +160,8 @@ def take_action_agent(grpc_agent_ip, indicator_name, target_param, target_agent_
 		data = convert_protobuf_message_to_json(
 			stub.TakeActionAgent(
 				request, 
-				metadata=[handle_access_token(grpc_agent_ip)]
+				metadata=[handle_access_token(grpc_agent_ip)],
+				timeout=2
 			) 
 		) 
 		return {'result': data, 'error': False}
@@ -171,7 +176,8 @@ def check_can_take_action_agent(grpc_agent_ip, indicator_name, target_param, tar
 		data = convert_protobuf_message_to_json(
 			stub.CheckCanTakeActionAgent(
 				request, 
-				metadata=[handle_access_token(grpc_agent_ip)]
+				metadata=[handle_access_token(grpc_agent_ip)],
+				timeout=2
 			) 
 		) 
 		return {'result': data, 'error': False}
@@ -262,7 +268,8 @@ def suricata_custom_ruleset_sync_grpc(grpc_agent_ip, ruleset_data):
 		data = convert_protobuf_message_to_json(
 			stub.SuricataCustomRulesetSync(
 				request, 
-				metadata=[handle_access_token(grpc_agent_ip)]
+				metadata=[handle_access_token(grpc_agent_ip)],
+				timeout=5
 			) 
 		) 
 		#print("suricata_custom_ruleset_sync_grpc: ", data)

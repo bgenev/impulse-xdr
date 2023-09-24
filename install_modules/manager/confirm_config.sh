@@ -43,6 +43,6 @@ else
 fi
 
 echo -e "Applying configurations and starting the build process. 
-It should take 7-12 mins to build depending on your internet speed and hardware."
+It should take 5-7 mins to build depending on your internet speed and hardware."
 
 sleep 1

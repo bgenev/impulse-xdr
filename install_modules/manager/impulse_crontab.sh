@@ -43,10 +43,10 @@ kernelk_cron_file="
 
 
 #### BLOCK SUSPECTS WITH FLEET FIREWALL ####
-# Block suspected offenders
+## Block suspected offenders
 */5 * * * * root $PROJECT_ROOT_DIR/tasks_manager/cron_tasks/block_suspected_offenders.sh
 
-# Sync Impulse fleet firewall 
+## Sync Impulse fleet firewall 
 */7 * * * * root $PROJECT_ROOT_DIR/tasks_manager/cron_tasks/sync_impulse_fleet_firewall.sh
 
 

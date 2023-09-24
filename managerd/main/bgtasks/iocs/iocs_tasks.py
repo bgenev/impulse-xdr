@@ -1,5 +1,5 @@
 #
-# Copyright (c) 2021-2023, Bozhidar Genev - All Rights Reserved. Impulse X SIEM   
+# Copyright (c) 2021-2023, Bozhidar Genev - All Rights Reserved. Impulse SIEM   
 # Impulse is licensed under the Impulse User License Agreement at the root of this project.
 #
 
@@ -36,7 +36,6 @@ def detection_run_parallel_db_conn_task(agent_ip):
 	osquery_events = query_database_records(agent_ip, OSQ_QUERY, 'all')
 
 	osquery_events_list = []
-	osquery_events_ids = []
 
 	osquery_events_json = []
 	for item in osquery_events:
@@ -55,10 +54,6 @@ def detection_run_parallel_db_conn_task(agent_ip):
 			osquery_events_list.append( osquery_event["name"] )
 		except:
 			pass
-
-		osquery_events_ids.append({ 
-			"id": str(event_id) 
-		})
 
 	osquery_events_count = Counter(osquery_events_list).most_common()
 	osquery_events_sorted = []
@@ -79,9 +74,6 @@ def detection_run_parallel_db_conn_task(agent_ip):
 			signal_result = count * score
 			osquery_detection_score.append(signal_result)
 			osquery_signal_names.append({"signal_name": str(name) })
-
-			#detection_events_store({""})
-
 		except:
 			pass 
 
@@ -100,7 +92,6 @@ def detection_run_parallel_db_conn_task(agent_ip):
 	if total_detection_score > 4:
 
 		score = str(total_detection_score)
-		signals_count = str(len(osquery_events_ids))
 
 		osquery_events_json = [{
 			"score": get_indicator_score(i['event_obj']['name']), 
@@ -112,34 +103,27 @@ def detection_run_parallel_db_conn_task(agent_ip):
 		message = {
 			"score": str(score),
 			"score_label": score_label,
-			"signals_count": signals_count,
-			"name_tags": osquery_signal_names,
-			"osquery_events_ids": osquery_events_ids,
+			"signals_count": len(osquery_events_json),
+			"osquery_events": osquery_events_json[0:5], 
 			"detected_at": str(datetime.datetime.now())
 		}
 
 		message_json = json.dumps(message)
-		name_tags = json.dumps(osquery_signal_names)
-		osquery_events_ids = json.dumps(osquery_events_ids)		
-
+		
 		DETECTION_INSERT = """
 		insert into 
 			detection 
-		(score, score_label, signals, name_tags, osquery_events_ids, message, osquery_events) 
+		(agent_ip, message, osquery_events) 
 			values 
-		('{score}', '{score_label}', '{signals}', '{name_tags}', '{osquery_events_ids}', '{message_json}', '{osquery_events}')
+		('{agent_ip}', '{message}', '{osquery_events}' )
 		""".strip()
 
 		detection_insert_statement = DETECTION_INSERT.format(
-			score=score, 
-			score_label=score_label,
-			signals=signals_count, 
-			name_tags=name_tags, 
-			osquery_events_ids=osquery_events_ids,
-			message_json=message_json,
-			osquery_events=json.dumps(osquery_events_json) 
-		)		
-		insert_database_record(agent_ip, detection_insert_statement)
+			agent_ip=agent_ip,
+			message=message_json,
+			osquery_events=json.dumps(osquery_events_json)
+		)	
+		insert_database_record('impulse_manager', detection_insert_statement)
 	else:
 		detection_event = None
 		#print("no detections")

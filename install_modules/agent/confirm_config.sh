@@ -58,6 +58,6 @@ fi
 
 
 echo -e "Applying configurations and starting the build process. 
-It should take 3-4 mins to install."
+It should take 2-4 mins to install."
 
 sleep 1

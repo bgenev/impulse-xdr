@@ -2,8 +2,8 @@
 -- PostgreSQL database dump
 --
 
--- Dumped from database version 15.4
--- Dumped by pg_dump version 15.4
+-- Dumped from database version 16.0
+-- Dumped by pg_dump version 16.0
 
 SET statement_timeout = 0;
 SET lock_timeout = 0;
@@ -60,55 +60,13 @@ CREATE SEQUENCE public.data_transfers_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.data_transfers_id_seq OWNER TO postgres;
+ALTER SEQUENCE public.data_transfers_id_seq OWNER TO postgres;
 
 --
 -- Name: data_transfers_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
 
 ALTER SEQUENCE public.data_transfers_id_seq OWNED BY public.data_transfers.id;
-
-
---
--- Name: detection; Type: TABLE; Schema: public; Owner: postgres
---
-
-CREATE TABLE public.detection (
-    id integer NOT NULL,
-    score character varying(20),
-    score_label character varying(20),
-    signals integer,
-    name_tags jsonb,
-    osquery_events_ids jsonb,
-    suricata_events_ids jsonb,
-    message jsonb,
-    osquery_events jsonb,
-    created_on timestamp without time zone DEFAULT now()
-);
-
-
-ALTER TABLE public.detection OWNER TO postgres;
-
---
--- Name: detection_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
---
-
-CREATE SEQUENCE public.detection_id_seq
-    AS integer
-    START WITH 1
-    INCREMENT BY 1
-    NO MINVALUE
-    NO MAXVALUE
-    CACHE 1;
-
-
-ALTER TABLE public.detection_id_seq OWNER TO postgres;
-
---
--- Name: detection_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
---
-
-ALTER SEQUENCE public.detection_id_seq OWNED BY public.detection.id;
 
 
 --
@@ -138,7 +96,7 @@ CREATE SEQUENCE public.notification_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.notification_id_seq OWNER TO postgres;
+ALTER SEQUENCE public.notification_id_seq OWNER TO postgres;
 
 --
 -- Name: notification_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
@@ -172,7 +130,7 @@ CREATE SEQUENCE public.notifications_settings_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.notifications_settings_id_seq OWNER TO postgres;
+ALTER SEQUENCE public.notifications_settings_id_seq OWNER TO postgres;
 
 --
 -- Name: notifications_settings_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
@@ -207,7 +165,7 @@ CREATE SEQUENCE public.osquery_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.osquery_id_seq OWNER TO postgres;
+ALTER SEQUENCE public.osquery_id_seq OWNER TO postgres;
 
 --
 -- Name: osquery_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
@@ -246,7 +204,7 @@ CREATE SEQUENCE public.processed_analytics_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.processed_analytics_id_seq OWNER TO postgres;
+ALTER SEQUENCE public.processed_analytics_id_seq OWNER TO postgres;
 
 --
 -- Name: processed_analytics_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
@@ -283,7 +241,7 @@ CREATE SEQUENCE public.sca_alerts_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.sca_alerts_id_seq OWNER TO postgres;
+ALTER SEQUENCE public.sca_alerts_id_seq OWNER TO postgres;
 
 --
 -- Name: sca_alerts_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
@@ -323,7 +281,7 @@ CREATE SEQUENCE public.scp_packs_alerts_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.scp_packs_alerts_id_seq OWNER TO postgres;
+ALTER SEQUENCE public.scp_packs_alerts_id_seq OWNER TO postgres;
 
 --
 -- Name: scp_packs_alerts_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
@@ -361,7 +319,7 @@ CREATE SEQUENCE public.scp_results_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.scp_results_id_seq OWNER TO postgres;
+ALTER SEQUENCE public.scp_results_id_seq OWNER TO postgres;
 
 --
 -- Name: scp_results_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
@@ -399,7 +357,7 @@ CREATE SEQUENCE public.suricata_alerts_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.suricata_alerts_id_seq OWNER TO postgres;
+ALTER SEQUENCE public.suricata_alerts_id_seq OWNER TO postgres;
 
 --
 -- Name: suricata_alerts_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
@@ -434,7 +392,7 @@ CREATE SEQUENCE public.suricata_dhcp_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.suricata_dhcp_id_seq OWNER TO postgres;
+ALTER SEQUENCE public.suricata_dhcp_id_seq OWNER TO postgres;
 
 --
 -- Name: suricata_dhcp_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
@@ -469,7 +427,7 @@ CREATE SEQUENCE public.suricata_dns_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.suricata_dns_id_seq OWNER TO postgres;
+ALTER SEQUENCE public.suricata_dns_id_seq OWNER TO postgres;
 
 --
 -- Name: suricata_dns_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
@@ -520,7 +478,7 @@ CREATE SEQUENCE public.suricata_eve_flow_derived_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.suricata_eve_flow_derived_id_seq OWNER TO postgres;
+ALTER SEQUENCE public.suricata_eve_flow_derived_id_seq OWNER TO postgres;
 
 --
 -- Name: suricata_eve_flow_derived_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
@@ -541,7 +499,7 @@ CREATE SEQUENCE public.suricata_eve_flow_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.suricata_eve_flow_id_seq OWNER TO postgres;
+ALTER SEQUENCE public.suricata_eve_flow_id_seq OWNER TO postgres;
 
 --
 -- Name: suricata_eve_flow_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
@@ -576,7 +534,7 @@ CREATE SEQUENCE public.suricata_files_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.suricata_files_id_seq OWNER TO postgres;
+ALTER SEQUENCE public.suricata_files_id_seq OWNER TO postgres;
 
 --
 -- Name: suricata_files_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
@@ -611,7 +569,7 @@ CREATE SEQUENCE public.suricata_ftp_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.suricata_ftp_id_seq OWNER TO postgres;
+ALTER SEQUENCE public.suricata_ftp_id_seq OWNER TO postgres;
 
 --
 -- Name: suricata_ftp_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
@@ -646,7 +604,7 @@ CREATE SEQUENCE public.suricata_http_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.suricata_http_id_seq OWNER TO postgres;
+ALTER SEQUENCE public.suricata_http_id_seq OWNER TO postgres;
 
 --
 -- Name: suricata_http_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
@@ -681,7 +639,7 @@ CREATE SEQUENCE public.suricata_smb_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.suricata_smb_id_seq OWNER TO postgres;
+ALTER SEQUENCE public.suricata_smb_id_seq OWNER TO postgres;
 
 --
 -- Name: suricata_smb_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
@@ -716,7 +674,7 @@ CREATE SEQUENCE public.suricata_smtp_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.suricata_smtp_id_seq OWNER TO postgres;
+ALTER SEQUENCE public.suricata_smtp_id_seq OWNER TO postgres;
 
 --
 -- Name: suricata_smtp_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
@@ -751,7 +709,7 @@ CREATE SEQUENCE public.suricata_ssh_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.suricata_ssh_id_seq OWNER TO postgres;
+ALTER SEQUENCE public.suricata_ssh_id_seq OWNER TO postgres;
 
 --
 -- Name: suricata_ssh_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
@@ -786,7 +744,7 @@ CREATE SEQUENCE public.suricata_tls_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.suricata_tls_id_seq OWNER TO postgres;
+ALTER SEQUENCE public.suricata_tls_id_seq OWNER TO postgres;
 
 --
 -- Name: suricata_tls_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
@@ -822,7 +780,7 @@ CREATE SEQUENCE public.system_profile_historical_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.system_profile_historical_id_seq OWNER TO postgres;
+ALTER SEQUENCE public.system_profile_historical_id_seq OWNER TO postgres;
 
 --
 -- Name: system_profile_historical_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
@@ -837,7 +795,7 @@ ALTER SEQUENCE public.system_profile_historical_id_seq OWNED BY public.system_pr
 
 CREATE TABLE public.uba_ssh (
     id integer NOT NULL,
-    host_ip_addr character varying(10000)
+    host_ip_addr character varying(30)
 );
 
 
@@ -856,7 +814,7 @@ CREATE SEQUENCE public.uba_ssh_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.uba_ssh_id_seq OWNER TO postgres;
+ALTER SEQUENCE public.uba_ssh_id_seq OWNER TO postgres;
 
 --
 -- Name: uba_ssh_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
@@ -870,13 +828,6 @@ ALTER SEQUENCE public.uba_ssh_id_seq OWNED BY public.uba_ssh.id;
 --
 
 ALTER TABLE ONLY public.data_transfers ALTER COLUMN id SET DEFAULT nextval('public.data_transfers_id_seq'::regclass);
-
-
---
--- Name: detection id; Type: DEFAULT; Schema: public; Owner: postgres
---
-
-ALTER TABLE ONLY public.detection ALTER COLUMN id SET DEFAULT nextval('public.detection_id_seq'::regclass);
 
 
 --
@@ -1040,14 +991,6 @@ ALTER TABLE ONLY public.alembic_version
 
 ALTER TABLE ONLY public.data_transfers
     ADD CONSTRAINT data_transfers_pkey PRIMARY KEY (id);
-
-
---
--- Name: detection detection_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
---
-
-ALTER TABLE ONLY public.detection
-    ADD CONSTRAINT detection_pkey PRIMARY KEY (id);
 
 
 --

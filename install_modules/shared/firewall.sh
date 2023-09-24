@@ -25,77 +25,71 @@ nft add chain inet impulse_table impulse_output_chain '{ type filter hook input 
 nft flush table inet impulse_table
 
 
-
-## better to load saved rules via nft -f /var/impulse/etc/nftables/nftables_impulse_table.rules
-## nft list table inet impulse_table > /var/impulse/etc/nftables/nftables_impulse_table.rules
-
-
-# if [ "$FIREWALL_BACKEND" == "ufw" ]; then
-# 	echo "UFW selected, disable Firewalld"
+if [ "$FIREWALL_BACKEND" == "ufw" ]; then
+	echo "UFW selected, disable Firewalld"
 	
-# 	systemctl stop firewalld
-# 	systemctl disable firewalld 
+	systemctl stop firewalld
+	systemctl disable firewalld 
 
-#     if [[ $PACKAGE_MGR  = "deb" ]]; then
-# 		apt-get install -y ufw
-#     fi
+    if [[ $PACKAGE_MGR  = "deb" ]]; then
+		apt-get install -y ufw
+    fi
 
-#     if [[ $PACKAGE_MGR = "rpm" ]]; then
-# 		yum install -y epel-release
-# 		yum install -y ufw	
-#     fi 
+    if [[ $PACKAGE_MGR = "rpm" ]]; then
+		yum install -y epel-release
+		yum install -y ufw	
+    fi 
 
-# 	systemctl enable ufw
-# 	systemctl start ufw 
+	systemctl enable ufw
+	systemctl start ufw 
 
-# 	ufw default deny incoming
-# 	ufw default allow outgoing
+	ufw default deny incoming
+	ufw default allow outgoing
 
-# 	ufw allow ssh
+	ufw allow ssh
 
-# 	if [[ $SETUP_TYPE == 'manager' ]]; then 		
-# 		ufw allow from 192.168.0.0/16 proto any to any port 7514 # default allowed to internal net, create_manager_agent_connector opens the port for external agent IPs
-# 		ufw allow 7001
-# 	else 
-# 		ufw allow from $IP_MANAGER proto tcp to any port 50051
-# 	fi
+	if [[ $SETUP_TYPE == 'manager' ]]; then 		
+		ufw allow 7514 # default allowed to internal net, create_manager_agent_connector opens the port for external agent IPs
+		ufw allow 7001
+	else 
+		ufw allow from $IP_MANAGER proto tcp to any port 50051
+	fi
 
-# 	ufw --force enable
+	ufw --force enable
 
-# elif [ "$FIREWALL_BACKEND" == "firewalld" ]; then
-# 	echo "Firewalld selected, disable UFW"
+elif [ "$FIREWALL_BACKEND" == "firewalld" ]; then
+	echo "Firewalld selected, disable UFW"
 
-# 	systemctl stop ufw
-# 	systemctl disable ufw 
+	systemctl stop ufw
+	systemctl disable ufw 
 
-#     if [[ $PACKAGE_MGR = "deb" ]]; then
-# 		apt-get install -y firewalld
-#     fi
+    if [[ $PACKAGE_MGR = "deb" ]]; then
+		apt-get install -y firewalld
+    fi
 	
-#     if [[ $PACKAGE_MGR = "rpm" ]]; then
-# 		yum install -y firewalld
-#     fi 
+    if [[ $PACKAGE_MGR = "rpm" ]]; then
+		yum install -y firewalld
+    fi 
 
-# 	systemctl enable firewalld
-# 	systemctl start firewalld 
+	systemctl enable firewalld
+	systemctl start firewalld 
 
-# 	firewall-cmd --add-service=ssh --permanent
+	firewall-cmd --add-service=ssh --permanent
 
-# 	if [[ $SETUP_TYPE == 'manager' ]]; then 
-# 		firewall-cmd --permanent --new-zone=impulse_siem
-# 		firewall-cmd --reload
-# 		firewall-cmd --permanent --zone=impulse_siem --add-port=7514/tcp
-# 		firewall-cmd --permanent --zone=impulse_siem --add-port=7001/tcp		
-# 		firewall-cmd --permanent --zone=impulse_siem --add-source=192.168.0.0/16
-# 	else 
-# 		firewall-cmd --permanent --new-zone=impulse_siem
-# 		firewall-cmd --reload
-# 		firewall-cmd --permanent --zone=impulse_siem --add-port=50051/tcp
-# 		firewall-cmd --permanent --zone=impulse_siem --add-source=$IP_MANAGER
-# 	fi
+	if [[ $SETUP_TYPE == 'manager' ]]; then 
+		firewall-cmd --permanent --new-zone=impulse_siem
+		firewall-cmd --reload
+		firewall-cmd --permanent --zone=impulse_siem --add-port=7514/tcp
+		firewall-cmd --permanent --zone=impulse_siem --add-port=7001/tcp		
+	else 
+		firewall-cmd --permanent --new-zone=impulse_siem
+		firewall-cmd --reload
+		firewall-cmd --permanent --zone=impulse_siem --add-port=50051/tcp
+		firewall-cmd --permanent --zone=impulse_siem --add-source=$IP_MANAGER
+	fi
 
-# 	firewall-cmd --reload
-# else
-# 	echo "Unaccounted case. Continue"
-# fi
+	firewall-cmd --reload
+else
+	echo "Unaccounted case. Continue"
+fi
 

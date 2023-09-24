@@ -1,5 +1,5 @@
 #
-# Copyright (c) 2021-2023, Bozhidar Genev - All Rights Reserved. Impulse X SIEM   
+# Copyright (c) 2021-2023, Bozhidar Genev - All Rights Reserved. Impulse SIEM   
 # Impulse is licensed under the Impulse User License Agreement at the root of this project.
 #
 
@@ -109,9 +109,25 @@ class OSquery(db.Model):
 	message = db.Column(JSONB)
 	created_on = db.Column(db.DateTime, server_default=db.func.now())
 
+# class Detection(db.Model):
+# 	__tablename__ = 'detection'
+# 	id = db.Column(db.Integer, primary_key=True)
+# 	score = db.Column(db.String(20))
+# 	score_label = db.Column(db.String(20))
+# 	signals = db.Column(db.Integer)
+# 	name_tags = db.Column(JSONB)
+# 	osquery_events_ids = db.Column(JSONB)
+# 	suricata_events_ids = db.Column(JSONB)
+# 	message = db.Column(JSONB)
+# 	osquery_events = db.Column(JSONB)
+# 	created_on = db.Column(db.DateTime, server_default=db.func.now())
+
+
 class Detection(db.Model):
 	__tablename__ = 'detection'
+	__bind_key__ = 'impulse_manager'
 	id = db.Column(db.Integer, primary_key=True)
+	agent_ip = db.Column(db.String(20))
 	score = db.Column(db.String(20))
 	score_label = db.Column(db.String(20))
 	signals = db.Column(db.Integer)
@@ -120,12 +136,14 @@ class Detection(db.Model):
 	suricata_events_ids = db.Column(JSONB)
 	message = db.Column(JSONB)
 	osquery_events = db.Column(JSONB)
+	resolved_status = db.Column(db.String(20), default='Not Resolved')
 	created_on = db.Column(db.DateTime, server_default=db.func.now())
+
 
 class UbaSsh(db.Model):
 	__tablename__ = 'uba_ssh'
 	id = db.Column(db.Integer, primary_key=True)
-	host_ip_addr = db.Column(db.String(10000))
+	host_ip_addr = db.Column(db.String(30))
 
 
 ## Notifications

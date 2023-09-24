@@ -65,7 +65,7 @@ then
 
 elif [[ $SYST_STATE == 'status' && -z "$2" ]]
 then
-	printf "\n\nImpulse X SIEM status check..."
+	printf "\n\nImpulse SIEM status check..."
 	printf "\n\n "
 	printf "Components "
 	printf "\n\n "
@@ -86,7 +86,7 @@ then
 
 elif [[ $SYST_STATE == 'status' && $ARG2 == 'verbose' ]]
 then
-	printf "\n\n Impulse X SIEM status check..."
+	printf "\n\n Impulse SIEM status check..."
 	printf "\n\n "
 	printf "Components "
 	printf "\n\n "
