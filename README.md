@@ -1,5 +1,3 @@
-![main_short_v2](https://github.com/bgenev/impulse-siem/assets/129767083/17895daf-eb50-4e4f-b579-5790c79fe153)#### Latest: v1.1.11 Released
-
 # Lean SIEM for Linux
 
 Impulse is the easiest way to start monitoring your Linux endpoints including VPS / VPC / VMs / Droplets or Desktop. Whether your goal is to secure a single VPS server or large cloud network, Impulse will help you get there.
