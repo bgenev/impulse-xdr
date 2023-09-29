@@ -10,6 +10,8 @@ Set up deep visibility and protection for your infrastucture in two steps:
 
 That's it. Security analytics start flowing to your screen! 
 
+
+
 ![main_short_v2](https://github.com/bgenev/impulse-siem/assets/129767083/ef135f13-6ad6-4acc-ba68-ce932b87fc72)
 
 
