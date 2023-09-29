@@ -1,6 +1,6 @@
-#### Latest: v1.1.11 Released
+![main_short_v2](https://github.com/bgenev/impulse-siem/assets/129767083/17895daf-eb50-4e4f-b579-5790c79fe153)#### Latest: v1.1.11 Released
 
-# The lean SIEM for Linux!
+# Lean SIEM for Linux
 
 Impulse is the easiest way to start monitoring your Linux endpoints including VPS / VPC / VMs / Droplets or Desktop. Whether your goal is to secure a single VPS server or large cloud network, Impulse will help you get there.
 
@@ -11,6 +11,9 @@ Set up deep visibility and protection for your infrastucture in two steps:
 2. Deploy a light or heavy sensor on each endpoint, depending on the capabilities that you need, and point it to the IP of the manager.
 
 That's it. Security analytics start flowing to your screen! 
+
+![main_short_v2](https://github.com/bgenev/impulse-siem/assets/129767083/ef135f13-6ad6-4acc-ba68-ce932b87fc72)
+
 
 # Overview 
 Impulese provides host intrusion detection by monitoring every aspect of your environment - files, processes, connections, ports, users, authentications, installed packages, kernel modules, etc. every variable that could be an indicator of compromise is tracked, stored and analysed.
