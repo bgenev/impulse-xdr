@@ -16,7 +16,7 @@ That's it. Security analytics start flowing to your screen!
 
 
 # Overview 
-Impulese provides host intrusion detection by monitoring every aspect of your environment - files, processes, connections, ports, users, authentications, installed packages, kernel modules, etc. every variable that could be an indicator of compromise is tracked, stored and analysed.
+Impulese provides intrusion detection by monitoring every aspect of your environment - files, processes, connections, ports, users, authentications, installed packages, kernel modules, etc. every variable that could be an indicator of compromise is tracked, stored and analysed.
 
 It consists of sensors, built on top of performant telemetry extraction and transportation tools (osquery, rsyslog, grpc), that run on your monitored endpoints and forward data to a self-hosted security events manager. The manager indexes, aggregates and analyzes the incoming information, then provides analytics, insights and active response.
 
