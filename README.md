@@ -1,5 +1,5 @@
 # ImpulseXDR
-## Simple & effective security events monitoring for endpoints and cloud
+## Simple & effective threat detection for endpoints and cloud
 
 Impulse provides advanced host & network intrusion detection via self-hosted security events manager and fleet of native sensors that monitor and interact with hosts to protect them.
 
