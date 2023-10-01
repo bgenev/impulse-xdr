@@ -5,7 +5,7 @@ Impulse provides advanced host & network intrusion detection via self-hosted sec
 
 Whether your goal is to secure a single VPS server or large cloud network, Impulse will help you get there. Set up deep visibility and protection for your VPS / VPC / VMs / Droplets or Desktop in two steps: 
 
-1. Install the self-hosted security events manager on one of your existing instances. It runs on all major Linux distributions and requires close to zero configuration.
+1. Install the self-hosted manager on one of your existing instances. It runs on all major Linux distributions and requires close to zero configuration.
 
 2. Deploy a light or heavy sensor on each endpoint, depending on the capabilities that you need, and point it to the IP of the manager.
 
