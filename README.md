@@ -1,7 +1,7 @@
 # Impulse XDR
 ## Security Monitoring, Threat Detection & Response for Servers & Endpoints 
 
-Impulse provides advanced host & network intrusion detection via self-hosted security events manager and fleet of native sensors that monitor and interact with hosts to protect them.
+Impulse provides advanced host & network intrusion detection via self-hosted security events manager and fleet of sensors that monitor and interact with hosts to protect them.
 
 Whether your goal is to secure a single VPS server or large cloud network, Impulse will help you get there. Set up deep visibility and protection for your VPS / VPC / VMs / Droplets or Desktop in two steps: 
 
