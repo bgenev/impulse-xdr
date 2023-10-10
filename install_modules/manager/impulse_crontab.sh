@@ -12,7 +12,7 @@ kernelk_cron_file="
 
 # Daily Rollup  
 # multiproc
-0 */2 * * * root $PROJECT_ROOT_DIR/tasks_manager/cron_tasks/daily_rollup_task.sh
+# 0 */2 * * * root $PROJECT_ROOT_DIR/tasks_manager/cron_tasks/daily_rollup_task.sh
 
 # SCA Tests 
 # multiproc
@@ -41,6 +41,10 @@ kernelk_cron_file="
 # Email notifications 
 */5 * * * * root $PROJECT_ROOT_DIR/tasks_manager/cron_tasks/email_notifications.sh
 
+# Update derived tables
+* * * * * root $PROJECT_ROOT_DIR/tasks_manager/cron_tasks/update_derived_tables.sh
+
+
 
 #### BLOCK SUSPECTS WITH FLEET FIREWALL ####
 ## Block suspected offenders
@@ -48,7 +52,6 @@ kernelk_cron_file="
 
 ## Sync Impulse fleet firewall 
 */7 * * * * root $PROJECT_ROOT_DIR/tasks_manager/cron_tasks/sync_impulse_fleet_firewall.sh
-
 
 # Update Suricata Core Ruleset 
 0 11 * * * root $PROJECT_ROOT_DIR/tasks_manager/cron_tasks/update_suricata_core_ruleset.sh

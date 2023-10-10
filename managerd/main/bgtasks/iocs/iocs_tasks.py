@@ -1,5 +1,5 @@
 #
-# Copyright (c) 2021-2023, Bozhidar Genev - All Rights Reserved. Impulse SIEM   
+# Copyright (c) 2021-2023, Bozhidar Genev - All Rights Reserved.Impulse XDR   
 # Impulse is licensed under the Impulse User License Agreement at the root of this project.
 #
 
@@ -77,7 +77,7 @@ def detection_run_parallel_db_conn_task(agent_ip):
 		except:
 			pass 
 
-	osquery_detection_score = sum(osquery_detection_score)
+	osquery_detection_score = round(sum(osquery_detection_score), 1)
 	total_detection_score = osquery_detection_score
 
 	if total_detection_score > 20:
@@ -100,11 +100,14 @@ def detection_run_parallel_db_conn_task(agent_ip):
 
 		} for i in osquery_events_json]
 
+		osquery_events_json_by_score = sorted(osquery_events_json, key=lambda x: x['score'], reverse=True)
+
 		message = {
 			"score": str(score),
 			"score_label": score_label,
 			"signals_count": len(osquery_events_json),
 			"osquery_events": osquery_events_json[0:5], 
+			"osquery_events_top_5": osquery_events_json_by_score[0:5], 
 			"detected_at": str(datetime.datetime.now())
 		}
 
@@ -113,9 +116,9 @@ def detection_run_parallel_db_conn_task(agent_ip):
 		DETECTION_INSERT = """
 		insert into 
 			detection 
-		(agent_ip, message, osquery_events) 
+		(agent_ip, message, osquery_events, resolved_status) 
 			values 
-		('{agent_ip}', '{message}', '{osquery_events}' )
+		('{agent_ip}', '{message}', '{osquery_events}', 'Not Resolved' )
 		""".strip()
 
 		detection_insert_statement = DETECTION_INSERT.format(

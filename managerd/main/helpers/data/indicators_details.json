@@ -8,8 +8,7 @@
             "gid_signed"
         ],
         "alert_columns": [
-            "groupname",
-            "gid"
+            "groupname"
         ],
         "category": "users_and_authentication",
         "description": "Groups added or removed",
@@ -34,7 +33,7 @@
         "mitre_ref": [
             "T1053.003"
         ],
-        "score": 2
+        "score": 3
     },
     {
         "indicator_name": "deb_packages",
@@ -339,7 +338,7 @@
         "mitre_ref": [
             "T1078"
         ],
-        "score": 3
+        "score": 7
     },
     {
         "indicator_name": "kernel_modules",
@@ -452,7 +451,7 @@
             "T1105",
             "TA0010"
         ],
-        "score": 3
+        "score": 10
     },
     {
         "indicator_name": "ftp_process",
@@ -706,7 +705,7 @@
         "mitre_ref": [
             "TA0010"
         ],
-        "score": 2
+        "score": 5
     },
     {
         "indicator_name": "wget_file_download",
@@ -828,7 +827,7 @@
             "T1136.001",
             "T1078"
         ],
-        "score": 1.5
+        "score": 3
     },
     {
         "indicator_name": "shell_history",
@@ -1053,8 +1052,8 @@
             "cmdline"
         ],
         "alert_columns": [
-            "name",
-            "cmdline"
+            "cmdline",
+            "name"
         ],
         "category": "processes",
         "description": "Process events",
@@ -1283,14 +1282,10 @@
         "indicator_name": "file_events",
         "table_title": "File Integrity Monitoring",
         "named_columns": [
-            "target_path",
-            "category",
-            "action"
+            "target_path"
         ],
         "alert_columns": [
-            "target_path",
-            "category",
-            "action"
+            "target_path"
         ],
         "category": "files_and_folders",
         "description": "File event",
@@ -1406,8 +1401,7 @@
         "table_title": "Sudoers File",
         "named_columns": [
             "target_path",
-            "category",
-            "action"
+            "category"
         ],
         "alert_columns": [
             "target_path",
@@ -1462,85 +1456,5 @@
             "T1543.002"
         ],
         "score": 1
-    },
-    {
-        "indicator_name": "pack_users_diff_usrz_query",
-        "table_title": "usrz_query_users_diff_pack",
-        "named_columns": [
-            "username",
-            "uid"
-        ],
-        "alert_columns": [
-            "username",
-            "uid"
-        ],
-        "category": "custom",
-        "description": "tbd",
-        "score": 0.1,
-        "mitre_ref": []
-    },
-    {
-        "indicator_name": "pack_access_log_files_userss",
-        "table_title": "userss_access_log_files_pack",
-        "named_columns": [
-            "username",
-            "uid"
-        ],
-        "alert_columns": [
-            "username",
-            "uid"
-        ],
-        "category": "custom",
-        "description": "tbd",
-        "score": 0.1,
-        "mitre_ref": []
-    },
-    {
-        "indicator_name": "pack_plmon_new_listening_ports",
-        "table_title": "new_listening_ports_plmon_pack",
-        "named_columns": [
-            "port",
-            "path"
-        ],
-        "alert_columns": [
-            "port",
-            "path"
-        ],
-        "category": "custom",
-        "description": "tbd",
-        "score": 0.1,
-        "mitre_ref": []
-    },
-    {
-        "indicator_name": "pack_systd_services_new_systd_service",
-        "table_title": "new_systd_service_systd_services_pack",
-        "named_columns": [
-            "name",
-            "path"
-        ],
-        "alert_columns": [
-            "name",
-            "path"
-        ],
-        "category": "custom",
-        "description": "adasdasdasd",
-        "score": 0.5,
-        "mitre_ref": []
-    },
-    {
-        "indicator_name": "pack_rrrrttrt_zxcxcvcv",
-        "table_title": "zxcxcvcv_rrrrttrt_pack",
-        "named_columns": [
-            "username",
-            "uid"
-        ],
-        "alert_columns": [
-            "username",
-            "uid"
-        ],
-        "category": "custom",
-        "description": "cxvcxvxc",
-        "score": 0.1,
-        "mitre_ref": []
     }
 ]

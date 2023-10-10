@@ -1,5 +1,5 @@
 #
-# Copyright (c) 2021-2023, Bozhidar Genev, Impulse SIEM. All Rights Reserved.    
+# Copyright (c) 2021-2023, Bozhidar Genev,Impulse XDR. All Rights Reserved.    
 # Impulse is licensed under the Impulse User License Agreement at the root of this project.
 #
 

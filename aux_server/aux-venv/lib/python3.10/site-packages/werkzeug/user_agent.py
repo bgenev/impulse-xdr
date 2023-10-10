@@ -1,4 +1,4 @@
-from __future__ import annotations
+import typing as t
 
 
 class UserAgent:
@@ -17,16 +17,16 @@ class UserAgent:
         provide a built-in parser.
     """
 
-    platform: str | None = None
+    platform: t.Optional[str] = None
     """The OS name, if it could be parsed from the string."""
 
-    browser: str | None = None
+    browser: t.Optional[str] = None
     """The browser name, if it could be parsed from the string."""
 
-    version: str | None = None
+    version: t.Optional[str] = None
     """The browser version, if it could be parsed from the string."""
 
-    language: str | None = None
+    language: t.Optional[str] = None
     """The browser language, if it could be parsed from the string."""
 
     def __init__(self, string: str) -> None:

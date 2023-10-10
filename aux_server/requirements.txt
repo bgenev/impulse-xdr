@@ -8,3 +8,4 @@ thrift
 PyYAML==6.0
 configparser==5.2.0
 cryptography==37.0.4
+Werkzeug==2.2.2

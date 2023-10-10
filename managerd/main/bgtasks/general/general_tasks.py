@@ -1,5 +1,5 @@
 #
-# Copyright (c) 2021-2023, Bozhidar Genev - All Rights Reserved. Impulse SIEM   
+# Copyright (c) 2021-2023, Bozhidar Genev - All Rights Reserved.Impulse XDR   
 # Impulse is licensed under the Impulse User License Agreement at the root of this project.
 #
 
@@ -37,7 +37,6 @@ from main.helpers.analytics_helper import (
 )
 from main.helpers.processed_analytics_helper import (
 	analyse_suricata_alerts, 
-	analyse_notable_indicators, 
 	indicators_count,
 	analyse_suricata_alerts_by_id,
 	analyse_notable_indicators_by_id,
@@ -52,9 +51,9 @@ from main.packs.packs_routes import deploy_pack_task, delete_pack_task
 
 from main.helpers.shared.sca_helper import sca_run_method
 from main.helpers.sca_checks import get_cis_compliance_checks
+from main.helpers.derived_tables_helper import suricata_derived_table_update, osquery_derived_table_update
 
 from main.grpc_gateway.grpc_client import receive_sca_scan_req, check_agent_status
-
 from main.grpc_gateway.grpc_client import run_policy_pack_queries_grpc
 
 from main.globals import IP2LOCATION_PATH
@@ -250,7 +249,20 @@ def process_fleet_analytics_daily_task_by_id(agent_ip, agent_type):
 	else:
 		pass 
 	analyse_notable_indicators_by_id(osquery_last_id_analysed, agent_ip)
-	
+
+
+################
+### Update derived tables
+################
+
+@celery_app.task
+def suric_derived_table_update_task(agent_ip):
+	suricata_derived_table_update(agent_ip)
+
+@celery_app.task
+def osquery_derived_table_update_task(agent_ip):
+	osquery_derived_table_update(agent_ip)
+
 
 def sync_timestamps(last_analysed_obj, agent_ip, agent_type):
 	timestamp_sync_last_id_suricata = last_analysed_obj.timestamp_sync_last_id_suricata 

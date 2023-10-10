@@ -153,6 +153,42 @@ CREATE TABLE public.osquery (
 ALTER TABLE public.osquery OWNER TO postgres;
 
 --
+-- Name: osquery_derived_table; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.osquery_derived_table (
+    id bigint NOT NULL,
+    indicator_name character varying(1000),
+    indicator_type character varying(100),
+    events_count integer,
+    created_on timestamp without time zone DEFAULT now()
+);
+
+
+ALTER TABLE public.osquery_derived_table OWNER TO postgres;
+
+--
+-- Name: osquery_derived_table_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.osquery_derived_table_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER SEQUENCE public.osquery_derived_table_id_seq OWNER TO postgres;
+
+--
+-- Name: osquery_derived_table_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.osquery_derived_table_id_seq OWNED BY public.osquery_derived_table.id;
+
+
+--
 -- Name: osquery_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
 --
 
@@ -364,6 +400,42 @@ ALTER SEQUENCE public.suricata_alerts_id_seq OWNER TO postgres;
 --
 
 ALTER SEQUENCE public.suricata_alerts_id_seq OWNED BY public.suricata_alerts.id;
+
+
+--
+-- Name: suricata_derived_table; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.suricata_derived_table (
+    id bigint NOT NULL,
+    indicator_name character varying(1000),
+    indicator_type character varying(100),
+    events_count integer,
+    created_on timestamp without time zone DEFAULT now()
+);
+
+
+ALTER TABLE public.suricata_derived_table OWNER TO postgres;
+
+--
+-- Name: suricata_derived_table_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.suricata_derived_table_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER SEQUENCE public.suricata_derived_table_id_seq OWNER TO postgres;
+
+--
+-- Name: suricata_derived_table_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.suricata_derived_table_id_seq OWNED BY public.suricata_derived_table.id;
 
 
 --
@@ -852,6 +924,13 @@ ALTER TABLE ONLY public.osquery ALTER COLUMN id SET DEFAULT nextval('public.osqu
 
 
 --
+-- Name: osquery_derived_table id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.osquery_derived_table ALTER COLUMN id SET DEFAULT nextval('public.osquery_derived_table_id_seq'::regclass);
+
+
+--
 -- Name: processed_analytics id; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
@@ -884,6 +963,13 @@ ALTER TABLE ONLY public.scp_results ALTER COLUMN id SET DEFAULT nextval('public.
 --
 
 ALTER TABLE ONLY public.suricata_alerts ALTER COLUMN id SET DEFAULT nextval('public.suricata_alerts_id_seq'::regclass);
+
+
+--
+-- Name: suricata_derived_table id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.suricata_derived_table ALTER COLUMN id SET DEFAULT nextval('public.suricata_derived_table_id_seq'::regclass);
 
 
 --
@@ -1010,6 +1096,14 @@ ALTER TABLE ONLY public.notifications_settings
 
 
 --
+-- Name: osquery_derived_table osquery_derived_table_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.osquery_derived_table
+    ADD CONSTRAINT osquery_derived_table_pkey PRIMARY KEY (id);
+
+
+--
 -- Name: osquery osquery_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -1055,6 +1149,14 @@ ALTER TABLE ONLY public.scp_results
 
 ALTER TABLE ONLY public.suricata_alerts
     ADD CONSTRAINT suricata_alerts_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: suricata_derived_table suricata_derived_table_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.suricata_derived_table
+    ADD CONSTRAINT suricata_derived_table_pkey PRIMARY KEY (id);
 
 
 --

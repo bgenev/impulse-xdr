@@ -1,5 +1,5 @@
 #
-# Copyright (c) 2021-2023, Bozhidar Genev, Impulse SIEM. All Rights Reserved.    
+# Copyright (c) 2021-2023, Bozhidar Genev,Impulse XDR. All Rights Reserved.    
 # Impulse is licensed under the Impulse User License Agreement at the root of this project.
 #
 
@@ -99,6 +99,7 @@ from main.bgtasks.general import general_tasks
 from main.bgtasks.nids import nids_tasks
 from main.bgtasks.iocs import iocs_tasks
 from main.sca import sca_routes 
+from main.derived_tables import derived_tables_routes 
 #from main.tests import tests_routes 
 
 

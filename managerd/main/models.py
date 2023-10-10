@@ -1,5 +1,5 @@
 #
-# Copyright (c) 2021-2023, Bozhidar Genev - All Rights Reserved. Impulse SIEM   
+# Copyright (c) 2021-2023, Bozhidar Genev - All Rights Reserved.Impulse XDR   
 # Impulse is licensed under the Impulse User License Agreement at the root of this project.
 #
 
@@ -45,13 +45,30 @@ class SuricataEveFlowDerived(db.Model):
 	ip_addr = db.Column(db.String(50))
 	total_received = db.Column(db.Float)
 	total_sent = db.Column(db.Float)
-
 	total_inbound = db.Column(db.Float)
 	total_outbound = db.Column(db.Float)
-
 	batch_date = db.Column(db.DateTime)
 	# start_time = db.Column(db.DateTime) # first record timestamp
 	# end_time = db.Column(db.DateTime) # last record timestamp
+
+
+class SuricataDerivedTable(db.Model):
+	__tablename__ = 'suricata_derived_table'
+	id = db.Column(BIGINT, primary_key=True)
+	#ip_addr = db.Column(db.String(50))
+	indicator_name = db.Column(db.String(1000))
+	indicator_type = db.Column(db.String(100)) 
+	events_count = db.Column(db.Integer)
+	created_on = db.Column(db.DateTime, server_default=db.func.now())
+
+
+class OSqueryDerivedTable(db.Model):
+	__tablename__ = 'osquery_derived_table'
+	id = db.Column(BIGINT, primary_key=True)
+	indicator_name = db.Column(db.String(1000))
+	indicator_type = db.Column(db.String(100)) 
+	events_count = db.Column(db.Integer)
+	created_on = db.Column(db.DateTime, server_default=db.func.now())
 
 
 class SuricataSsh(db.Model):
@@ -416,7 +433,16 @@ class AnalyticsBatchesMeta(db.Model):
 	id = db.Column(db.Integer, primary_key=True)
 	agent_ip = db.Column(db.String(100))
 	osquery_last_id_analysed = db.Column(db.Integer, default=0)
+
 	suricata_alerts_last_id_analysed = db.Column(db.Integer, default=0)
+	suricata_ssh_last_id_analysed = db.Column(db.Integer, default=0)
+	suricata_http_last_id_analysed = db.Column(db.Integer, default=0)
+	suricata_dns_last_id_analysed = db.Column(db.Integer, default=0)
+	suricata_tls_last_id_analysed = db.Column(db.Integer, default=0)
+	suricata_files_last_id_analysed = db.Column(db.Integer, default=0)
+	suricata_dhcp_last_id_analysed = db.Column(db.Integer, default=0)
+	suricata_eve_flow_last_id_analysed = db.Column(db.Integer, default=0)
+
 	fim_last_id_analysed = db.Column(db.Integer, default=0)
 	timestamp_sync_last_id_suricata = db.Column(db.Integer, default=0)
 	timestamp_sync_last_id_osquery = db.Column(db.Integer, default=0)
