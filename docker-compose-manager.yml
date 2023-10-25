@@ -5,9 +5,8 @@ services:
     build:
       context: ./managerd
       dockerfile: ./managerd.Dockerfile
-    
-    # image: impulse/managerd
     image: impulse_managerd
+        
     container_name: impulse-managerd
     depends_on:
       - message-broker
@@ -24,20 +23,22 @@ services:
       - PYTHONUNBUFFERED=1    
     volumes:
       - /opt/impulse:/opt/impulse
-     # - /tmp/impulse:/tmp/impulse
       - /var/impulse:/var/impulse
       - /opt/osquery:/opt/osquery
       - /etc/osquery:/etc/osquery
+
       - /sys/fs/cgroup:/sys/fs/cgroup
       - /bin/systemctl:/bin/systemctl 
       - /run/systemd/system:/run/systemd/system
       - /var/run/dbus/system_bus_socket:/var/run/dbus/system_bus_socket
       - /usr/bin/docker:/usr/bin/docker
       - /var/run/docker.sock:/var/run/docker.sock
+
     restart: always    
   
+
   ###
-  ## Single worker for all queues - use with workstations and small servers 
+  ## Single worker for all queues
   ###
   bgtasks-general:
     build:
@@ -53,54 +54,9 @@ services:
     network_mode: "host"
     volumes:
       - /opt/impulse:/opt/impulse
-    #  - /tmp/impulse:/tmp/impulse
       - /var/impulse:/var/impulse
       - /opt/impulse/build/deb_sec_tracker:/opt/impulse/build/deb_sec_tracker
     restart: always
-
-  ###
-  ## Multiple workers, one for each queue. Use on machines with more resources and many agents, e.g. 10+ 
-  ###
-  # bgtasks-general:
-  #   image: impulse/managerd
-  #   container_name: impulse-bgtasks-general
-  #   depends_on:
-  #     - message-broker
-  #   command: /usr/local/bin/celery -A main.bgtasks.general.general_tasks worker -Q general_tasks -E --loglevel=DEBUG
-  #   network_mode: "host"
-  #   volumes:
-  #     - /opt/impulse:/opt/impulse
-  #     - /tmp/impulse:/tmp/impulse
-  #     - /var/impulse:/var/impulse
-  #     - /opt/impulse/build/deb_sec_tracker:/opt/impulse/build/deb_sec_tracker
-  #   restart: always
-
-  # bgtasks-iocs:
-  #   image: impulse/managerd
-  #   container_name: impulse-bgtasks-iocs
-  #   depends_on:
-  #     - message-broker
-  #   command: /usr/local/bin/celery -A main.bgtasks.iocs.iocs_tasks worker -Q iocs_tasks -E --loglevel=DEBUG
-  #   network_mode: "host"
-  #   volumes:
-  #     - /opt/impulse:/opt/impulse
-  #     - /tmp/impulse:/tmp/impulse
-  #     - /var/impulse:/var/impulse
-  #   restart: always
-
-  # bgtasks-nids:
-  #   image: impulse/managerd
-  #   container_name: impulse-bgtasks-nids
-  #   depends_on:
-  #     - message-broker
-  #   command: /usr/local/bin/celery -A main.bgtasks.nids.nids_tasks worker -Q nids_tasks -E --loglevel=DEBUG
-  #   network_mode: "host"
-  #   volumes:
-  #     - /opt/impulse:/opt/impulse
-  #     - /tmp/impulse:/tmp/impulse
-  #     - /var/impulse:/var/impulse
-  #   restart: always
-
 
   nginx-frontend:
     image: 'nginx:alpine'
@@ -144,7 +100,8 @@ services:
     
   rsyslog:
     #build: ./build/shared/rsyslog-container
-    image: impulse/rsyslog
+    #image: impulse/rsyslog
+    image: bgenev/impulse-rsyslog
     container_name: impulse-indexer
     network_mode: "host"
     environment:
@@ -169,3 +126,45 @@ services:
 
 
 
+  ###
+  ## Multiple workers
+  ###
+  # bgtasks-general:
+  #   image: impulse/managerd
+  #   container_name: impulse-bgtasks-general
+  #   depends_on:
+  #     - message-broker
+  #   command: /usr/local/bin/celery -A main.bgtasks.general.general_tasks worker -Q general_tasks -E --loglevel=DEBUG
+  #   network_mode: "host"
+  #   volumes:
+  #     - /opt/impulse:/opt/impulse
+  #     - /tmp/impulse:/tmp/impulse
+  #     - /var/impulse:/var/impulse
+  #     - /opt/impulse/build/deb_sec_tracker:/opt/impulse/build/deb_sec_tracker
+  #   restart: always
+
+  # bgtasks-iocs:
+  #   image: impulse/managerd
+  #   container_name: impulse-bgtasks-iocs
+  #   depends_on:
+  #     - message-broker
+  #   command: /usr/local/bin/celery -A main.bgtasks.iocs.iocs_tasks worker -Q iocs_tasks -E --loglevel=DEBUG
+  #   network_mode: "host"
+  #   volumes:
+  #     - /opt/impulse:/opt/impulse
+  #     - /tmp/impulse:/tmp/impulse
+  #     - /var/impulse:/var/impulse
+  #   restart: always
+
+  # bgtasks-nids:
+  #   image: impulse/managerd
+  #   container_name: impulse-bgtasks-nids
+  #   depends_on:
+  #     - message-broker
+  #   command: /usr/local/bin/celery -A main.bgtasks.nids.nids_tasks worker -Q nids_tasks -E --loglevel=DEBUG
+  #   network_mode: "host"
+  #   volumes:
+  #     - /opt/impulse:/opt/impulse
+  #     - /tmp/impulse:/tmp/impulse
+  #     - /var/impulse:/var/impulse
+  #   restart: always

@@ -3,8 +3,7 @@ version: "3"  # optional since v1.27.0
 
 services:
   rsyslog:
-    #build: ./build/shared/rsyslog-container
-    image: impulse/rsyslog
+    image: bgenev/impulse-rsyslog
     container_name: impulse-indexer
     network_mode: "host" 
     cap_add:

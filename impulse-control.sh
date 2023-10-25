@@ -27,6 +27,7 @@ then
 elif [[ $SYST_STATE == 'start' ]]
 then
 	echo "Start and enable Impulse..."
+	systemctl restart docker 
 	systemctl start impulse-manager impulse-auxiliary osqueryd # impulse-main impulse-bgtasks
 	systemctl enable osqueryd impulse-manager impulse-nids impulse-auxiliary # impulse-main impulse-bgtasks
 
@@ -41,6 +42,7 @@ then
 elif [[ $SYST_STATE == 'restart' ]]
 then
 	echo "Restarting Impulse, please wait..."
+	systemctl restart docker 
 	systemctl stop impulse-manager impulse-auxiliary osqueryd # impulse-main impulse-bgtasks
 	systemctl disable osqueryd impulse-manager impulse-auxiliary # impulse-main impulse-bgtasks
 	

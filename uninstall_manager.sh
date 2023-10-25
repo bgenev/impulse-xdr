@@ -46,6 +46,6 @@ rm -rf /tmp/3.7.0.tar.gz
 systemctl restart cron 
 systemctl restart docker
 
-deluser impulse_siem
+#deluser impulse_siem
 
 nft flush table inet impulse_table

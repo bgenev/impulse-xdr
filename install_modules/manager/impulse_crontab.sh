@@ -5,14 +5,9 @@ AGENT_TYPE=$2
 
 
 kernelk_cron_file="
-
 # Detections 
 # multiproc
 */5 * * * * root $PROJECT_ROOT_DIR/tasks_manager/cron_tasks/detections.sh 
-
-# Daily Rollup  
-# multiproc
-# 0 */2 * * * root $PROJECT_ROOT_DIR/tasks_manager/cron_tasks/daily_rollup_task.sh
 
 # SCA Tests 
 # multiproc

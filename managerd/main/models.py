@@ -145,9 +145,13 @@ class Detection(db.Model):
 	__bind_key__ = 'impulse_manager'
 	id = db.Column(db.Integer, primary_key=True)
 	agent_ip = db.Column(db.String(20))
+	agent_alias = db.Column(db.String(50))
 	score = db.Column(db.String(20))
 	score_label = db.Column(db.String(20))
 	signals = db.Column(db.Integer)
+
+	detection_profile = db.Column(JSONB)
+
 	name_tags = db.Column(JSONB)
 	osquery_events_ids = db.Column(JSONB)
 	suricata_events_ids = db.Column(JSONB)

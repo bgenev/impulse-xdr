@@ -137,14 +137,7 @@ $PROJECT_ROOT_DIR/install_modules/manager/impulse_rsyslog.sh $PROJECT_ROOT_DIR $
 
 cd $PROJECT_ROOT_DIR
 
-docker load --input /opt/impulse/build/shared/rsyslog-image/impulse_rsyslog_image.tar
-
-## let it pull the suricata container via docker because otherwise the agent tar becomes very big
-# if [[ $AGENT_TYPE == 'heavy' ]]; then	
-# 	docker load --input /opt/impulse/build/shared/docker/impulse_suricata_image.tar.gz
-# else 
-# 	echo "Continue.."
-# fi
+#docker load --input /opt/impulse/build/shared/rsyslog-image/impulse_rsyslog_image.tar
 
 ## managerd image 
 #docker load --input /opt/impulse/build/managerd_image/impulse_managerd_image.tar.gz
@@ -214,11 +207,6 @@ $PROJECT_ROOT_DIR/install_modules/shared/firewall.sh $SETUP_TYPE $IP_MANAGER $PA
 
 echo "Post-Installation Setup..."
 
-# if [[ $AGENT_TYPE == 'heavy' ]]; then
-# 	curl -i -X POST -H "Content-Type: application/json" --data '{"ip_addr":"'"$IP_HOST"'","manager_database":"'"$DB_NAME_MANAGER"'"}' http://127.0.0.1:5020/local-endpoint/fleet/register-manager
-# 	curl -i -X POST -H "Content-Type: application/json" --data '{"ip_addr":"'"$IP_HOST"'","agent_db":"'"$DB_NAME_MANAGER"'","alias":"manager"}' http://127.0.0.1:5020/local-endpoint/fleet/set-active-database
-# fi
-
 curl -i -X POST -H "Content-Type: application/json" --data '{"ip_addr":"'"$IP_HOST"'","manager_database":"'"$DB_NAME_MANAGER"'"}' http://127.0.0.1:5020/local-endpoint/fleet/register-manager
 curl -i -X POST -H "Content-Type: application/json" --data '{"ip_addr":"'"$IP_HOST"'","agent_db":"'"$DB_NAME_MANAGER"'","alias":"manager"}' http://127.0.0.1:5020/local-endpoint/fleet/set-active-database
 
@@ -226,7 +214,6 @@ curl -i -X POST -H "Content-Type: application/json" --data '{"os_type":"'"$OS_TY
 
 echo "Generate admin password for web interface..."
 WEB_INTERFACE_USERNAME="impulse"
-#WEB_INTERFACE_PASSWORD=$(openssl rand -base64 12)
 WEB_INTERFACE_PASSWORD=$(cat /dev/urandom | tr -dc 'a-zA-Z0-9' | fold -w 10 | head -n 1)
 
 curl -i -X POST -H "Content-Type: application/json" --data '{"username":"'$WEB_INTERFACE_USERNAME'", "email": "admin@localhost", "name": "impulse", "password":"'$WEB_INTERFACE_PASSWORD'", "user_type":"admin"}' http://127.0.0.1:5020/api/register
@@ -243,12 +230,24 @@ echo "https://"$IP_MANAGER":7001/"
 
 echo "" 
 echo "To stop, start or check manager status:" 
-echo "/opt/impulse/impulse-control stop/start/status" 
+echo "/opt/impulse/impulse-control.sh stop/start/status" 
 
 touch /var/impulse/data/manager/manager_creds.txt
 chmod 600 /var/impulse/data/manager/manager_creds.txt
 printf "username:"$WEB_INTERFACE_USERNAME >> /var/impulse/data/manager/manager_creds.txt
 printf "\npassword:"$WEB_INTERFACE_PASSWORD"\n" >> /var/impulse/data/manager/manager_creds.txt
+
+
+## make sure the interface is accessible 
+if [[ $PACKAGE_MGR = "deb" ]]; then
+	ufw allow 7001/tcp
+fi
+
+if [[ $PACKAGE_MGR = "rpm" ]]; then
+	firewall-cmd --permanent --add-port=7001/tcp
+fi 
+
+
 
 sleep 2
 /opt/impulse/impulse-control.sh status
