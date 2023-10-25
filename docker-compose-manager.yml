@@ -1,0 +1,170 @@
+version: "3" 
+services:
+
+  managerd:
+    build:
+      context: ./managerd
+      dockerfile: ./managerd.Dockerfile
+    image: impulse_managerd
+        
+    container_name: impulse-managerd
+    depends_on:
+      - message-broker
+      - postgres
+    privileged: true
+    network_mode: "host"
+    expose:
+        - "5020/tcp"   
+    cap_add:
+      - SYS_NICE  
+      - NET_ADMIN
+    user: root
+    environment:
+      - PYTHONUNBUFFERED=1    
+    volumes:
+      - /opt/impulse:/opt/impulse
+      - /var/impulse:/var/impulse
+      - /opt/osquery:/opt/osquery
+      - /etc/osquery:/etc/osquery
+
+      - /sys/fs/cgroup:/sys/fs/cgroup
+      - /bin/systemctl:/bin/systemctl 
+      - /run/systemd/system:/run/systemd/system
+      - /var/run/dbus/system_bus_socket:/var/run/dbus/system_bus_socket
+      - /usr/bin/docker:/usr/bin/docker
+      - /var/run/docker.sock:/var/run/docker.sock
+
+    restart: always    
+  
+
+  ###
+  ## Single worker for all queues
+  ###
+  bgtasks-general:
+    build:
+      context: ./managerd
+      dockerfile: ./managerd.Dockerfile
+    image: impulse_managerd
+
+    container_name: impulse-bgtasks-general
+    depends_on:
+      - message-broker
+      - managerd
+    command: /usr/local/bin/celery -A main.celery_app worker -Q general_tasks,iocs_tasks,nids_tasks -E --loglevel=DEBUG 
+    network_mode: "host"
+    volumes:
+      - /opt/impulse:/opt/impulse
+      - /var/impulse:/var/impulse
+      - /opt/impulse/build/deb_sec_tracker:/opt/impulse/build/deb_sec_tracker
+    restart: always
+
+  nginx-frontend:
+    image: 'nginx:alpine'
+    container_name: impulse-nginx-frontend
+    network_mode: "host"
+    expose:
+        - "7001"
+    volumes:
+      - /var/impulse/etc/nginx/impulse:/etc/nginx/conf.d/default.conf
+      - /var/impulse/etc/ssl/certs/impulse.crt:/etc/ssl/certs/impulse.crt
+      - /var/impulse/etc/ssl/private/impulse.key:/etc/ssl/private/impulse.key
+      - /opt/impulse/frontend/build:/opt/impulse/frontend/build
+    restart: always
+
+  postgres:
+    container_name: impulse-datastore
+    image: 'postgres:alpine'
+    ports:
+      - "127.0.0.1:7543:5432"
+    volumes:
+      - /var/impulse/data/postgresql:/var/lib/postgresql/data
+    cap_add:
+      - SYS_NICE 
+    environment:
+      - POSTGRES_PASSWORD=${IMPULSE_DB_SERVER_PWD}
+    restart: always
+
+  message-broker:
+    container_name: impulse-message-broker
+    image: 'redis:alpine'
+    volumes:
+      - /opt/impulse/build/deb_sec_tracker/deb_sec_tracker.json:/opt/impulse/build/deb_sec_tracker/deb_sec_tracker.json
+      - /tmp:/tmp   
+    cap_add:
+      - SYS_NICE  
+      - NET_ADMIN   
+    ports:
+      - "127.0.0.1:7637:6379"
+    restart: always
+    
+    
+  rsyslog:
+    #build: ./build/shared/rsyslog-container
+    #image: impulse/rsyslog
+    image: bgenev/impulse-rsyslog
+    container_name: impulse-indexer
+    network_mode: "host"
+    environment:
+      - POSTGRES_PASSWORD=${IMPULSE_DB_SERVER_PWD}
+    expose:
+        - "7514/tcp"   
+    cap_add:
+      - SYS_NICE  
+      - NET_ADMIN
+    volumes:
+      - /var/impulse/etc/rsyslog/rsyslog.conf:/etc/rsyslog.conf
+      - /var/impulse/data/rsyslog/spool:/var/spool/rsyslog
+      - /var/impulse/etc/rsyslog/ssl/ca-cert.pem:/etc/ssl/impulse/ca-cert.pem
+      - /var/impulse/etc/rsyslog/ssl/server-cert.pem:/etc/ssl/impulse/server-cert.pem
+      - /var/impulse/etc/rsyslog/ssl/server-key.pem:/etc/ssl/impulse/server-key.pem
+      - /var/impulse/etc/rsyslog/rsyslog.d:/etc/rsyslog.d
+      - /var/log/osquery:/var/log/osquery
+      - /var/impulse/log/suricata:/var/impulse/log/suricata
+      - /var/log/impulse:/var/log/impulse
+    restart: always
+
+
+
+
+  ###
+  ## Multiple workers
+  ###
+  # bgtasks-general:
+  #   image: impulse/managerd
+  #   container_name: impulse-bgtasks-general
+  #   depends_on:
+  #     - message-broker
+  #   command: /usr/local/bin/celery -A main.bgtasks.general.general_tasks worker -Q general_tasks -E --loglevel=DEBUG
+  #   network_mode: "host"
+  #   volumes:
+  #     - /opt/impulse:/opt/impulse
+  #     - /tmp/impulse:/tmp/impulse
+  #     - /var/impulse:/var/impulse
+  #     - /opt/impulse/build/deb_sec_tracker:/opt/impulse/build/deb_sec_tracker
+  #   restart: always
+
+  # bgtasks-iocs:
+  #   image: impulse/managerd
+  #   container_name: impulse-bgtasks-iocs
+  #   depends_on:
+  #     - message-broker
+  #   command: /usr/local/bin/celery -A main.bgtasks.iocs.iocs_tasks worker -Q iocs_tasks -E --loglevel=DEBUG
+  #   network_mode: "host"
+  #   volumes:
+  #     - /opt/impulse:/opt/impulse
+  #     - /tmp/impulse:/tmp/impulse
+  #     - /var/impulse:/var/impulse
+  #   restart: always
+
+  # bgtasks-nids:
+  #   image: impulse/managerd
+  #   container_name: impulse-bgtasks-nids
+  #   depends_on:
+  #     - message-broker
+  #   command: /usr/local/bin/celery -A main.bgtasks.nids.nids_tasks worker -Q nids_tasks -E --loglevel=DEBUG
+  #   network_mode: "host"
+  #   volumes:
+  #     - /opt/impulse:/opt/impulse
+  #     - /tmp/impulse:/tmp/impulse
+  #     - /var/impulse:/var/impulse
+  #   restart: always

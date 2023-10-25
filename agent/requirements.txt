@@ -1,0 +1,5 @@
+osquery
+grpcio==1.51.1
+grpcio-tools==1.51.1
+configparser
+PyJWT

@@ -1,0 +1,133 @@
+
+syntax = "proto3";
+
+package grpc_gateway;
+
+
+message RunOSqueryOnAgentRequest {
+    string osquery_query = 1; 
+}
+message RunOSqueryOnAgentResponse {
+    string osquery_results = 1; 
+}
+
+message FirewallManagementStateRequest {
+    string ips_list = 1;
+    string state_action = 2;
+   // string whitelisted_ips = 2;  
+}
+message FirewallManagementStateResponse {
+    string task_results = 1;  
+}
+
+message CheckAgentStatusRequest {
+    bool get_system_info = 1;
+}
+message CheckAgentStatusResponse {
+    string agent_status = 1;  
+    string system_info = 2; 
+}
+
+message InvalidSecretKeyResponse {
+    string err_message = 1;  
+}
+
+message DeployPackOnAgentRequest {
+    string pack_data = 1;
+    string filename = 2; 
+}
+message DeployPackOnAgentResponse {
+    bool pack_deployed_success = 1;
+    string pack_deployed_msg = 2;
+}
+
+message CoreOsqPackUpdateRequest {
+    string pack_data = 1;
+}
+message CoreOsqPackUpdateResponse {
+    int32 status = 1;
+    string result = 2;
+}
+
+message DeletePackOnAgentRequest {
+    string name = 1; 
+}
+message DeletePackOnAgentResponse {
+    int32 filesyst_pack_removal_status = 1;
+    string filesyst_pack_removal_msg = 2;
+}
+
+message TakeActionAgentRequest {
+    string indicator_name = 1; 
+    string target_param = 2;
+    string target_agent_ip = 3;
+}
+message TakeActionAgentResponse {
+    bool action_subprocess_success = 1;
+    string action_subprocess_msg = 2;
+    bool action_success_check = 3;
+}
+
+message CheckCanTakeActionAgentRequest {
+    string indicator_name = 1; 
+    string target_param = 2;
+    string target_agent_ip = 3;
+}
+message CheckCanTakeActionAgentResponse {
+    bool state = 1;
+    string msg = 2;
+}
+
+message ReceiveScaScanReqRequest {
+    string checks_dict = 1;
+}
+message ReceiveScaScanReqResponse {
+    string tests_results = 1;
+}
+
+message AgentSystemPostureRequest {
+    string syst_posture_queries = 1;
+}
+message AgentSystemPostureResponse {
+    string osquery_results = 1; 
+}
+
+message RunPolicyPackQueriesRequest {
+	//string pack_name = 1;
+	//string pack_queries = 2;
+    string deployed_packs = 1;
+}
+message RunPolicyPackQueriesResponse {
+    string report_results = 1; 
+}
+
+message GetServiceDataRequest {
+    string service_name = 1;
+}
+message GetServiceDataResponse {
+    string service_data = 1; 
+}
+
+message SuricataCustomRulesetSyncRequest {
+    string ruleset_data = 1;
+}
+message SuricataCustomRulesetSyncResponse {
+    bool status = 1;
+}
+
+
+service GrpcGateway {
+	rpc RunOSqueryOnAgent (RunOSqueryOnAgentRequest) returns (RunOSqueryOnAgentResponse);
+	rpc FirewallManagementState (FirewallManagementStateRequest) returns (FirewallManagementStateResponse);
+	rpc CheckAgentStatus (CheckAgentStatusRequest) returns (CheckAgentStatusResponse);
+	rpc DeployPackOnAgent (DeployPackOnAgentRequest) returns (DeployPackOnAgentResponse);
+	rpc CoreOsqPackUpdate (CoreOsqPackUpdateRequest) returns (CoreOsqPackUpdateResponse);
+	rpc DeletePackOnAgent (DeletePackOnAgentRequest) returns (DeletePackOnAgentResponse);
+	rpc TakeActionAgent (TakeActionAgentRequest) returns (TakeActionAgentResponse);    
+	rpc CheckCanTakeActionAgent (CheckCanTakeActionAgentRequest) returns (CheckCanTakeActionAgentResponse);
+	rpc ReceiveScaScanReq (ReceiveScaScanReqRequest) returns (ReceiveScaScanReqResponse);
+	rpc AgentSystemPosture (AgentSystemPostureRequest) returns (AgentSystemPostureResponse);
+	rpc RunPolicyPackQueries (RunPolicyPackQueriesRequest) returns (RunPolicyPackQueriesResponse);
+    rpc GetServiceData (GetServiceDataRequest) returns (GetServiceDataResponse);
+    rpc SuricataCustomRulesetSync (SuricataCustomRulesetSyncRequest) returns (SuricataCustomRulesetSyncResponse);
+}

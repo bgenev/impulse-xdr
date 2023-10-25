@@ -1,0 +1,20 @@
+version: "3"  # optional since v1.27.0
+#name: "impulse-agent"
+
+services:
+  rsyslog:
+    image: bgenev/impulse-rsyslog
+    container_name: impulse-indexer
+    network_mode: "host" 
+    cap_add:
+      - SYS_NICE  
+      - NET_ADMIN
+    volumes:
+      - /var/impulse/etc/rsyslog/rsyslog.conf:/etc/rsyslog.conf
+      - /var/impulse/data/rsyslog/spool:/var/spool/rsyslog
+      - /var/impulse/etc/rsyslog/ssl/ca-cert.pem:/etc/ssl/impulse/ca-cert.pem
+      - /var/impulse/etc/rsyslog/rsyslog.d:/etc/rsyslog.d
+      - /var/impulse/log/suricata:/var/impulse/log/suricata
+      - /var/log/osquery:/var/log/osquery
+    restart: always
+

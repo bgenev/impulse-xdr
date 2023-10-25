@@ -1,0 +1,1460 @@
+[
+    {
+        "indicator_name": "groups",
+        "table_title": "Groups",
+        "named_columns": [
+            "groupname",
+            "gid",
+            "gid_signed"
+        ],
+        "alert_columns": [
+            "groupname"
+        ],
+        "category": "users_and_authentication",
+        "description": "Groups added or removed",
+        "mitre_ref": [
+            "T1136",
+            "T1078"
+        ],
+        "score": 1
+    },
+    {
+        "indicator_name": "crontab",
+        "table_title": "Crontab",
+        "named_columns": [
+            "command",
+            "path"
+        ],
+        "alert_columns": [
+            "command"
+        ],
+        "category": "processes",
+        "description": "Crontabs added or removed",
+        "mitre_ref": [
+            "T1053.003"
+        ],
+        "score": 3
+    },
+    {
+        "indicator_name": "deb_packages",
+        "table_title": "Debian Packages",
+        "named_columns": [
+            "name",
+            "arch",
+            "revision",
+            "size",
+            "source",
+            "status",
+            "version"
+        ],
+        "alert_columns": [
+            "name"
+        ],
+        "category": "modules_and_packages",
+        "description": "Debian package events",
+        "mitre_ref": [
+            "T1072"
+        ],
+        "score": 0.5
+    },
+    {
+        "indicator_name": "nmap_installed",
+        "table_title": "Nmap Installed",
+        "named_columns": [
+            "name",
+            "arch",
+            "revision",
+            "size",
+            "source",
+            "status",
+            "version"
+        ],
+        "alert_columns": [
+            "name"
+        ],
+        "category": "installed_sec_tools",
+        "description": "nmap was installed",
+        "mitre_ref": [
+            "T1570",
+            "T1046"
+        ],
+        "score": 2
+    },
+    {
+        "indicator_name": "scapy_installed",
+        "table_title": "Scapy Installed",
+        "named_columns": [
+            "name",
+            "arch",
+            "revision",
+            "size",
+            "source",
+            "status",
+            "version"
+        ],
+        "alert_columns": [
+            "name"
+        ],
+        "category": "installed_sec_tools",
+        "description": "scapy was installed",
+        "mitre_ref": [
+            "T1570",
+            "T1046"
+        ],
+        "score": 2
+    },
+    {
+        "indicator_name": "netcat_installed",
+        "table_title": "Netcat Installed",
+        "named_columns": [
+            "name",
+            "arch",
+            "revision",
+            "size",
+            "source",
+            "status",
+            "version"
+        ],
+        "alert_columns": [
+            "name"
+        ],
+        "category": "installed_sec_tools",
+        "description": "netcat was installed",
+        "mitre_ref": [
+            "T1570",
+            "T1046"
+        ],
+        "score": 2
+    },
+    {
+        "indicator_name": "hping3_installed",
+        "table_title": "Hping3 Installed",
+        "named_columns": [
+            "name",
+            "arch",
+            "revision",
+            "size",
+            "source",
+            "status",
+            "version"
+        ],
+        "alert_columns": [
+            "name"
+        ],
+        "category": "installed_sec_tools",
+        "description": "hping3 was installed",
+        "mitre_ref": [
+            "T1570",
+            "T1046"
+        ],
+        "score": 2
+    },
+    {
+        "indicator_name": "dsniff_installed",
+        "table_title": "Dsniff Installed",
+        "named_columns": [
+            "name",
+            "arch",
+            "revision",
+            "size",
+            "source",
+            "status",
+            "version"
+        ],
+        "alert_columns": [
+            "name"
+        ],
+        "category": "installed_sec_tools",
+        "description": "dsniff was installed",
+        "mitre_ref": [
+            "T1570",
+            "T1046"
+        ],
+        "score": 2
+    },
+    {
+        "indicator_name": "nbtscan_installed",
+        "table_title": "nbtscan Installed",
+        "named_columns": [
+            "name",
+            "arch",
+            "revision",
+            "size",
+            "source",
+            "status",
+            "version"
+        ],
+        "alert_columns": [
+            "name"
+        ],
+        "category": "installed_sec_tools",
+        "description": "nbtscan was installed",
+        "mitre_ref": [
+            "T1570",
+            "T1046"
+        ],
+        "score": 2
+    },
+    {
+        "indicator_name": "tcpdump_installed",
+        "table_title": "Tcpdump Installed",
+        "named_columns": [
+            "name",
+            "arch",
+            "revision",
+            "size",
+            "source",
+            "status",
+            "version"
+        ],
+        "alert_columns": [
+            "name"
+        ],
+        "category": "installed_sec_tools",
+        "description": "tcpdump was installed",
+        "mitre_ref": [
+            "T1570",
+            "T1046",
+            "T1040"
+        ],
+        "score": 2
+    },
+    {
+        "indicator_name": "wireshark_installed",
+        "table_title": "Wireshark Installed",
+        "named_columns": [
+            "name",
+            "arch",
+            "revision",
+            "size",
+            "source",
+            "status",
+            "version"
+        ],
+        "alert_columns": [
+            "name"
+        ],
+        "category": "installed_sec_tools",
+        "description": "wireshark was installed",
+        "mitre_ref": [
+            "T1570",
+            "T1046",
+            "T1040"
+        ],
+        "score": 2
+    },
+    {
+        "indicator_name": "openssh_server_installed",
+        "table_title": "Openssh-server Installed",
+        "named_columns": [
+            "name",
+            "arch",
+            "revision",
+            "size",
+            "source",
+            "status",
+            "version"
+        ],
+        "alert_columns": [
+            "name"
+        ],
+        "category": "installed_sec_tools",
+        "description": "openssh_server was installed",
+        "mitre_ref": [
+            "T1021.004"
+        ],
+        "score": 2
+    },
+    {
+        "indicator_name": "dns_resolvers",
+        "table_title": "DNS Resolvers",
+        "named_columns": [
+            "address",
+            "type",
+            "id",
+            "netmask",
+            "options"
+        ],
+        "alert_columns": [
+            "address"
+        ],
+        "category": "network",
+        "description": "dns resolver was modified",
+        "mitre_ref": [],
+        "score": 0.5
+    },
+    {
+        "indicator_name": "etc_services",
+        "table_title": "ETC Services",
+        "named_columns": [
+            "name",
+            "port",
+            "comment",
+            "aliases",
+            "protocol"
+        ],
+        "alert_columns": [
+            "name",
+            "port"
+        ],
+        "category": "processes",
+        "description": "Etc service events",
+        "mitre_ref": [],
+        "score": 1
+    },
+    {
+        "indicator_name": "python_packages",
+        "table_title": "Installed Python Packages",
+        "named_columns": [
+            "name",
+            "version"
+        ],
+        "alert_columns": [
+            "name",
+            "version"
+        ],
+        "category": "modules_and_packages",
+        "description": "Python package was installed",
+        "mitre_ref": [
+            "T1059.006"
+        ],
+        "score": 1
+    },
+    {
+        "indicator_name": "last",
+        "table_title": "Last Login",
+        "named_columns": [
+            "username",
+            "host",
+            "pid",
+            "time_utc"
+        ],
+        "alert_columns": [
+            "username",
+            "host"
+        ],
+        "category": "users_and_authentication",
+        "description": "Logins to the system",
+        "mitre_ref": [
+            "T1078"
+        ],
+        "score": 7
+    },
+    {
+        "indicator_name": "kernel_modules",
+        "table_title": "Loaded Kernel Modules",
+        "named_columns": [
+            "name",
+            "used_by",
+            "status"
+        ],
+        "alert_columns": [
+            "name",
+            "used_by",
+            "status"
+        ],
+        "category": "modules_and_packages",
+        "description": "Kernel module modification",
+        "mitre_ref": [
+            "T1547.006"
+        ],
+        "score": 0.5
+    },
+    {
+        "indicator_name": "logged_users",
+        "table_title": "Logged Users",
+        "named_columns": [
+            "user",
+            "type",
+            "tty",
+            "host",
+            "pid",
+            "time"
+        ],
+        "alert_columns": [
+            "user",
+            "type"
+        ],
+        "category": "users_and_authentication",
+        "description": "Logged users event",
+        "mitre_ref": [
+            "T1136",
+            "T1078",
+            "T1169",
+            "T1563",
+            "T1021"
+        ],
+        "score": 2
+    },
+    {
+        "indicator_name": "listening_ports",
+        "table_title": "Open Ports",
+        "named_columns": [
+            "port",
+            "name",
+            "pid",
+            "address",
+            "cmdline",
+            "cwd"
+        ],
+        "alert_columns": [
+            "port",
+            "path"
+        ],
+        "category": "network",
+        "description": "A port was opened to the internet",
+        "mitre_ref": [
+            "T1029",
+            "T1505.003",
+            "T1011",
+            "T1041",
+            "T1048",
+            "T1020",
+            "T1071",
+            "T1219"
+        ],
+        "score": 2
+    },
+    {
+        "indicator_name": "nmap_scanner",
+        "table_title": "Nmap Scanner",
+        "named_columns": [
+            "name",
+            "path"
+        ],
+        "alert_columns": [
+            "name",
+            "path"
+        ],
+        "category": "processes",
+        "description": "Nmap scanner events",
+        "mitre_ref": [
+            "T1423",
+            "TA0010"
+        ],
+        "score": 1
+    },
+    {
+        "indicator_name": "scp_secure_copy",
+        "table_title": "SCP Secure Copy",
+        "named_columns": [
+            "name",
+            "cmdline"
+        ],
+        "alert_columns": [
+            "name",
+            "cmdline"
+        ],
+        "category": "data_exfiltration",
+        "description": "SCP data exfiltration event",
+        "mitre_ref": [
+            "T1105",
+            "TA0010"
+        ],
+        "score": 10
+    },
+    {
+        "indicator_name": "ftp_process",
+        "table_title": "FTP Process",
+        "named_columns": [
+            "name",
+            "cmdline"
+        ],
+        "alert_columns": [
+            "name",
+            "cmdline"
+        ],
+        "category": "data_exfiltration",
+        "description": "FTP process started",
+        "mitre_ref": [
+            "T1105",
+            "TA0010"
+        ],
+        "score": 2
+    },
+    {
+        "indicator_name": "netcat_listener",
+        "table_title": "Netcat Listener",
+        "named_columns": [
+            "name",
+            "cmdline"
+        ],
+        "alert_columns": [
+            "name",
+            "cmdline"
+        ],
+        "category": "data_exfiltration",
+        "description": "Netcat server started",
+        "mitre_ref": [
+            "T1049",
+            "TA0010"
+        ],
+        "score": 2
+    },
+    {
+        "indicator_name": "busybox_server",
+        "table_title": "Busybox Server",
+        "named_columns": [
+            "name",
+            "cmdline"
+        ],
+        "alert_columns": [
+            "name",
+            "cmdline"
+        ],
+        "category": "data_exfiltration",
+        "description": "busybox server started",
+        "mitre_ref": [
+            "TA0010"
+        ],
+        "score": 1
+    },
+    {
+        "indicator_name": "ruby_server",
+        "table_title": "Ruby Server",
+        "named_columns": [
+            "name",
+            "cmdline"
+        ],
+        "alert_columns": [
+            "name",
+            "cmdline"
+        ],
+        "category": "data_exfiltration",
+        "description": "Ruby server started",
+        "mitre_ref": [
+            "TA0010"
+        ],
+        "score": 1
+    },
+    {
+        "indicator_name": "php_server",
+        "table_title": "PHP Server",
+        "named_columns": [
+            "name",
+            "cmdline"
+        ],
+        "alert_columns": [
+            "name",
+            "cmdline"
+        ],
+        "category": "data_exfiltration",
+        "description": "PHP server started",
+        "mitre_ref": [
+            "TA0010"
+        ],
+        "score": 1
+    },
+    {
+        "indicator_name": "python_server",
+        "table_title": "Python Server",
+        "named_columns": [
+            "name",
+            "cmdline"
+        ],
+        "alert_columns": [
+            "name",
+            "cmdline"
+        ],
+        "category": "data_exfiltration",
+        "description": "Python server started",
+        "mitre_ref": [
+            "TA0010"
+        ],
+        "score": 1
+    },
+    {
+        "indicator_name": "openssl_exfiltration",
+        "table_title": "OpenSSL Exfiltration",
+        "named_columns": [
+            "name",
+            "cmdline"
+        ],
+        "alert_columns": [
+            "name",
+            "cmdline"
+        ],
+        "category": "data_exfiltration",
+        "description": "Possible OpenSSL exfiltration",
+        "mitre_ref": [
+            "TA0010"
+        ],
+        "score": 1
+    },
+    {
+        "indicator_name": "cancel_exfiltration",
+        "table_title": "Cancel Exfiltration",
+        "named_columns": [
+            "name",
+            "cmdline"
+        ],
+        "alert_columns": [
+            "name",
+            "cmdline"
+        ],
+        "category": "data_exfiltration",
+        "description": "Possible cancel exfiltration",
+        "mitre_ref": [
+            "TA0010"
+        ],
+        "score": 1
+    },
+    {
+        "indicator_name": "wget_exfiltration",
+        "table_title": "Wget Exfiltration",
+        "named_columns": [
+            "name",
+            "cmdline"
+        ],
+        "alert_columns": [
+            "name",
+            "cmdline"
+        ],
+        "category": "data_exfiltration",
+        "description": "Possible Wget exfiltration",
+        "mitre_ref": [
+            "TA0010"
+        ],
+        "score": 1
+    },
+    {
+        "indicator_name": "whois_exfiltration",
+        "table_title": "Whois Exfiltration",
+        "named_columns": [
+            "name",
+            "cmdline"
+        ],
+        "alert_columns": [
+            "name",
+            "cmdline"
+        ],
+        "category": "data_exfiltration",
+        "description": "Possible Whois exfiltration",
+        "mitre_ref": [
+            "TA0010"
+        ],
+        "score": 1
+    },
+    {
+        "indicator_name": "bash_exfiltration",
+        "table_title": "Bash Exfiltration",
+        "named_columns": [
+            "name",
+            "cmdline"
+        ],
+        "alert_columns": [
+            "name",
+            "cmdline"
+        ],
+        "category": "data_exfiltration",
+        "description": "Possible bash exfiltration",
+        "mitre_ref": [
+            "TA0010"
+        ],
+        "score": 1
+    },
+    {
+        "indicator_name": "curl_exfiltration",
+        "table_title": "Curl Exfiltration",
+        "named_columns": [
+            "name",
+            "cmdline"
+        ],
+        "alert_columns": [
+            "name",
+            "cmdline"
+        ],
+        "category": "data_exfiltration",
+        "description": "Possible curl exfiltration",
+        "mitre_ref": [
+            "TA0010"
+        ],
+        "score": 1
+    },
+    {
+        "indicator_name": "dns_exfiltration",
+        "table_title": "DNS Exfiltration",
+        "named_columns": [
+            "name",
+            "cmdline"
+        ],
+        "alert_columns": [
+            "name",
+            "cmdline"
+        ],
+        "category": "data_exfiltration",
+        "description": "Possible dns exfiltration",
+        "mitre_ref": [
+            "TA0010"
+        ],
+        "score": 1
+    },
+    {
+        "indicator_name": "tar_archive_created",
+        "table_title": "Tar Archive Created",
+        "named_columns": [
+            "name",
+            "cmdline"
+        ],
+        "alert_columns": [
+            "name",
+            "cmdline"
+        ],
+        "category": "data_exfiltration",
+        "description": "Tar archive created",
+        "mitre_ref": [
+            "TA0010"
+        ],
+        "score": 5
+    },
+    {
+        "indicator_name": "wget_file_download",
+        "table_title": "Wget Download",
+        "named_columns": [
+            "name",
+            "cmdline"
+        ],
+        "alert_columns": [
+            "name",
+            "cmdline"
+        ],
+        "category": "file_download",
+        "description": "File was downloaded with wget",
+        "mitre_ref": [
+            "T1105"
+        ],
+        "score": 1
+    },
+    {
+        "indicator_name": "curl_file_download",
+        "table_title": "Curl Download",
+        "named_columns": [
+            "name",
+            "cmdline"
+        ],
+        "alert_columns": [
+            "name",
+            "cmdline"
+        ],
+        "category": "file_download",
+        "description": "File was downloaded with curl",
+        "mitre_ref": [
+            "T1105"
+        ],
+        "score": 1
+    },
+    {
+        "indicator_name": "processes_deleted_binary",
+        "table_title": "Processes with Deleted Binary",
+        "named_columns": [
+            "pid",
+            "name",
+            "path"
+        ],
+        "alert_columns": [
+            "pid",
+            "name"
+        ],
+        "category": "processes",
+        "description": "Process binary was deleted",
+        "mitre_ref": [
+            "T1070"
+        ],
+        "score": 2
+    },
+    {
+        "indicator_name": "root_owned_ps",
+        "table_title": "Root Owned Processes",
+        "named_columns": [
+            "pid",
+            "local_port",
+            "remote_address",
+            "remote_port",
+            "uid"
+        ],
+        "alert_columns": [
+            "pid"
+        ],
+        "category": "processes",
+        "description": "Root owned processes",
+        "mitre_ref": [
+            "T1548"
+        ],
+        "score": 2
+    },
+    {
+        "indicator_name": "suid_bin",
+        "table_title": "SUID Bin Processes",
+        "named_columns": [
+            "username",
+            "groupname",
+            "permissions",
+            "path"
+        ],
+        "alert_columns": [
+            "username",
+            "groupname",
+            "path"
+        ],
+        "category": "processes",
+        "description": "Suid owned processes",
+        "mitre_ref": [
+            "T1548",
+            "T1548.001"
+        ],
+        "score": 2
+    },
+    {
+        "indicator_name": "users",
+        "table_title": "Users",
+        "named_columns": [
+            "username",
+            "uid",
+            "description",
+            "directory",
+            "gid",
+            "gid_signed",
+            "shell",
+            "uid_signed"
+        ],
+        "alert_columns": [
+            "username",
+            "uid"
+        ],
+        "category": "users_and_authentication",
+        "description": "User events",
+        "mitre_ref": [
+            "T1136.001",
+            "T1078"
+        ],
+        "score": 3
+    },
+    {
+        "indicator_name": "shell_history",
+        "table_title": "Shell History",
+        "named_columns": [
+            "username",
+            "command"
+        ],
+        "alert_columns": [
+            "command"
+        ],
+        "category": "users_and_authentication",
+        "description": "Shell history commands",
+        "mitre_ref": [
+            "T1059.004"
+        ],
+        "score": 0.1
+    },
+    {
+        "indicator_name": "shell_history_root",
+        "table_title": "Root Shell History",
+        "named_columns": [
+            "command",
+            "history_file"
+        ],
+        "alert_columns": [
+            "command"
+        ],
+        "category": "users_and_authentication",
+        "description": "Shell history root commands",
+        "mitre_ref": [
+            "T1059.004"
+        ],
+        "score": 0.1
+    },
+    {
+        "indicator_name": "etc_shadow_ps_event",
+        "table_title": "Etc shadow",
+        "named_columns": [
+            "name",
+            "cmdline"
+        ],
+        "alert_columns": [
+            "name",
+            "cmdline"
+        ],
+        "category": "file_download",
+        "description": "Etc shadow",
+        "mitre_ref": [
+            "T1136"
+        ],
+        "score": 1.0
+    },
+    {
+        "indicator_name": "linux_sudoers",
+        "table_title": "Sudoers",
+        "named_columns": [
+            "header",
+            "source",
+            "rule_details"
+        ],
+        "alert_columns": [
+            "header"
+        ],
+        "category": "users_and_authentication",
+        "description": "Sudoers modification",
+        "mitre_ref": [
+            "T1548"
+        ],
+        "score": 0.5
+    },
+    {
+        "indicator_name": "linux_sudoers_shell",
+        "table_title": "Sudoers Shell",
+        "named_columns": [
+            "pid",
+            "name"
+        ],
+        "alert_columns": [
+            "pid"
+        ],
+        "category": "users_and_authentication",
+        "description": "Sudoers shell event",
+        "mitre_ref": [
+            "T1548"
+        ],
+        "score": 1
+    },
+    {
+        "indicator_name": "linux_sudoers_sha1",
+        "table_title": "Sudoers Sha1",
+        "named_columns": [
+            "sha1",
+            "path",
+            "filename"
+        ],
+        "alert_columns": [
+            "filename"
+        ],
+        "category": "users_and_authentication",
+        "description": "Sudoers shell event (sha1)",
+        "mitre_ref": [
+            "T1548"
+        ],
+        "score": 1
+    },
+    {
+        "indicator_name": "linux_mounts",
+        "table_title": "Linux Mounts",
+        "named_columns": [
+            "device",
+            "flags",
+            "path"
+        ],
+        "alert_columns": [
+            "path"
+        ],
+        "category": "files_and_folders",
+        "description": "Mounts",
+        "mitre_ref": [
+            "T1052"
+        ],
+        "score": 0.5
+    },
+    {
+        "indicator_name": "usb_devices",
+        "table_title": "USB Devices",
+        "named_columns": [
+            "vendor",
+            "model"
+        ],
+        "alert_columns": [
+            "model"
+        ],
+        "category": "files_and_folders",
+        "description": "USB devices detected",
+        "mitre_ref": [
+            "T1052"
+        ],
+        "score": 0.5
+    },
+    {
+        "indicator_name": "hidden_files",
+        "table_title": "Hidden Files",
+        "named_columns": [
+            "path",
+            "filename"
+        ],
+        "alert_columns": [
+            "filename"
+        ],
+        "category": "files_and_folders",
+        "description": "Hidden file",
+        "mitre_ref": [
+            "T1564",
+            "T1564.001"
+        ],
+        "score": 0.5
+    },
+    {
+        "indicator_name": "hidden_directories",
+        "table_title": "Hidden Directories",
+        "named_columns": [
+            "path",
+            "filename"
+        ],
+        "alert_columns": [
+            "filename"
+        ],
+        "category": "files_and_folders",
+        "description": "Hidden directory",
+        "mitre_ref": [
+            "T1564",
+            "T1564.001"
+        ],
+        "score": 1
+    },
+    {
+        "indicator_name": "linux_process_listening_port",
+        "table_title": "Listening Ports",
+        "named_columns": [
+            "name",
+            "path",
+            "port",
+            "address"
+        ],
+        "alert_columns": [
+            "port"
+        ],
+        "category": "network",
+        "description": "Port was opened to the internet",
+        "mitre_ref": [
+            "T1205.001",
+            "T1571",
+            "T0885"
+        ],
+        "score": 1
+    },
+    {
+        "indicator_name": "linux_shell_check",
+        "table_title": "Shell Check",
+        "named_columns": [
+            "pid",
+            "parent",
+            "name"
+        ],
+        "alert_columns": [
+            "pid"
+        ],
+        "category": "processes",
+        "description": "Shell Check",
+        "mitre_ref": [
+            "T1548"
+        ],
+        "score": 0.5
+    },
+    {
+        "indicator_name": "processes",
+        "table_title": "Processes",
+        "named_columns": [
+            "name",
+            "cmdline"
+        ],
+        "alert_columns": [
+            "cmdline",
+            "name"
+        ],
+        "category": "processes",
+        "description": "Process events",
+        "mitre_ref": [
+            "T1057"
+        ],
+        "score": 1
+    },
+    {
+        "indicator_name": "nmap_process",
+        "table_title": "Nmap Process",
+        "named_columns": [
+            "name",
+            "cmdline"
+        ],
+        "alert_columns": [
+            "name",
+            "cmdline"
+        ],
+        "category": "processes",
+        "description": "NMAP processes",
+        "mitre_ref": [
+            "T1423",
+            "TA0010"
+        ],
+        "score": 1
+    },
+    {
+        "indicator_name": "apt_sources",
+        "table_title": "Apt Sources",
+        "named_columns": [
+            "name",
+            "release",
+            "source"
+        ],
+        "alert_columns": [
+            "name"
+        ],
+        "category": "modules_and_packages",
+        "description": "Apt sources modified",
+        "mitre_ref": [
+            "T1222"
+        ],
+        "score": 1
+    },
+    {
+        "indicator_name": "behavioral_reverse_shell",
+        "table_title": "Behavioral Reverse Shell",
+        "named_columns": [
+            "pid",
+            "name",
+            "path"
+        ],
+        "alert_columns": [
+            "pid"
+        ],
+        "category": "processes",
+        "description": "Behavioral reverse shell detected",
+        "mitre_ref": [
+            "T1505.003"
+        ],
+        "score": 2
+    },
+    {
+        "indicator_name": "etc_hosts",
+        "table_title": "ETC Hosts",
+        "named_columns": [
+            "address",
+            "hostnames"
+        ],
+        "alert_columns": [
+            "hostnames"
+        ],
+        "category": "network",
+        "description": "Etc hosts modified",
+        "mitre_ref": [
+            "T1136"
+        ],
+        "score": 0.5
+    },
+    {
+        "indicator_name": "iptables",
+        "table_title": "IPtables",
+        "named_columns": [
+            "filtername",
+            "chain",
+            "policy"
+        ],
+        "alert_columns": [
+            "filtername"
+        ],
+        "category": "network",
+        "description": "IPtables modified",
+        "mitre_ref": [
+            "T1562",
+            "T1562.004"
+        ],
+        "score": 1
+    },
+    {
+        "indicator_name": "ld_preload",
+        "table_title": "LD Preload",
+        "named_columns": [
+            "pid",
+            "key",
+            "value",
+            "name"
+        ],
+        "alert_columns": [
+            "pid",
+            "name",
+            "value"
+        ],
+        "category": "processes",
+        "description": "LD preload events",
+        "mitre_ref": [
+            "T1136",
+            "T1574.006"
+        ],
+        "score": 0.5
+    },
+    {
+        "indicator_name": "load_average",
+        "table_title": "High Load",
+        "named_columns": [
+            "average",
+            "period"
+        ],
+        "alert_columns": [
+            "average",
+            "period"
+        ],
+        "category": "processes",
+        "description": "High CPU average detected over the last 15 min",
+        "mitre_ref": [
+            "T1496"
+        ],
+        "score": 0.5
+    },
+    {
+        "indicator_name": "interface_addresses",
+        "table_title": "Network Interfaces",
+        "named_columns": [
+            "interface",
+            "address",
+            "mac"
+        ],
+        "alert_columns": [
+            "interface"
+        ],
+        "category": "network",
+        "description": "Network interfaces event",
+        "mitre_ref": [
+            "T1040"
+        ],
+        "score": 0.5
+    },
+    {
+        "indicator_name": "active_connections",
+        "table_title": "Active Connections",
+        "named_columns": [
+            "name",
+            "remote_address",
+            "remote_port"
+        ],
+        "alert_columns": [
+            "path",
+            "remote_address",
+            "remote_port"
+        ],
+        "category": "network",
+        "description": "Active connections to remote host",
+        "mitre_ref": [
+            "T1210",
+            "T1021"
+        ],
+        "score": 2
+    },
+    {
+        "indicator_name": "process_open_sockets",
+        "table_title": "Process Open Sockets",
+        "named_columns": [
+            "name",
+            "remote_address",
+            "remote_port"
+        ],
+        "alert_columns": [
+            "path",
+            "remote_address",
+            "remote_port"
+        ],
+        "category": "network",
+        "description": "Open sockets to remote host",
+        "mitre_ref": [
+            "T1210",
+            "T1021"
+        ],
+        "score": 2
+    },
+    {
+        "indicator_name": "socket_events",
+        "table_title": "Socket Events",
+        "named_columns": [
+            "action",
+            "local_address",
+            "local_port",
+            "path",
+            "pid",
+            "remote_address",
+            "remote_port"
+        ],
+        "alert_columns": [
+            "remote_address",
+            "remote_port",
+            "path"
+        ],
+        "category": "network",
+        "description": "Socket events to remote host",
+        "mitre_ref": [
+            "T1210",
+            "T1021"
+        ],
+        "score": 0.5
+    },
+    {
+        "indicator_name": "file_events",
+        "table_title": "File Integrity Monitoring",
+        "named_columns": [
+            "target_path"
+        ],
+        "alert_columns": [
+            "target_path"
+        ],
+        "category": "files_and_folders",
+        "description": "File event",
+        "mitre_ref": [
+            "T1222",
+            "T1070.004"
+        ],
+        "score": 0.5
+    },
+    {
+        "indicator_name": "critical_binary_modified",
+        "table_title": "Critical Binaries",
+        "named_columns": [
+            "target_path",
+            "category",
+            "action"
+        ],
+        "alert_columns": [
+            "target_path",
+            "category",
+            "action"
+        ],
+        "category": "files_and_folders",
+        "description": "Critical binary modified",
+        "mitre_ref": [
+            "T1645"
+        ],
+        "score": 1
+    },
+    {
+        "indicator_name": "etc_confing_file_modified",
+        "table_title": "Etc Config",
+        "named_columns": [
+            "target_path",
+            "category",
+            "action"
+        ],
+        "alert_columns": [
+            "target_path",
+            "category",
+            "action"
+        ],
+        "category": "files_and_folders",
+        "description": "Etc config file modified",
+        "mitre_ref": [
+            "T1222"
+        ],
+        "score": 1
+    },
+    {
+        "indicator_name": "ssl_certificate_modified",
+        "table_title": "SSL Certificates",
+        "named_columns": [
+            "target_path",
+            "category",
+            "action"
+        ],
+        "alert_columns": [
+            "target_path",
+            "category",
+            "action"
+        ],
+        "category": "users_and_authentication",
+        "description": "SSL certificate file modified",
+        "mitre_ref": [
+            "T1222",
+            "T1608.003"
+        ],
+        "score": 1
+    },
+    {
+        "indicator_name": "ssh_config_modified",
+        "table_title": "SSH Config",
+        "named_columns": [
+            "target_path",
+            "category",
+            "action"
+        ],
+        "alert_columns": [
+            "target_path",
+            "category",
+            "action"
+        ],
+        "category": "users_and_authentication",
+        "description": "SSH config file modified",
+        "mitre_ref": [
+            "T1098"
+        ],
+        "score": 1
+    },
+    {
+        "indicator_name": "systemd_service_modified",
+        "table_title": "Systemd Service",
+        "named_columns": [
+            "target_path",
+            "category",
+            "action"
+        ],
+        "alert_columns": [
+            "target_path",
+            "category",
+            "action"
+        ],
+        "category": "files_and_folders",
+        "description": "Evironment file modified",
+        "mitre_ref": [
+            "T1543.002"
+        ],
+        "score": 1
+    },
+    {
+        "indicator_name": "sudoers_file_modified",
+        "table_title": "Sudoers File",
+        "named_columns": [
+            "target_path",
+            "category"
+        ],
+        "alert_columns": [
+            "target_path",
+            "category",
+            "action"
+        ],
+        "category": "users_and_authentication",
+        "description": "Sudoers file modified",
+        "mitre_ref": [
+            "T1136",
+            "T1548",
+            "T1548.003"
+        ],
+        "score": 1
+    },
+    {
+        "indicator_name": "bashrc_profile_modified",
+        "table_title": "Bashrc Profile",
+        "named_columns": [
+            "target_path",
+            "category",
+            "action"
+        ],
+        "alert_columns": [
+            "target_path",
+            "category",
+            "action"
+        ],
+        "category": "users_and_authentication",
+        "description": "Bashrc profile modified",
+        "mitre_ref": [
+            "T1548.003",
+            "T1546.004"
+        ],
+        "score": 1
+    },
+    {
+        "indicator_name": "startup_items",
+        "table_title": "Systemd service",
+        "named_columns": [
+            "name",
+            "path",
+            "source"
+        ],
+        "alert_columns": [
+            "name",
+            "path"
+        ],
+        "category": "processes",
+        "description": "Systemd services",
+        "mitre_ref": [
+            "T1543.002"
+        ],
+        "score": 1
+    }
+]

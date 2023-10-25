@@ -1,0 +1,2 @@
+#alert ip any any -> $HOME_NET any (msg:"IP rule check test 21!!!"; sid:1990111; rev:1;)
+#alert tcp $EXTERNAL_NET any -> $HOME_NET 22 (msg:"SSH incoming test!!!"; flow:stateless; flags:S+; sid:100006927; rev:1;)

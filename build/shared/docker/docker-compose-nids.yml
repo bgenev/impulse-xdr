@@ -1,0 +1,18 @@
+version: "3" 
+
+services:
+  suricata:
+    container_name: impulse-suricata
+    image: 'jasonish/suricata:latest'
+    network_mode: "host"
+    cap_add:
+      - SYS_NICE  
+      - NET_ADMIN
+    volumes:
+      - /var/impulse/etc/suricata:/etc/suricata
+      - /var/impulse/lib/suricata:/var/lib/suricata
+      - /var/impulse/log/suricata:/var/log/suricata
+    command: '-i ${HOST_INTERFACE} -F /etc/suricata/capture-filter.bpf' ## IDS mode
+    #command: '-q 0 -q 1 -F /etc/suricata/capture-filter.bpf' ## IPS mode
+    restart: always
+

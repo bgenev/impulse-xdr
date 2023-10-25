@@ -1,0 +1,1 @@
+not (dst host 192.168.30.37 and dst port 5020)
