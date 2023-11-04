@@ -355,7 +355,7 @@ class WhitelistedIps(db.Model):
 	__tablename__ = 'whitelisted_ips'
 	__bind_key__ = 'impulse_manager'
 	id = db.Column(db.Integer, primary_key=True)
-	ip_addr = db.Column(db.String(100))
+	ip_addr = db.Column( db.String(20), unique=True )
 	whitelisted_status = db.Column(db.Boolean, default=True)
 	created_on = db.Column( db.DateTime(), server_default=db.func.now())
 

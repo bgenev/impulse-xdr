@@ -6,6 +6,8 @@ services:
       context: ./managerd
       dockerfile: ./managerd.Dockerfile
     image: impulse_managerd
+
+    # image: bgenev/impulse-managerd
         
     container_name: impulse-managerd
     depends_on:

@@ -4,6 +4,9 @@ set -e
 OS_TYPE=$1
 PYTH_USE_SYST_VER=$2
 
+SETUP_TYPE=$3
+AGENT_TYPE=$4
+
 
 ### Python3 syst or build 
 
@@ -55,63 +58,67 @@ fi
 #### Docker install  
 ###############################################
 
-if [ -x "$(command -v docker)" ]; then
-    echo "Docker already installed."
-else
-    echo "Install docker..."
+if [[ $SETUP_TYPE = "manager" || $AGENT_TYPE = "heavy" ]]; then
 
-	if [[ $OS_TYPE = "ubuntu" ]]; then
-		## Ubuntu 
-		DEBIAN_FRONTEND=noninteractive apt -y install apt-transport-https ca-certificates curl gnupg lsb-release
-		curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /usr/share/keyrings/docker-archive-keyring.gpg
-		echo "deb [arch=amd64 signed-by=/usr/share/keyrings/docker-archive-keyring.gpg] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
-		DEBIAN_FRONTEND=noninteractive apt update -y
-		DEBIAN_FRONTEND=noninteractive apt install -y docker-ce docker-ce-cli containerd.io -y
-	fi
+    if [ -x "$(command -v docker)" ]; then
+        echo "Docker already installed."
+    else
+        echo "Install docker..."
 
-	if [[ $OS_TYPE = "linuxmint" ]]; then
-		## Mint 
-        DEBIAN_FRONTEND=noninteractive apt update -y
-        apt -y install apt-transport-https ca-certificates curl software-properties-common
-        curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /usr/share/keyrings/docker-archive-keyring.gpg
-        echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/docker-archive-keyring.gpg] https://download.docker.com/linux/ubuntu jammy stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
-        DEBIAN_FRONTEND=noninteractive apt update -y
-        DEBIAN_FRONTEND=noninteractive apt install -y docker-ce docker-ce-cli containerd.io docker-compose-plugin
-	fi
+        if [[ $OS_TYPE = "ubuntu" ]]; then
+            ## Ubuntu 
+            DEBIAN_FRONTEND=noninteractive apt -y install apt-transport-https ca-certificates curl gnupg lsb-release
+            curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /usr/share/keyrings/docker-archive-keyring.gpg
+            echo "deb [arch=amd64 signed-by=/usr/share/keyrings/docker-archive-keyring.gpg] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
+            DEBIAN_FRONTEND=noninteractive apt update -y
+            DEBIAN_FRONTEND=noninteractive apt install -y docker-ce docker-ce-cli containerd.io -y
+        fi
 
-	if [[ $OS_TYPE = "debian" ]]; then
-		## Debian 
-		DEBIAN_FRONTEND=noninteractive apt install -y apt-transport-https ca-certificates curl gnupg lsb-release
-		curl -fsSL https://download.docker.com/linux/debian/gpg | sudo gpg --dearmor -o /usr/share/keyrings/docker-archive-keyring.gpg
-		echo "deb [arch=amd64 signed-by=/usr/share/keyrings/docker-archive-keyring.gpg] https://download.docker.com/linux/debian $(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
-		DEBIAN_FRONTEND=noninteractive apt update -y 
-		DEBIAN_FRONTEND=noninteractive apt install docker-ce docker-ce-cli containerd.io -y 
-	fi
+        if [[ $OS_TYPE = "linuxmint" ]]; then
+            ## Mint 
+            DEBIAN_FRONTEND=noninteractive apt update -y
+            apt -y install apt-transport-https ca-certificates curl software-properties-common
+            curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /usr/share/keyrings/docker-archive-keyring.gpg
+            echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/docker-archive-keyring.gpg] https://download.docker.com/linux/ubuntu jammy stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
+            DEBIAN_FRONTEND=noninteractive apt update -y
+            DEBIAN_FRONTEND=noninteractive apt install -y docker-ce docker-ce-cli containerd.io docker-compose-plugin
+        fi
 
-	if [[ $OS_TYPE = "centos" ]]; then
-		## CentOS 
-		yum install -y yum-utils
-		yum-config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo
-		yum install -y docker-ce docker-ce-cli containerd.io
-	fi
+        if [[ $OS_TYPE = "debian" ]]; then
+            ## Debian 
+            DEBIAN_FRONTEND=noninteractive apt install -y apt-transport-https ca-certificates curl gnupg lsb-release
+            curl -fsSL https://download.docker.com/linux/debian/gpg | sudo gpg --dearmor -o /usr/share/keyrings/docker-archive-keyring.gpg
+            echo "deb [arch=amd64 signed-by=/usr/share/keyrings/docker-archive-keyring.gpg] https://download.docker.com/linux/debian $(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
+            DEBIAN_FRONTEND=noninteractive apt update -y 
+            DEBIAN_FRONTEND=noninteractive apt install docker-ce docker-ce-cli containerd.io -y 
+        fi
 
-	if [[ $OS_TYPE = "fedora" ]]; then
-		## Fedora 
-        dnf -y install dnf-plugins-core
-        dnf -y config-manager --add-repo https://download.docker.com/linux/fedora/docker-ce.repo  
-        dnf -y install docker-ce docker-ce-cli containerd.io docker-compose-plugin      
-	fi
+        if [[ $OS_TYPE = "centos" ]]; then
+            ## CentOS 
+            yum install -y yum-utils
+            yum-config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo
+            yum install -y docker-ce docker-ce-cli containerd.io
+        fi
+
+        if [[ $OS_TYPE = "fedora" ]]; then
+            ## Fedora 
+            dnf -y install dnf-plugins-core
+            dnf -y config-manager --add-repo https://download.docker.com/linux/fedora/docker-ce.repo  
+            dnf -y install docker-ce docker-ce-cli containerd.io docker-compose-plugin      
+        fi
+    fi
+
+    systemctl start docker
+    systemctl enable docker
+
+    # if [ -x "$(command -v docker-compose)" ]; then
+    #     echo "Docker-compose already installed."
+    # else
+    #     echo "Install docker-compose..."
+    #     curl -L "https://github.com/docker/compose/releases/download/1.29.0/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
+    #     chmod +x /usr/local/bin/docker-compose
+    # fi
+
+fi 
 
 
-fi
-
-systemctl start docker
-systemctl enable docker
-
-if [ -x "$(command -v docker-compose)" ]; then
-    echo "Docker-compose already installed."
-else
-    echo "Install docker-compose..."
-	curl -L "https://github.com/docker/compose/releases/download/1.29.0/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
-	chmod +x /usr/local/bin/docker-compose
-fi

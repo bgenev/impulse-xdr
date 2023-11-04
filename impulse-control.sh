@@ -11,7 +11,6 @@ AGENT_TYPE=$(awk -F "=" '/AGENT_TYPE/ {print $2}' impulse.conf | tr -d ' ')
 if [[ $SYST_STATE == 'stop' ]]
 then
 	echo "Stop and deactivate Impulse..."
-	#docker-compose down
 	
 	systemctl stop impulse-manager impulse-nids impulse-auxiliary osqueryd # impulse-main impulse-bgtasks
 	systemctl disable osqueryd impulse-manager impulse-nids impulse-auxiliary # impulse-main impulse-bgtasks
@@ -32,32 +31,6 @@ then
 	systemctl enable osqueryd impulse-manager impulse-nids impulse-auxiliary # impulse-main impulse-bgtasks
 
 	# check if nids caps enabled and only then start the impulse-nids service
-	if [[ $NIDS_ENABLED == 'true' && $AGENT_TYPE == 'heavy' ]]; then
-		systemctl start impulse-nids
-		systemctl enable impulse-nids
-	else 
-		echo "NIDS caps are disabled."
-	fi
-
-elif [[ $SYST_STATE == 'restart' ]]
-then
-	echo "Restarting Impulse, please wait..."
-	systemctl restart docker 
-	systemctl stop impulse-manager impulse-auxiliary osqueryd # impulse-main impulse-bgtasks
-	systemctl disable osqueryd impulse-manager impulse-auxiliary # impulse-main impulse-bgtasks
-	
-	if [[ $NIDS_ENABLED == 'true' && $AGENT_TYPE == 'heavy' ]]; then
-		systemctl stop impulse-nids
-		systemctl disable impulse-nids
-	else 
-		echo "NIDS caps are disabled."
-	fi
-
-	sleep 1
-	
-	systemctl start impulse-manager impulse-auxiliary osqueryd # vimpulse-main impulse-bgtasks
-	systemctl enable osqueryd impulse-manager impulse-auxiliary # impulse-main impulse-bgtasks
-	
 	if [[ $NIDS_ENABLED == 'true' && $AGENT_TYPE == 'heavy' ]]; then
 		systemctl start impulse-nids
 		systemctl enable impulse-nids
@@ -106,9 +79,8 @@ then
 	printf "\n\n "
 	printf "Manager Services \n\n"
 	
-	
 	printf "Logs: \n\n" 
-	/usr/local/bin/docker-compose logs
+	docker compose logs
 	printf "\n\n "
 	docker ps -a 
 	systemctl status impulse-manager osqueryd # impulse-main impulse-bgtasks

@@ -26,7 +26,7 @@ if [[ $SYSTD_ACTION == 'start' ]]; then
         sed -i 's/-q 0 -q 1/-i ${HOST_INTERFACE}/g' ./docker-compose-nids.yml
     fi
 
-    /usr/local/bin/docker-compose --file ./docker-compose-nids.yml --env-file ./impulse.conf up
+    docker compose --file ./docker-compose-nids.yml --env-file ./impulse.conf up
 
 elif [[ $SYSTD_ACTION == 'stop' ]]; then	
 
@@ -49,7 +49,7 @@ elif [[ $SYSTD_ACTION == 'stop' ]]; then
     docker stop impulse-suricata 
     docker rm impulse-suricata
 
-    /usr/local/bin/docker-compose --file ./docker-compose-nids.yml --env-file ./impulse.conf down
+    docker compose --file ./docker-compose-nids.yml --env-file ./impulse.conf down
 
 else
     echo "Specify stop or start argument."

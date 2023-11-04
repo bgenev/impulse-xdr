@@ -27,24 +27,24 @@ WantedBy=multi-user.target
 echo "$IMPULSE_MAIN_SERVICE" > /etc/systemd/system/impulse-main.service
 
 
+## Only for containerized rsyslog
+# IMPULSE_CONTAINERS_SERVICE="
+# [Unit]
+# Description=Impulse Containers Main
 
-IMPULSE_CONTAINERS_SERVICE="
-[Unit]
-Description=Impulse Containers Main
+# [Service]
+# Type=simple
+# WorkingDirectory=/opt/impulse
+# ExecStart=/usr/local/bin/docker compose --file ./docker-compose-agent.yml --env-file ./impulse.conf up
+# ExecStop=/usr/local/bin/docker compose --file ./docker-compose-agent.yml down
+# Restart=on-failure
+# RestartSec=15s
 
-[Service]
-Type=simple
-WorkingDirectory=/opt/impulse
-ExecStart=/usr/local/bin/docker-compose --file ./docker-compose-agent.yml --env-file ./impulse.conf up
-ExecStop=/usr/local/bin/docker-compose --file ./docker-compose-agent.yml down
-Restart=on-failure
-RestartSec=15s
-
-[Install]
-WantedBy=multi-user.target
-"
-echo "$IMPULSE_CONTAINERS_SERVICE" > /etc/systemd/system/impulse-containers.service
-
+# [Install]
+# WantedBy=multi-user.target
+# "
+# echo "$IMPULSE_CONTAINERS_SERVICE" > /etc/systemd/system/impulse-containers.service
+##
 
 
 if [[ $AGENT_TYPE == 'heavy' ]]; then

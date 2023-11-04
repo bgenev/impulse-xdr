@@ -104,7 +104,7 @@ ip a
 e.g. impulse.conf manager:
 ```
 ...
-IP_MANAGER=192.168.0.37
+IP_MANAGER=192.168.1.37
 HOST_INTERFACE=eth1
 ...
 ```

@@ -74,7 +74,7 @@ $PROJECT_ROOT_DIR/install_modules/manager/confirm_config.sh $IP_MANAGER $AGENT_T
 
 $PROJECT_ROOT_DIR/install_modules/shared/update_syst.sh $OS_TYPE $PACKAGE_MGR
 
-$PROJECT_ROOT_DIR/install_modules/shared/impulse_deps.sh $OS_TYPE $PYTH_USE_SYST_VER $PACKAGE_MGR
+$PROJECT_ROOT_DIR/install_modules/shared/impulse_deps.sh $OS_TYPE $PYTH_USE_SYST_VER $SETUP_TYPE $AGENT_TYPE
 cd $PROJECT_ROOT_DIR
 
 mkdir -p /var/impulse
@@ -154,7 +154,7 @@ else
     echo "Continue."
 fi 
 
-sudo /usr/local/bin/docker-compose --file ./docker-compose-manager.yml --env-file ./impulse.conf up --detach
+sudo docker compose --file ./docker-compose-manager.yml --env-file ./impulse.conf up --detach
 
 sleep 10
 
@@ -201,8 +201,6 @@ if [[ $MANAGER_PROXY_IP != '' ]]; then
 	/usr/bin/docker exec -i impulse-datastore psql --username=postgres -d impulse_manager -c "INSERT INTO whitelisted_ips (ip_addr) VALUES ('"$MANAGER_PROXY_IP"')"
 fi 
 
-$PROJECT_ROOT_DIR/install_modules/manager/whitelist_ips.sh
-
 $PROJECT_ROOT_DIR/install_modules/shared/firewall.sh $SETUP_TYPE $IP_MANAGER $PACKAGE_MGR $OS_TYPE $FIREWALL_BACKEND
 
 echo "Post-Installation Setup..."
@@ -218,6 +216,11 @@ WEB_INTERFACE_PASSWORD=$(cat /dev/urandom | tr -dc 'a-zA-Z0-9' | fold -w 10 | he
 
 curl -i -X POST -H "Content-Type: application/json" --data '{"username":"'$WEB_INTERFACE_USERNAME'", "email": "admin@localhost", "name": "impulse", "password":"'$WEB_INTERFACE_PASSWORD'", "user_type":"admin"}' http://127.0.0.1:5020/api/register
 
+## Whitelist client; all additional IPs used to ssh into the server or access the UI, must be whitelisted or they 
+## will get blocked by the fleet firewall. To whitelist, go to /fleet/firewall -> Manage IP 
+
+#$PROJECT_ROOT_DIR/install_modules/manager/whitelist_ips.sh 
+/usr/bin/wget http://127.0.0.1:5020/local-endpoint/set-default-whitelisted -O /dev/null
 
 echo "WEB_INTERFACE_USERNAME:" 
 echo $WEB_INTERFACE_USERNAME
@@ -246,8 +249,6 @@ fi
 if [[ $PACKAGE_MGR = "rpm" ]]; then
 	firewall-cmd --permanent --add-port=7001/tcp
 fi 
-
-
 
 sleep 2
 /opt/impulse/impulse-control.sh status

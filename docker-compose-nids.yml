@@ -1,5 +1,5 @@
 version: "3" 
- 
+
 services:
   suricata:
     container_name: impulse-suricata
@@ -13,6 +13,6 @@ services:
       - /var/impulse/lib/suricata:/var/lib/suricata
       - /var/impulse/log/suricata:/var/log/suricata
     command: '-i ${HOST_INTERFACE} -F /etc/suricata/capture-filter.bpf' ## IDS mode
-    #command: '-q 0 -q 1 -F /etc/suricata/capture-filter.bpf' ## IPS mode
+    #command: '-i ${HOST_INTERFACE} -F /etc/suricata/capture-filter.bpf' ## IPS mode
     restart: always
 

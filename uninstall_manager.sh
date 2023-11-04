@@ -8,8 +8,8 @@
 ./impulse-control.sh stop
 
 # stop and remove containers and images 
-docker-compose --file ./docker-compose-manager.yml down
-docker-compose --file ./docker-compose-nids.yml down
+docker compose --file ./docker-compose-manager.yml down
+docker compose --file ./docker-compose-nids.yml down
 
 
 

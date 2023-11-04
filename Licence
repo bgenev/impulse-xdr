@@ -2,7 +2,7 @@
    END USER LICENSE AGREEMENT
 
    The following End User License Agreement (EULA) regardingImpulse XDR - referred to as "software" - is
-   made betweenImpulse XDR,  - referred to as "licensor" - and anyone who is
+   made between Impulse XDR,  - referred to as "licensor" - and anyone who is
    installing, accessing or in any other way using the software - referred to
    as "user".
 
@@ -13,13 +13,13 @@
    This version includes all core product features but could only monitor a limited number of remote machines and 
    could not use restricted features such as: 
 
+      - unlimited deployments
       - email alerts for high-severity events
       - multiple users and role-based access control
       - case management and investigations
 		- creating and managing unlimited custom threat detection packs
       - premium threat detection packs 
       - support and professional services
-      - unlimited deployments
 
    b. Premium License. 
 

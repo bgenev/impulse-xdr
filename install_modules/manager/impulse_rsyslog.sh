@@ -21,15 +21,11 @@ $PreserveFQDN on
 #################
 
 module(load="imuxsock") # provides support for local system logging
-#module(load="immark")  # provides --MARK-- message capability
+module(load="imfile" PollingInterval="10")
+module(load="ompgsql") # Load Postgres module 
 
-$ModLoad imfile 
-
-# Load Postgres module 
-module(load="ompgsql")
-
-# provides kernel logging support and enable non-kernel klog messages
-# module(load="imklog" permitnonkernelfacility="on")
+# module(load="immark")  # provides --MARK-- message capability
+# module(load="imklog" permitnonkernelfacility="on") # provides kernel logging support and enable non-kernel klog messages
 
 ####### TLS Setup #########
 # make gtls driver the default
@@ -93,12 +89,7 @@ $template remote-incoming-logs, "/var/log/impulse/%HOSTNAME%/%PROGRAMNAME%.log"
 
 MANAGER_LIGHT='
 # OSquery  
-$InputFileName /var/log/osquery/osqueryd.results.log
-$InputFileTag osquery-manager
-$InputFileStateFile osquery-manager
-$InputFilePollInterval 10
-$InputRunFileMonitor
-
+input(type="imfile" File="/var/log/osquery/osqueryd.results.log" Tag="osquery-manager")
 
 template(name="osquery-template" type="list" option.sql="on") {
   constant(value="INSERT INTO osquery (message) values ('"'"'")
@@ -118,89 +109,40 @@ action(
 
 MANAGER_HEAVY='
 # OSquery  
-$InputFileName /var/log/osquery/osqueryd.results.log
-$InputFileTag osquery-manager
-$InputFileStateFile osquery-manager
-$InputFilePollInterval 10
-$InputRunFileMonitor
+input(type="imfile" File="/var/log/osquery/osqueryd.results.log" Tag="osquery-manager")
 
-# eve-alert  
-$InputFileName /var/impulse/log/suricata/eve-alert.json 
-$InputFileTag eve-alert-manager
-$InputFileStateFile eve-alert-manager
-$InputFilePollInterval 10
-$InputRunFileMonitor
+# eve-alerts 
+input(type="imfile" File="/var/impulse/log/suricata/eve-alert.json" Tag="eve-alert-manager")
 
-# eve-flow  
-$InputFileName /var/impulse/log/suricata/eve-flow.json 
-$InputFileTag eve-flow-manager
-$InputFileStateFile eve-flow-manager
-$InputFilePollInterval 10
-$InputRunFileMonitor
+# eve-flow
+input(type="imfile" File="/var/impulse/log/suricata/eve-flow.json" Tag="eve-flow-manager")
 
-# eve-dns  
-$InputFileName /var/impulse/log/suricata/eve-dns.json 
-$InputFileTag eve-dns-manager
-$InputFileStateFile eve-dns-manager
-$InputFilePollInterval 10
-$InputRunFileMonitor
+# eve-dns 
+input(type="imfile" File="/var/impulse/log/suricata/eve-dns.json" Tag="eve-dns-manager")
 
 # eve-ssh 
-$InputFileName /var/impulse/log/suricata/eve-ssh.json 
-$InputFileTag eve-ssh-manager
-$InputFileStateFile eve-ssh-manager
-$InputFilePollInterval 10
-$InputRunFileMonitor
+input(type="imfile" File="/var/impulse/log/suricata/eve-ssh.json" Tag="eve-ssh-manager")
 
 # eve-http 
-$InputFileName /var/impulse/log/suricata/eve-http.json 
-$InputFileTag eve-http-manager
-$InputFileStateFile eve-http-manager
-$InputFilePollInterval 10
-$InputRunFileMonitor
+input(type="imfile" File="/var/impulse/log/suricata/eve-http.json" Tag="eve-http-manager")
 
 # eve-tls 
-$InputFileName /var/impulse/log/suricata/eve-tls.json 
-$InputFileTag eve-tls-manager
-$InputFileStateFile eve-tls-manager
-$InputFilePollInterval 10
-$InputRunFileMonitor
+input(type="imfile" File="/var/impulse/log/suricata/eve-tls.json" Tag="eve-tls-manager")
 
 # eve-dhcp 
-$InputFileName /var/impulse/log/suricata/eve-dhcp.json 
-$InputFileTag eve-dhcp-manager
-$InputFileStateFile eve-dhcp-manager
-$InputFilePollInterval 10
-$InputRunFileMonitor
+input(type="imfile" File="/var/impulse/log/suricata/eve-dhcp.json" Tag="eve-dhcp-manager")
 
 # eve-ftp 
-$InputFileName /var/impulse/log/suricata/eve-ftp.json 
-$InputFileTag eve-ftp-manager
-$InputFileStateFile eve-ftp-manager
-$InputFilePollInterval 10
-$InputRunFileMonitor
+input(type="imfile" File="/var/impulse/log/suricata/eve-ftp.json" Tag="eve-ftp-manager")
 
 # eve-files 
-$InputFileName /var/impulse/log/suricata/eve-files.json 
-$InputFileTag eve-files-manager
-$InputFileStateFile eve-files-manager
-$InputFilePollInterval 10
-$InputRunFileMonitor
+input(type="imfile" File="/var/impulse/log/suricata/eve-files.json" Tag="eve-files-manager")
 
 # eve-smb 
-$InputFileName /var/impulse/log/suricata/eve-smb.json 
-$InputFileTag eve-smb-manager
-$InputFileStateFile eve-smb-manager
-$InputFilePollInterval 10
-$InputRunFileMonitor
+input(type="imfile" File="/var/impulse/log/suricata/eve-smb.json" Tag="eve-smb-manager")
 
 # eve-smtp 
-$InputFileName /var/impulse/log/suricata/eve-smtp.json 
-$InputFileTag eve-smtp-manager
-$InputFileStateFile eve-smtp-manager
-$InputFilePollInterval 10
-$InputRunFileMonitor
-
+input(type="imfile" File="/var/impulse/log/suricata/eve-smtp.json" Tag="eve-smtp-manager")
 
 
 template(name="osquery-template" type="list" option.sql="on") {

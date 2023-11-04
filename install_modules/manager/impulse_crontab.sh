@@ -23,7 +23,7 @@ kernelk_cron_file="
 
 # Threat Intel Data Refresh 
 # multiproc
-*/30 * * * * root $PROJECT_ROOT_DIR/tasks_manager/cron_tasks/threat_intel_data_refresh.sh
+#*/30 * * * * root $PROJECT_ROOT_DIR/tasks_manager/cron_tasks/threat_intel_data_refresh.sh
 
 # CVEs Run Scan and Update
 # multiproc

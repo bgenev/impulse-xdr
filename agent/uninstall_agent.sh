@@ -10,8 +10,8 @@
 cd /opt/impulse
 ./impulse-control.sh stop
 
-docker-compose --file ./docker-compose-agent.yml down
-docker-compose --file ./docker-compose-nids.yml down
+docker compose --file ./docker-compose-agent.yml down
+docker compose --file ./docker-compose-nids.yml down
 
 apt purge -y osquery
 
@@ -47,13 +47,13 @@ systemctl restart cron
 # deluser impulse_siem
 # rm -rf /home/impulse_siem
 
-iptables -F
-iptables -X
+# iptables -F
+# iptables -X
 
-ufw disable 
-ufw -f reset
-ufw allow 22
-ufw -f enable
+# ufw disable 
+# ufw -f reset
+# ufw allow 22
+# ufw -f enable
 
 nft flush table inet impulse_table 
 cd /opt

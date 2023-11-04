@@ -10,13 +10,13 @@ if [[ $SYSTD_ACTION == 'start' ]]; then
    iptables -I INPUT -p tcp -m multiport --dports 7001,7514 -j ACCEPT || iptables -I INPUT -p tcp -m multiport --dports 7001,7514 -j ACCEPT
    iptables -I OUTPUT -p tcp -m multiport --dports 7001,7514 -j ACCEPT || iptables -I OUTPUT -p tcp -m multiport --dports 7001,7514 -j ACCEPT
 
-   /usr/local/bin/docker-compose --file ./docker-compose-manager.yml --env-file ./impulse.conf up
+   docker compose --file ./docker-compose-manager.yml --env-file ./impulse.conf up
 
 elif [[ $SYSTD_ACTION == 'stop' ]]; then	
     iptables -D INPUT -p tcp -m multiport --dports 7001,7514 -j ACCEPT
     iptables -D OUTPUT -p tcp -m multiport --dports 7001,7514 -j ACCEPT
     
-    /usr/local/bin/docker-compose --file ./docker-compose-manager.yml down
+    docker compose --file ./docker-compose-manager.yml down
 
 else
 

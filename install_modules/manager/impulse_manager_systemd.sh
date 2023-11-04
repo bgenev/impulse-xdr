@@ -50,8 +50,8 @@ Description=Impulse Manager NIDS Service
 [Service]
 Type=simple
 WorkingDirectory=/opt/impulse
-ExecStart=/usr/local/bin/docker-compose --file ./docker-compose-nids.yml --env-file ./impulse.conf up
-ExecStop=/usr/local/bin/docker-compose --file ./docker-compose-nids.yml down 
+ExecStart=/usr/bin/docker compose --file ./docker-compose-nids.yml --env-file ./impulse.conf up
+ExecStop=/usr/bin/docker compose --file ./docker-compose-nids.yml down 
 Restart=on-failure
 RestartSec=15s
 

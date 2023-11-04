@@ -65,13 +65,19 @@ else
 	echo "Python version > 3.7. Continue.."
 fi
 
-$PROJECT_ROOT_DIR/install_modules/shared/check_docker_installed.sh $OS_TYPE
+## only if heavy
+if [[ $AGENT_TYPE == 'heavy' ]]; then
+	$PROJECT_ROOT_DIR/install_modules/shared/check_docker_installed.sh $OS_TYPE
+fi 
 
 $PROJECT_ROOT_DIR/install_modules/agent/syst_requirements_check_agent.sh $AGENT_TYPE
 ## skip checks
 #$PROJECT_ROOT_DIR/install_modules/agent/confirm_config.sh $IP_AGENT $AGENT_TYPE $AGENT_ID $HOST_INTERFACE
 $PROJECT_ROOT_DIR/install_modules/shared/update_syst.sh $OS_TYPE $PACKAGE_MGR
-$PROJECT_ROOT_DIR/install_modules/shared/impulse_deps.sh $OS_TYPE $PYTH_USE_SYST_VER $PACKAGE_MGR
+
+# Only install docker on manager or heavy sensor; 
+$PROJECT_ROOT_DIR/install_modules/shared/impulse_deps.sh $OS_TYPE $PYTH_USE_SYST_VER $SETUP_TYPE $AGENT_TYPE
+
 cd $PROJECT_ROOT_DIR 
 #$PROJECT_ROOT_DIR/install_modules/agent/pip_venv.sh $PYTH_USE_SYST_VER
 $PROJECT_ROOT_DIR/install_modules/shared/pip_venv.sh $PYTH_USE_SYST_VER
@@ -95,6 +101,11 @@ mkdir -p /var/impulse/data/rsyslog/spool
 mkdir -p /var/impulse/data/quarantined_files
 mkdir -p /var/log/impulse
 
+## with system rsyslog
+mkdir -p /etc/ssl/impulse
+mkdir -p /etc/rsyslog.d/impulse
+
+
 if [[ $AGENT_TYPE == 'heavy' ]]; then
 	mkdir -p /var/impulse/etc/suricata
 	mkdir -p /var/impulse/log/suricata
@@ -116,23 +127,26 @@ openssl req -new -newkey rsa:4096 -x509 -sha256 -days 365 -subj "/CN=localhost" 
 $PROJECT_ROOT_DIR/install_modules/agent/impulse_systemd_services.sh $PROJECT_ROOT_DIR $IP_HOST $AGENT_TYPE $OS_TYPE
 
 echo "Create Indexer templates..."
-$PROJECT_ROOT_DIR/install_modules/agent/impulse_rsyslog.sh $PROJECT_ROOT_DIR $AGENT_TYPE $IP_MANAGER $AGENT_TAG_ID
+$PROJECT_ROOT_DIR/install_modules/agent/impulse_rsyslog.sh $PROJECT_ROOT_DIR $AGENT_TYPE $IP_MANAGER $AGENT_TAG_ID $PACKAGE_MGR
 
-mv $PROJECT_ROOT_DIR/build/agent/tls/ca-cert.pem /var/impulse/etc/rsyslog/ssl/ca-cert.pem
+
+#mv $PROJECT_ROOT_DIR/build/agent/tls/ca-cert.pem /var/impulse/etc/rsyslog/ssl/ca-cert.pem
+mv $PROJECT_ROOT_DIR/build/agent/tls/ca-cert.pem /etc/ssl/impulse/ca-cert.pem
+
 
 cd $PROJECT_ROOT_DIR
 if [[ $AGENT_TYPE == 'heavy' ]]; then
 	cp $PROJECT_ROOT_DIR/build/shared/docker/docker-compose-agent.yml $PROJECT_ROOT_DIR/docker-compose-agent.yml
 	cp $PROJECT_ROOT_DIR/build/shared/docker/docker-compose-nids.yml $PROJECT_ROOT_DIR/docker-compose-nids.yml
 
-	/usr/local/bin/docker-compose --file ./docker-compose-nids.yml --env-file ./impulse.conf up -d
+	docker compose --file ./docker-compose-nids.yml --env-file ./impulse.conf up -d
 	sleep 5 
 	[ "$(docker ps -a | grep impulse-suricata)" ] && docker exec -it -d impulse-suricata suricata-update -f
 	
 	#[ "$(docker ps -a | grep impulse-suricata)" ] && docker exec -it -d --user suricata impulse-suricata suricata-update -f
 	#docker exec -it -d --user suricata impulse-suricata suricata-update -f
 
-	/usr/local/bin/docker-compose --file ./docker-compose-nids.yml --env-file ./impulse.conf down
+	docker compose --file ./docker-compose-nids.yml --env-file ./impulse.conf down
 else 
 	cp $PROJECT_ROOT_DIR/build/shared/docker/docker-compose-agent.yml $PROJECT_ROOT_DIR/docker-compose-agent.yml
 fi
@@ -167,7 +181,7 @@ $PROJECT_ROOT_DIR/install_modules/agent/impulse_crontab.sh $PROJECT_ROOT_DIR $AG
 $PROJECT_ROOT_DIR/install_modules/shared/firewall.sh $SETUP_TYPE $IP_MANAGER $PACKAGE_MGR $OS_TYPE $FIREWALL_BACKEND
 
 systemctl enable impulse-main.service
-systemctl enable impulse-containers.service
+
 if [[ $AGENT_TYPE == 'heavy' ]]; then
 	systemctl start impulse-nids.service
     systemctl enable impulse-nids.service
@@ -175,8 +189,13 @@ else
     echo "Continue."
 fi
 
-systemctl restart impulse-main.service
-systemctl restart impulse-containers.service
+systemctl start impulse-main.service
+
+## Only for containerized rsyslog
+# if [[ $AGENT_TYPE == 'heavy' ]]; then
+# 	systemctl enable impulse-containers.service
+# 	systemctl restart impulse-containers.service
+# fi 
 
 ##  provision via build 
 # if [[ $AGENT_TYPE == 'heavy' ]]; then
@@ -185,9 +204,9 @@ systemctl restart impulse-containers.service
 #     echo "Continue."
 # fi
 
-sleep 2
-/opt/impulse/impulse-control.sh status
-
 BUILD_END_TIME=$(date)
 echo "START time build: "$BUILD_START_TIME
 echo "END time build: "$BUILD_END_TIME
+
+
+/opt/impulse/impulse-control.sh status

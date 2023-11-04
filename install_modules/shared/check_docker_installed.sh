@@ -9,7 +9,7 @@ else
     echo "Docker not installed.."
 
 	if [[ $OS_TYPE = "ubuntu" || $OS_TYPE = "debian" || $OS_TYPE = "centos" || $OS_TYPE = "linuxmint" || $OS_TYPE = "fedora" ]]; then
-		echo "Continue.. will auto-install Docker"
+		echo "Continue.. " # will auto-install Docker
 	else
 		echo "We don't support Docker auto-install for your OS. Please check Docker documentation and set it up for your specific environment."
 		echo "Exiting.."
