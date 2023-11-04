@@ -16,7 +16,9 @@ Impulse consists of a self-hosted events manager that acts as a database, indexe
 
 Thanks to its high-performance architecture and ability to pre-filter noise at the edge, Impulse provides a cost-effective setup that works very well with typical VPC configurations, allowing you to monitor, for example, 15 hosts from a cheap and disposable 2gb/1cpu VM for the manager.
 
-![main_short_v2](https://github.com/bgenev/impulse-xdr/assets/129767083/1ab0d34c-bd4c-46ac-96bf-70328573710f)
+![fleet_firewall](https://github.com/bgenev/impulse-xdr/assets/129767083/2723f645-2c9a-4f0e-a9a2-bfdf45fcce19)
+
+![detections_only](https://github.com/bgenev/impulse-xdr/assets/129767083/191230df-3213-49c4-a441-5b3bac80908d)
 
 ![hosts_query](https://github.com/bgenev/impulse-xdr/assets/129767083/f0645c71-6772-45a4-afa1-2d218a72e2ca)
 
