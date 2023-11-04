@@ -18,7 +18,7 @@ Thanks to its high-performance architecture and ability to pre-filter noise at t
 
 ![fleet_firewall](https://github.com/bgenev/impulse-xdr/assets/129767083/2723f645-2c9a-4f0e-a9a2-bfdf45fcce19)
 
-![detections_only](https://github.com/bgenev/impulse-xdr/assets/129767083/191230df-3213-49c4-a441-5b3bac80908d)
+![detections_and_iocs](https://github.com/bgenev/impulse-xdr/assets/129767083/260b4922-6c79-4628-bda4-6022e80bfe35)
 
 ![hosts_query](https://github.com/bgenev/impulse-xdr/assets/129767083/f0645c71-6772-45a4-afa1-2d218a72e2ca)
 
