@@ -1,5 +1,5 @@
 #
-# Copyright (c) 2021-2023, Bozhidar Genev - All Rights Reserved.Impulse XDR   
+# Copyright (c) 2024, Bozhidar Genev - All Rights Reserved.Impulse XDR   
 # Impulse is licensed under the Impulse User License Agreement at the root of this project.
 #
 
@@ -144,7 +144,7 @@ class Detection(db.Model):
 	__tablename__ = 'detection'
 	__bind_key__ = 'impulse_manager'
 	id = db.Column(db.Integer, primary_key=True)
-	agent_ip = db.Column(db.String(20))
+	agent_ip = db.Column(db.String(100))
 	agent_alias = db.Column(db.String(50))
 	score = db.Column(db.String(20))
 	score_label = db.Column(db.String(20))
@@ -164,7 +164,7 @@ class Detection(db.Model):
 class UbaSsh(db.Model):
 	__tablename__ = 'uba_ssh'
 	id = db.Column(db.Integer, primary_key=True)
-	host_ip_addr = db.Column(db.String(30))
+	host_ip_addr = db.Column(db.String(100))
 
 
 ## Notifications
@@ -218,7 +218,7 @@ class InvestigatedEvents(db.Model):
 	ticket_id = db.Column(db.String(50))
 	event_id = db.Column(db.String(50))
 	table_type = db.Column(db.String(20))
-	affected_asset_ip = db.Column(db.String(20))
+	affected_asset_ip = db.Column(db.String(100))
 	created_on = db.Column(db.DateTime, server_default=db.func.now())
 
 
@@ -227,7 +227,10 @@ class RemoteAgent(db.Model):
 	__tablename__ = 'remote_agent'
 	__bind_key__ = 'impulse_manager'
 	id = db.Column(db.Integer, primary_key=True)
-	ip_addr = db.Column(db.String(100))
+	ip_addr = db.Column(db.String(100)) # used as agent_id 
+
+	#static_ip_addr = db.Column(db.String(100)) # not required
+
 	agent_id = db.Column(db.String(100))
 	agent_db = db.Column(db.String(100))
 	agent_type = db.Column(db.String(100))
@@ -278,6 +281,7 @@ class Manager(db.Model):
 	access_token_license = db.Column(db.String(5000))
 	license_signature = db.Column(db.String(1000))
 	license_expiration_date = db.Column(db.DateTime)
+	fleet_firewall_version = db.Column(db.Integer, default=0)
 	created_on = db.Column(db.DateTime, server_default=db.func.now())
 
 
@@ -355,7 +359,7 @@ class WhitelistedIps(db.Model):
 	__tablename__ = 'whitelisted_ips'
 	__bind_key__ = 'impulse_manager'
 	id = db.Column(db.Integer, primary_key=True)
-	ip_addr = db.Column( db.String(20), unique=True )
+	ip_addr = db.Column( db.String(100), unique=True )
 	whitelisted_status = db.Column(db.Boolean, default=True)
 	created_on = db.Column( db.DateTime(), server_default=db.func.now())
 
@@ -416,6 +420,10 @@ class PackagesCvesMap(db.Model):
 	__bind_key__ = 'impulse_manager'
 	id = db.Column(db.Integer, primary_key=True)
 	package_name = db.Column(db.String(100))
+	description = db.Column(db.String(10000))
+	fixed_version = db.Column(db.String(100))
+	status = db.Column(db.String(100))
+	
 	cve_severity = db.Column(db.String(100))
 	cve_id = db.Column(db.String(100))
 	cve_data = db.Column(JSONB)
@@ -427,8 +435,11 @@ class AssetsPackagesInstalled(db.Model):
 	__tablename__ = 'assets_packages_installed'
 	__bind_key__ = 'impulse_manager'
 	id = db.Column(db.Integer, primary_key=True)
-	asset_id = db.Column(db.String(1000))
-	package_name = db.Column(db.String(1000))
+	asset_id = db.Column(db.String(100))
+	package_name = db.Column(db.String(100))
+	package_type = db.Column(db.String(100))
+	version_installed = db.Column(db.String(100))
+	updated_on = db.Column(db.DateTime())
 
 
 class AnalyticsBatchesMeta(db.Model):
@@ -469,8 +480,8 @@ class PackDeployments(db.Model):
 	__tablename__ = 'pack_deployments'
 	__bind_key__ = 'impulse_manager'
 	id = db.Column(db.Integer, primary_key=True)
-	asset_ip = db.Column(db.String(1000))
-	pack_id = db.Column(db.String(1000))
+	asset_ip = db.Column(db.String(100))
+	pack_id = db.Column(db.String(100))
 	pack_version = db.Column(db.Integer)
 	pack_status_on_agent = db.Column(db.Boolean, default=True)
 	deployment_status = db.Column(db.Boolean, default=False)
@@ -500,7 +511,7 @@ class PackQueries(db.Model):
 class ScpPacksAlerts(db.Model):
 	__tablename__ = 'scp_packs_alerts'
 	id = db.Column(db.Integer, primary_key=True)
-	agent_ip = db.Column(db.String(50))
+	agent_ip = db.Column(db.String(100))
 	pack_name = db.Column(db.String(1000))
 	query_id = db.Column(db.Integer)
 	test_state = db.Column(db.String(100))
@@ -512,7 +523,7 @@ class ScpPacksAlerts(db.Model):
 class ScpResults(db.Model):
 	__tablename__ = 'scp_results'
 	id = db.Column(db.Integer, primary_key=True)
-	agent_ip = db.Column(db.String(50))
+	agent_ip = db.Column(db.String(100))
 	pack_name = db.Column(db.String(1000))
 	query_id = db.Column(db.Integer)
 	test_state = db.Column(db.String(100))
@@ -523,7 +534,7 @@ class ScaResults(db.Model):
 	__tablename__ = 'sca_results'
 	__bind_key__ = 'impulse_manager'
 	id = db.Column(db.Integer, primary_key=True)
-	agent_ip = db.Column(db.String(50))
+	agent_ip = db.Column(db.String(100))
 	rule_id = db.Column(db.Integer)
 	test_state = db.Column(db.String(100))
 	updated_on = db.Column(db.DateTime, server_default=db.func.now())
@@ -532,7 +543,7 @@ class ScaResults(db.Model):
 class ScaAlerts(db.Model):
 	__tablename__ = 'sca_alerts'
 	id = db.Column(db.Integer, primary_key=True)
-	agent_ip = db.Column(db.String(50))
+	agent_ip = db.Column(db.String(100))
 	rule_id = db.Column(db.Integer)
 	test_state = db.Column(db.String(100))
 	created_on = db.Column(db.DateTime)
@@ -544,7 +555,7 @@ class AsyncTasks(db.Model):
 	id = db.Column(db.Integer, primary_key=True)
 	task_id = db.Column(db.String(1000))
 	task_type = db.Column(db.String(1000))
-	agent_ip = db.Column(db.String(50))
+	agent_ip = db.Column(db.String(100))
 	completion_state = db.Column(db.Boolean, default=False)
 	completed_on = db.Column(db.DateTime)
 	created_on = db.Column(db.DateTime, server_default=db.func.now())
@@ -554,7 +565,7 @@ class ImpulseTasksTracker(db.Model):
 	__tablename__ = 'impulse_tasks_tracker'
 	__bind_key__ = 'impulse_manager'
 	id = db.Column(db.Integer, primary_key=True)
-	ip_addr = db.Column(db.String(20))
+	ip_addr = db.Column(db.String(100))
 
 	offenders_osquery_last_analysed_id = db.Column(db.Integer, default=0)
 	offenders_eve_alerts_last_analysed_id = db.Column(db.Integer, default=0)
@@ -568,7 +579,7 @@ class FailedTasksBacklog(db.Model):
 	__tablename__ = 'failed_tasks_backlog'
 	__bind_key__ = 'impulse_manager'
 	id = db.Column(db.Integer, primary_key=True)
-	agent_ip = db.Column(db.String(20))
+	agent_ip = db.Column(db.String(100))
 	task_name = db.Column(db.String(50))
 	task_id = db.Column(db.String(50))
 	completion_state = db.Column(db.Boolean, default=False)
@@ -582,6 +593,38 @@ class AgentDataSnapshots(db.Model):
 	ip_addr = db.Column(db.String(100))
 	system_posture = db.Column(JSONB)
 	updated_on = db.Column(db.DateTime, server_default=db.func.now())
+
+
+class FleetQueryPushResults(db.Model):
+	__tablename__ = 'fleet_query_push_results'
+	__bind_key__ = 'impulse_manager'
+	id = db.Column(db.Integer, primary_key=True)
+	agent_id = db.Column(db.String(100))
+	result = db.Column(JSONB)
+	task_id = db.Column(db.String(100))
+	created_on = db.Column(db.DateTime, server_default=db.func.now())
+
+class GrpcSnapshots(db.Model):
+	__tablename__ = 'grpc_snapshots'
+	__bind_key__ = 'impulse_manager'
+	id = db.Column(db.Integer, primary_key=True)
+	agent_id = db.Column(db.String(100), unique=True)
+	system_posture = db.Column(JSONB)
+	sca_report = db.Column(JSONB)
+	man_page = db.Column(JSONB)
+	inventory_item = db.Column(JSONB)
+	task_id = db.Column(db.String(100))
+	updated_on = db.Column(db.DateTime, server_default=db.func.now())
+
+
+class GrpcTasksResults(db.Model):
+	__tablename__ = 'grpc_tasks_results'
+	__bind_key__ = 'impulse_manager'
+	id = db.Column(db.Integer, primary_key=True)
+	agent_id = db.Column(db.String(100))
+	result = db.Column(JSONB)
+	task_id = db.Column(db.String(100))
+	created_on = db.Column(db.DateTime, server_default=db.func.now())
 
 
 class ManPages(db.Model):
@@ -605,13 +648,69 @@ class SuricataCustomRulesetDeployments(db.Model):
 	__tablename__ = 'suricata_custom_ruleset_deployments'
 	__bind_key__ = 'impulse_manager'
 	id = db.Column(db.Integer, primary_key=True)
-	asset_ip = db.Column(db.String(1000))
+	asset_ip = db.Column(db.String(100))
 	ruleset_version = db.Column(db.Integer)
 	updated_on = db.Column(db.DateTime, server_default=db.func.now())
 	created_on = db.Column(db.DateTime, server_default=db.func.now())
 
 
+class CustomLogStreams(db.Model):
+	__tablename__ = 'custom_log_streams'
+	__bind_key__ = 'impulse_manager'
+	id = db.Column(db.Integer, primary_key=True)
+	stream_name = db.Column(db.String(100))
+	asset_ip = db.Column(db.String(100))
+	created_on = db.Column(db.DateTime, server_default=db.func.now())
 
+
+# class FleetFirewall(db.Model):
+# 	__tablename__ = 'fleet_firewall'
+# 	__bind_key__ = 'impulse_manager'
+# 	id = db.Column(db.Integer, primary_key=True)
+# 	fw_version = db.Column(db.Integer)
+
+
+class FleetFirewallDeployments(db.Model):
+	__tablename__ = 'fleet_firewall_deployments'
+	__bind_key__ = 'impulse_manager'
+	id = db.Column(db.Integer, primary_key=True)
+	agent_ip = db.Column(db.String(100))
+	version_on_agent = db.Column(db.Integer)
+
+
+class WindowsDefender(db.Model):
+	__tablename__ = 'windows_defender'
+	id = db.Column(db.Integer, primary_key=True)
+	message = db.Column(JSONB)
+	created_on = db.Column(db.DateTime, server_default=db.func.now())
+
+class WindowsSecurityCenter(db.Model):
+	__tablename__ = 'windows_security_center'
+	id = db.Column(db.Integer, primary_key=True)
+	message = db.Column(JSONB)
+	created_on = db.Column(db.DateTime, server_default=db.func.now())
+
+class WindowsSecurityAuditing(db.Model):
+	__tablename__ = 'windows_security_auditing'
+	id = db.Column(db.Integer, primary_key=True)
+	message = db.Column(JSONB)
+	created_on = db.Column(db.DateTime, server_default=db.func.now())
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+###
 # class ScaTests(db.Model):
 # 	__tablename__ = 'sca_results'
 # 	__bind_key__ = 'impulse_manager'

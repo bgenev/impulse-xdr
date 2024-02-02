@@ -1,7 +1,7 @@
 #!/bin/bash
 
 #
-# Copyright (c) 2021-2023, Bozhidar Genev - All Rights Reserved.Impulse XDR   
+# Copyright (c) 2024, Bozhidar Genev - All Rights Reserved.Impulse XDR   
 # Impulse is licensed under the Impulse User License Agreement at the root of this project.
 #
 
@@ -37,10 +37,6 @@ rm -rf /var/log/impulse
 rm -rf /etc/cron.d/impulse
 rm -rf /var/osquery
 rm -rf /var/log/osquery
-
-rm -rf /tmp/impulse
-
-rm -rf /tmp/3.7.0.tar.gz
 
 # restart services affected by impulse 
 systemctl restart cron 

@@ -1,7 +1,7 @@
 #!/bin/bash
 
 #
-# Copyright (c) 2021-2023, Bozhidar Genev - All Rights Reserved.Impulse XDR   
+# Copyright (c) 2024, Bozhidar Genev - All Rights Reserved.Impulse XDR   
 # Impulse is licensed under the Impulse User License Agreement at the root of this project.
 #
 
@@ -26,17 +26,21 @@ FIREWALL_BACKEND=$($PROJECT_ROOT_DIR/install_modules/shared/get_firewall_type.sh
 PYTH_USE_SYST_VER=$($PROJECT_ROOT_DIR/install_modules/shared/python_version_check.sh)
 
 
-IP_AGENT=$(awk -F "=" '/IP_AGENT/ {print $2}' impulse.conf | tr -d ' ')
+#AGENT_IP=$(awk -F "=" '/AGENT_IP/ {print $2}' impulse.conf | tr -d ' ')
+AGENT_IP=$(awk -F "=" '/AGENT_ID/ {print $2}' impulse.conf | tr -d ' ')
+STATIC_IP_ADDR=$(awk -F "=" '/STATIC_IP_ADDR/ {print $2}' impulse.conf | tr -d ' ')
 HOST_INTERFACE=$(awk -F "=" '/HOST_INTERFACE/ {print $2}' impulse.conf | tr -d ' ')
 IP_MANAGER=$(awk -F "=" '/IP_MANAGER/ {print $2}' impulse.conf | tr -d ' ')
 AGENT_TYPE=$(awk -F "=" '/AGENT_TYPE/ {print $2}' impulse.conf | tr -d ' ')
 SETUP_TYPE=$(awk -F "=" '/SETUP_TYPE/ {print $2}' impulse.conf | tr -d ' ')
 AGENT_ID=$(awk -F "=" '/AGENT_ID/ {print $2}' impulse.conf | tr -d ' ')
-dot_replaced=$(echo "$IP_AGENT" | tr . _)
-IP_DASHES=$(echo "$IP_AGENT" | tr . -)
+dot_replaced=$(echo "$AGENT_IP" | tr . _)
+IP_DASHES=$(echo "$AGENT_IP" | tr . -)
 DB_NAME_MANAGER=$dot_replaced"_db"
-IP_HOST=$IP_AGENT
+IP_HOST=$AGENT_IP
 AGENT_TAG_ID="agent-"$IP_DASHES
+
+sed -i '/package_manager/c\    "package_manager": "'$PACKAGE_MGR'"' /opt/impulse/agentd/main/helpers/meta.json
 
 echo "OS_TYPE: "$OS_TYPE
 echo "PACKAGE_MGR: "$PACKAGE_MGR
@@ -45,7 +49,7 @@ echo "PYTH_USE_SYST_VER: "$PYTH_USE_SYST_VER
 echo "SETUP_TYPE: "$SETUP_TYPE
 echo "AGENT_TYPE: "$AGENT_TYPE
 
-$PROJECT_ROOT_DIR/install_modules/shared/supplied_config_values_check.sh $IP_AGENT $AGENT_TYPE $HOST_INTERFACE
+$PROJECT_ROOT_DIR/install_modules/shared/supplied_config_values_check.sh $AGENT_IP $AGENT_TYPE $HOST_INTERFACE
 
 if [ "$PYTH_USE_SYST_VER" == "false" ]; then
 	# read -p "Your python3 version does not meet the minimal requirements. Should Impulse try to install python3.9 on your system (y/n)? " CONT
@@ -72,7 +76,7 @@ fi
 
 $PROJECT_ROOT_DIR/install_modules/agent/syst_requirements_check_agent.sh $AGENT_TYPE
 ## skip checks
-#$PROJECT_ROOT_DIR/install_modules/agent/confirm_config.sh $IP_AGENT $AGENT_TYPE $AGENT_ID $HOST_INTERFACE
+#$PROJECT_ROOT_DIR/install_modules/agent/confirm_config.sh $AGENT_IP $AGENT_TYPE $AGENT_ID $HOST_INTERFACE
 $PROJECT_ROOT_DIR/install_modules/shared/update_syst.sh $OS_TYPE $PACKAGE_MGR
 
 # Only install docker on manager or heavy sensor; 
@@ -89,6 +93,8 @@ mkdir -p /var/impulse/etc
 mkdir -p /var/impulse/etc/ssl
 mkdir -p /var/impulse/etc/ssl/certs
 mkdir -p /var/impulse/etc/ssl/private
+mkdir -p /var/impulse/etc/grpc
+mkdir -p /var/impulse/etc/grpc/tls
 mkdir -p /var/impulse/etc/nginx
 mkdir -p /var/impulse/etc/nftables
 mkdir -p /var/impulse/etc/rsyslog
@@ -105,6 +111,8 @@ mkdir -p /var/log/impulse
 mkdir -p /etc/ssl/impulse
 mkdir -p /etc/rsyslog.d/impulse
 
+cp /opt/impulse/build/agent/meta/meta.json /opt/impulse/agentd/main/helpers/meta.json
+
 
 if [[ $AGENT_TYPE == 'heavy' ]]; then
 	mkdir -p /var/impulse/etc/suricata
@@ -116,7 +124,7 @@ if [[ $AGENT_TYPE == 'heavy' ]]; then
 	chmod 755 /var/impulse/log/suricata
 	chmod -R 755 /var/impulse/log/suricata
 
-	$PROJECT_ROOT_DIR/install_modules/shared/nids_provision.sh $PROJECT_ROOT_DIR $AGENT_TYPE $IP_HOST
+	$PROJECT_ROOT_DIR/install_modules/shared/nids_provision.sh $PROJECT_ROOT_DIR $AGENT_TYPE $STATIC_IP_ADDR
 else 
 	echo "Continue.."
 fi
@@ -132,6 +140,22 @@ $PROJECT_ROOT_DIR/install_modules/agent/impulse_rsyslog.sh $PROJECT_ROOT_DIR $AG
 
 #mv $PROJECT_ROOT_DIR/build/agent/tls/ca-cert.pem /var/impulse/etc/rsyslog/ssl/ca-cert.pem
 mv $PROJECT_ROOT_DIR/build/agent/tls/ca-cert.pem /etc/ssl/impulse/ca-cert.pem
+
+## GRPC client key 
+cp $PROJECT_ROOT_DIR/build/agent/grpc/tls/ca-cert.pem /var/impulse/etc/grpc/tls/ca-cert.pem
+
+if [[ "$AGENT_TYPE" == *"$endpoint"* ]]; then
+	echo "Endpoint..no crontab and firewall settings."
+else 
+	## Crontab 
+	$PROJECT_ROOT_DIR/install_modules/agent/impulse_crontab.sh $PROJECT_ROOT_DIR $AGENT_TYPE
+fi
+
+## Firewall
+$PROJECT_ROOT_DIR/install_modules/shared/firewall.sh $PACKAGE_MGR
+
+
+cp /opt/impulse/build/agent/meta/meta.json /opt/impulse/agentd/main/helpers/meta.json
 
 
 cd $PROJECT_ROOT_DIR
@@ -151,16 +175,31 @@ else
 	cp $PROJECT_ROOT_DIR/build/shared/docker/docker-compose-agent.yml $PROJECT_ROOT_DIR/docker-compose-agent.yml
 fi
 
-#docker load --input /opt/impulse/build/shared/rsyslog-image/impulse_rsyslog_image.tar
-
 $PROJECT_ROOT_DIR/install_modules/shared/selinux_policy.sh $OS_TYPE
 
 echo "Task: OSquery setup ..."
 $PROJECT_ROOT_DIR/install_modules/shared/osquery.sh $PROJECT_ROOT_DIR $OS_TYPE $PACKAGE_MGR 
 
 
-## Crontab 
-$PROJECT_ROOT_DIR/install_modules/agent/impulse_crontab.sh $PROJECT_ROOT_DIR $AGENT_TYPE
+systemctl enable impulse-agent-grpc-client.service
+
+if [[ $AGENT_TYPE == 'heavy' ]]; then
+	systemctl start impulse-nids.service
+    systemctl enable impulse-nids.service
+else 
+    echo "Continue."
+fi
+
+systemctl start impulse-agent-grpc-client.service
+
+BUILD_END_TIME=$(date)
+echo "START time build: "$BUILD_START_TIME
+echo "END time build: "$BUILD_END_TIME
+
+
+/opt/impulse/impulse-control.sh status
+
+
 
 
 
@@ -176,37 +215,3 @@ $PROJECT_ROOT_DIR/install_modules/agent/impulse_crontab.sh $PROJECT_ROOT_DIR $AG
 # cat /opt/impulse/build/agent/ansible/id_rsa_impulse.pub >> /home/impulse_siem/.ssh/authorized_keys
 # cat /opt/impulse/build/agent/ansible/id_rsa_impulse.pub >> /home/vagrant/.ssh/authorized_keys
 ###################################################
-
-
-$PROJECT_ROOT_DIR/install_modules/shared/firewall.sh $SETUP_TYPE $IP_MANAGER $PACKAGE_MGR $OS_TYPE $FIREWALL_BACKEND
-
-systemctl enable impulse-main.service
-
-if [[ $AGENT_TYPE == 'heavy' ]]; then
-	systemctl start impulse-nids.service
-    systemctl enable impulse-nids.service
-else 
-    echo "Continue."
-fi
-
-systemctl start impulse-main.service
-
-## Only for containerized rsyslog
-# if [[ $AGENT_TYPE == 'heavy' ]]; then
-# 	systemctl enable impulse-containers.service
-# 	systemctl restart impulse-containers.service
-# fi 
-
-##  provision via build 
-# if [[ $AGENT_TYPE == 'heavy' ]]; then
-# 	docker exec -it -d --user suricata impulse-suricata suricata-update -f
-# else 
-#     echo "Continue."
-# fi
-
-BUILD_END_TIME=$(date)
-echo "START time build: "$BUILD_START_TIME
-echo "END time build: "$BUILD_END_TIME
-
-
-/opt/impulse/impulse-control.sh status

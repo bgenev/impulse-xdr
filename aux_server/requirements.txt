@@ -9,3 +9,8 @@ PyYAML==6.0
 configparser==5.2.0
 cryptography==37.0.4
 Werkzeug==2.2.2
+grpcio==1.51.1
+grpcio-tools==1.51.1
+requests
+redis
+psycopg2-binary

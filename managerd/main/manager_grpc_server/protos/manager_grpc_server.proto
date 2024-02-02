@@ -1,0 +1,56 @@
+
+syntax = "proto3";
+
+package manager_grpc_server;
+
+
+message UpdateAgentStatusRequest {
+    string agent_ip = 1; 
+    string agent_type = 2;
+    string agent_meta = 3; 
+}
+message UpdateAgentStatusResponse {
+    string status = 1; 
+}
+
+message GatherInstalledPackagesRequest {
+    string agent_ip = 1; 
+    string all_packages = 2;
+}
+message GatherInstalledPackagesResponse {
+    string status = 1; 
+}
+
+
+message RunScaChecksRequest {
+    string agent_ip = 1; 
+    string sca_checks_results = 2;
+}
+message RunScaChecksResponse {
+    string status = 1; 
+}
+
+
+message TasksInterfaceRequest {
+    string req_type = 1;
+    string agent_id = 2;
+    string result = 3;
+    string task_id = 4;
+    string task_code = 5;
+}
+message TasksInterfaceResponse {
+    string task_code = 1;
+    string args = 2;
+    string task_target_agent_id = 3;
+    string task_id = 4;
+    
+}
+
+
+service GrpcServer {
+    rpc UpdateAgentStatus (UpdateAgentStatusRequest) returns (UpdateAgentStatusResponse);
+    rpc GatherInstalledPackages (GatherInstalledPackagesRequest) returns (GatherInstalledPackagesResponse);
+    rpc RunScaChecks (RunScaChecksRequest) returns (RunScaChecksResponse);
+
+    rpc TasksInterface(stream TasksInterfaceRequest) returns (stream TasksInterfaceResponse);
+}

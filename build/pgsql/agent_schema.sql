@@ -2,8 +2,8 @@
 -- PostgreSQL database dump
 --
 
--- Dumped from database version 16.0
--- Dumped by pg_dump version 16.0
+-- Dumped from database version 16.1
+-- Dumped by pg_dump version 16.1
 
 SET statement_timeout = 0;
 SET lock_timeout = 0;
@@ -255,7 +255,7 @@ ALTER SEQUENCE public.processed_analytics_id_seq OWNED BY public.processed_analy
 
 CREATE TABLE public.sca_alerts (
     id integer NOT NULL,
-    agent_ip character varying(50),
+    agent_ip character varying(100),
     rule_id integer,
     test_state character varying(100),
     created_on timestamp without time zone
@@ -292,7 +292,7 @@ ALTER SEQUENCE public.sca_alerts_id_seq OWNED BY public.sca_alerts.id;
 
 CREATE TABLE public.scp_packs_alerts (
     id integer NOT NULL,
-    agent_ip character varying(50),
+    agent_ip character varying(100),
     pack_name character varying(1000),
     query_id integer,
     test_state character varying(100),
@@ -332,7 +332,7 @@ ALTER SEQUENCE public.scp_packs_alerts_id_seq OWNED BY public.scp_packs_alerts.i
 
 CREATE TABLE public.scp_results (
     id integer NOT NULL,
-    agent_ip character varying(50),
+    agent_ip character varying(100),
     pack_name character varying(1000),
     query_id integer,
     test_state character varying(100),
@@ -867,7 +867,7 @@ ALTER SEQUENCE public.system_profile_historical_id_seq OWNED BY public.system_pr
 
 CREATE TABLE public.uba_ssh (
     id integer NOT NULL,
-    host_ip_addr character varying(30)
+    host_ip_addr character varying(100)
 );
 
 
@@ -893,6 +893,111 @@ ALTER SEQUENCE public.uba_ssh_id_seq OWNER TO postgres;
 --
 
 ALTER SEQUENCE public.uba_ssh_id_seq OWNED BY public.uba_ssh.id;
+
+
+--
+-- Name: windows_defender; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.windows_defender (
+    id integer NOT NULL,
+    message jsonb,
+    created_on timestamp without time zone DEFAULT now()
+);
+
+
+ALTER TABLE public.windows_defender OWNER TO postgres;
+
+--
+-- Name: windows_defender_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.windows_defender_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER SEQUENCE public.windows_defender_id_seq OWNER TO postgres;
+
+--
+-- Name: windows_defender_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.windows_defender_id_seq OWNED BY public.windows_defender.id;
+
+
+--
+-- Name: windows_security_auditing; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.windows_security_auditing (
+    id integer NOT NULL,
+    message jsonb,
+    created_on timestamp without time zone DEFAULT now()
+);
+
+
+ALTER TABLE public.windows_security_auditing OWNER TO postgres;
+
+--
+-- Name: windows_security_auditing_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.windows_security_auditing_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER SEQUENCE public.windows_security_auditing_id_seq OWNER TO postgres;
+
+--
+-- Name: windows_security_auditing_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.windows_security_auditing_id_seq OWNED BY public.windows_security_auditing.id;
+
+
+--
+-- Name: windows_security_center; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.windows_security_center (
+    id integer NOT NULL,
+    message jsonb,
+    created_on timestamp without time zone DEFAULT now()
+);
+
+
+ALTER TABLE public.windows_security_center OWNER TO postgres;
+
+--
+-- Name: windows_security_center_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.windows_security_center_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER SEQUENCE public.windows_security_center_id_seq OWNER TO postgres;
+
+--
+-- Name: windows_security_center_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.windows_security_center_id_seq OWNED BY public.windows_security_center.id;
 
 
 --
@@ -1061,6 +1166,27 @@ ALTER TABLE ONLY public.system_profile_historical ALTER COLUMN id SET DEFAULT ne
 --
 
 ALTER TABLE ONLY public.uba_ssh ALTER COLUMN id SET DEFAULT nextval('public.uba_ssh_id_seq'::regclass);
+
+
+--
+-- Name: windows_defender id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.windows_defender ALTER COLUMN id SET DEFAULT nextval('public.windows_defender_id_seq'::regclass);
+
+
+--
+-- Name: windows_security_auditing id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.windows_security_auditing ALTER COLUMN id SET DEFAULT nextval('public.windows_security_auditing_id_seq'::regclass);
+
+
+--
+-- Name: windows_security_center id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.windows_security_center ALTER COLUMN id SET DEFAULT nextval('public.windows_security_center_id_seq'::regclass);
 
 
 --
@@ -1261,6 +1387,30 @@ ALTER TABLE ONLY public.system_profile_historical
 
 ALTER TABLE ONLY public.uba_ssh
     ADD CONSTRAINT uba_ssh_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: windows_defender windows_defender_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.windows_defender
+    ADD CONSTRAINT windows_defender_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: windows_security_auditing windows_security_auditing_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.windows_security_auditing
+    ADD CONSTRAINT windows_security_auditing_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: windows_security_center windows_security_center_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.windows_security_center
+    ADD CONSTRAINT windows_security_center_pkey PRIMARY KEY (id);
 
 
 --

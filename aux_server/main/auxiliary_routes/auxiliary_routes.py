@@ -1,5 +1,5 @@
 #
-# Copyright (c) 2021-2023, Bozhidar Genev - All Rights Reserved.Impulse XDR   
+# Copyright (c) 2024, Bozhidar Genev - All Rights Reserved.Impulse XDR   
 # Impulse is licensed under the Impulse User License Agreement at the root of this project.
 #
 
@@ -52,7 +52,9 @@ class RunOsqueryManagerHost(Resource):
 			"osquery_err_message": osquery_err_message,
 			"response": response
 		}
-		print(retJson)
+		
+		print("RunOsqueryManagerHost: ", retJson)
+
 		return retJson
 
 
@@ -160,30 +162,19 @@ class CreateAgent(Resource):
 		agent_id = postedData['agent_id']
 		pre_shared_key = postedData['pre_shared_key']
 		package_manager = postedData['package_manager']
+		static_ip_addr = postedData['static_ip_addr']
 
-		#print("ip_addr: ",ip_addr,"agent_type: ", agent_type," manager_ip: ", manager_ip," interfaces: ", interfaces," agent_id: ", agent_id," pre_shared_key: ", pre_shared_key)
+		if agent_type == 'light' or agent_type == 'heavy':		
+			cmd = '/opt/impulse/tasks_manager/shell_scripts/linux_connector.sh ' + ip_addr + ' ' + manager_ip + ' ' + interfaces + ' ' + agent_type + ' ' + agent_id + ' ' + pre_shared_key + ' ' + package_manager + ' ' + static_ip_addr
+			p = subprocess.run(cmd, shell=True)
 
-		subprocess_errors = []
-
-		cmd = '/opt/impulse/tasks_manager/shell_scripts/create_manager_agent_connector.sh ' + ip_addr + ' ' + agent_type
-		p = subprocess.run(cmd, shell=True)
-		
-		# try:
-		# 	subprocess.check_output(cmd)
-		# except subprocess.CalledProcessError as e:
-		# 	print(e.output)
-
-		# IP_AGENT=$1
-		# IP_MANAGER=$2
-		# HOST_INTERFACE=$3 
-		# AGENT_TYPE=$4
-		# AGENT_ID=$5
-		# AGENT_SECRET_KEY=$6
-
-		cmd = '/opt/impulse/tasks_manager/shell_scripts/create_agent_installation_pkg.sh ' + ip_addr + ' ' + manager_ip + ' ' + interfaces + ' ' + agent_type + ' ' + agent_id + ' ' + pre_shared_key + ' ' + package_manager
-		p = subprocess.run(cmd, shell=True)
-
-		pass 
+		## check agent type and if windows, use windows flow 
+		elif agent_type == 'windows_endpoint':
+			print("*** Use windows_endpoint_connector.sh..")
+			cmd = '/opt/impulse/tasks_manager/shell_scripts/windows_endpoint_connector.sh ' + ip_addr + ' ' + manager_ip + ' ' + agent_type + ' ' + ' ' + agent_id + ' ' + pre_shared_key + ' ' + package_manager
+			p = subprocess.run(cmd, shell=True)	
+		else:
+			pass 	
 
 
 class SetActiveCapHost(Resource):

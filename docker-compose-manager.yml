@@ -2,13 +2,12 @@ version: "3"
 services:
 
   managerd:
-    build:
-      context: ./managerd
-      dockerfile: ./managerd.Dockerfile
-    image: impulse_managerd
+    # build:
+    #   context: ./managerd
+    #   dockerfile: ./managerd.Dockerfile
+    # image: impulse-managerd
 
-    # image: bgenev/impulse-managerd
-        
+    image: bgenev/impulse-managerd
     container_name: impulse-managerd
     depends_on:
       - message-broker
@@ -28,6 +27,7 @@ services:
       - /var/impulse:/var/impulse
       - /opt/osquery:/opt/osquery
       - /etc/osquery:/etc/osquery
+      - /opt/impulse/managerd:/opt/impulse/managerd
 
       - /sys/fs/cgroup:/sys/fs/cgroup
       - /bin/systemctl:/bin/systemctl 
@@ -43,10 +43,12 @@ services:
   ## Single worker for all queues
   ###
   bgtasks-general:
-    build:
-      context: ./managerd
-      dockerfile: ./managerd.Dockerfile
-    image: impulse_managerd
+    # build:
+    #   context: ./managerd
+    #   dockerfile: ./managerd.Dockerfile
+    # image: impulse-managerd
+    
+    image: bgenev/impulse-managerd
 
     container_name: impulse-bgtasks-general
     depends_on:

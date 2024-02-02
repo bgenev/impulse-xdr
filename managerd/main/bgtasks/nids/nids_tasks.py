@@ -1,5 +1,5 @@
 #
-# Copyright (c) 2021-2023, Bozhidar Genev - All Rights Reserved.Impulse XDR   
+# Copyright (c) 2024, Bozhidar Genev - All Rights Reserved.Impulse XDR   
 # Impulse is licensed under the Impulse User License Agreement at the root of this project.
 #
 
@@ -25,7 +25,6 @@ from main.helpers.analytics_helper import (
 	instance_flows_acct
 )
 from main.helpers.threat_intel_helper import abuseipdb_check_api, get_geoip_data
-from main.grpc_gateway.grpc_client import suricata_custom_ruleset_sync_grpc, firewall_management_state_agent
 
 from main.helpers.nids_tasks_helper import (
 	nids_profile_analysis_task,
@@ -60,7 +59,7 @@ def check_flow_anomalies(agent_ip, time_filter):
 def refresh_ip_threat_intel_data():
 	refresh_ip_threat_intel_data_task()
 
-@celery_app.task
+#@celery_app.task
 def sync_fleet_firewall():
 	sync_fleet_firewall_task()
 

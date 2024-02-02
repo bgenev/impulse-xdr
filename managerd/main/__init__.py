@@ -1,5 +1,5 @@
 #
-# Copyright (c) 2021-2023, Bozhidar Genev,Impulse XDR. All Rights Reserved.    
+# Copyright (c) 2024, Bozhidar Genev,Impulse XDR. All Rights Reserved.    
 # Impulse is licensed under the Impulse User License Agreement at the root of this project.
 #
 
@@ -10,6 +10,7 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate, MigrateCommand
 from flask_cors import CORS
 from celery import Celery
+import redis
 import subprocess
 from main.helpers.shared.agent_conf import get_agent_config
 from flask_mail import Mail
@@ -78,6 +79,8 @@ celery_app.conf.update(
 	}
 )
 
+broker_r = redis.Redis(host='localhost', port=7637, db=1) # socket_timeout=10
+
 
 
 from main.events import events_routes
@@ -100,7 +103,9 @@ from main.bgtasks.nids import nids_tasks
 from main.bgtasks.iocs import iocs_tasks
 from main.sca import sca_routes 
 from main.derived_tables import derived_tables_routes 
-#from main.tests import tests_routes 
+from main.log_streams import log_streams_routes 
+from main.grpc_dispatcher import grpc_dispatcher_routes 
+
 
 
 

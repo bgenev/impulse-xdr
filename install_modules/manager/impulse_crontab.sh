@@ -14,12 +14,12 @@ kernelk_cron_file="
 0 11 * * * root $PROJECT_ROOT_DIR/tasks_manager/cron_tasks/sca_tests.sh
 
 # SCP Custom Policies 
-# multiproc
-0 10 * * * root $PROJECT_ROOT_DIR/tasks_manager/cron_tasks/scp_custom_tasks.sh
+## multiproc
+## 0 10 * * * root $PROJECT_ROOT_DIR/tasks_manager/cron_tasks/scp_custom_tasks.sh
 
 # Fleet Status 
 # multiproc
-*/5 * * * * root $PROJECT_ROOT_DIR/tasks_manager/cron_tasks/status_fleet.sh
+*/2 * * * * root $PROJECT_ROOT_DIR/tasks_manager/cron_tasks/status_fleet.sh
 
 # Threat Intel Data Refresh 
 # multiproc
@@ -27,7 +27,7 @@ kernelk_cron_file="
 
 # CVEs Run Scan and Update
 # multiproc
-0 23 */2 * * root $PROJECT_ROOT_DIR/tasks_manager/cron_tasks/cves_scan.sh
+0 12 * * * root $PROJECT_ROOT_DIR/tasks_manager/cron_tasks/cves_scan.sh
 
 # FIM file_hash scan
 # multiproc
@@ -52,10 +52,11 @@ kernelk_cron_file="
 0 11 * * * root $PROJECT_ROOT_DIR/tasks_manager/cron_tasks/update_suricata_core_ruleset.sh
 ############################################
 
+## System Posture Snapshot 
+0 */8 * * * root $PROJECT_ROOT_DIR/tasks_manager/cron_tasks/syst_posture_task.sh
 
 
-
-#########
+############################################
 # TRAFFIC ACCOUNTING: Net Flows Analysis 
 # multiproc
 # */5 * * * * root $PROJECT_ROOT_DIR/tasks_manager/cron_tasks/nids_flows_analysis.sh
@@ -67,7 +68,7 @@ kernelk_cron_file="
 # Block suspect ips weekly volume 
 # multiproc
 # * 12 * * * root $PROJECT_ROOT_DIR/tasks_manager/cron_tasks/block_suspect_ips_weekly_volume.sh
-##########
+############################################
 
 # Anomaly Detection Task 
 # 0 */6 * * * root $PROJECT_ROOT_DIR/tasks_manager/cron_tasks/anomaly_detection_task.sh

@@ -49,7 +49,7 @@ if [ "$FIREWALL_BACKEND" == "ufw" ]; then
 	ufw allow ssh
 
 	if [[ $SETUP_TYPE == 'manager' ]]; then 		
-		ufw allow 7514 # default allowed to internal net, create_manager_agent_connector opens the port for external agent IPs
+		ufw allow 7514
 		ufw allow 7001
 	else 
 		ufw allow from $IP_MANAGER proto tcp to any port 50051

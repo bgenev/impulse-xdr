@@ -60,5 +60,27 @@ WantedBy=multi-user.target
 "
 echo "$IMPULSE_NIDS_SERVICE" > /etc/systemd/system/impulse-nids.service
 
+
+IMPULSE_MANAGER_GRPC_SERVER="
+[Unit]
+Description=Manager grpc server 
+
+[Service]
+Type=simple
+WorkingDirectory=/opt/impulse/managerd/main/manager_grpc_server
+
+ExecStart=/opt/impulse/aux_server/aux-venv/bin/python3 grpc_run.py
+#ExecStop=
+
+Restart=on-failure
+RestartSec=10s
+
+[Install]
+WantedBy=multi-user.target
+"
+echo "$IMPULSE_MANAGER_GRPC_SERVER" > /etc/systemd/system/impulse-manager-grpc-server.service
+
+
+
 systemctl daemon-reload
 

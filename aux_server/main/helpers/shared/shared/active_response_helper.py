@@ -369,8 +369,6 @@ def restart_nftables_service():
 	#subprocess.run("systemctl restart nftables.service", shell=True)
 	pass 
 
-
-
 def sync_impulse_fw_with_cs(ips_list_cs, state_action):	
 	nft_ruleset_filepath = '/var/impulse/etc/nftables/nftables_impulse_table.rules'
 	

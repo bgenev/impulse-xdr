@@ -115,6 +115,12 @@ message SuricataCustomRulesetSyncResponse {
     bool status = 1;
 }
 
+message CreateCustomLogsStreamRequest {
+    string logfile_path = 1;
+}
+message CreateCustomLogsStreamResponse {
+    bool status = 1;
+}
 
 service GrpcGateway {
 	rpc RunOSqueryOnAgent (RunOSqueryOnAgentRequest) returns (RunOSqueryOnAgentResponse);
@@ -130,4 +136,5 @@ service GrpcGateway {
 	rpc RunPolicyPackQueries (RunPolicyPackQueriesRequest) returns (RunPolicyPackQueriesResponse);
     rpc GetServiceData (GetServiceDataRequest) returns (GetServiceDataResponse);
     rpc SuricataCustomRulesetSync (SuricataCustomRulesetSyncRequest) returns (SuricataCustomRulesetSyncResponse);
+    rpc CreateCustomLogsStream (CreateCustomLogsStreamRequest) returns (CreateCustomLogsStreamResponse);
 }

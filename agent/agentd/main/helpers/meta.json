@@ -1,0 +1,7 @@
+{
+    "osquery_core_pack_version_local": 0,
+    "fleet_fw_version_local": 0,
+    "package_manager": null,
+    "sca_last_check": null,
+    "installed_packages_last_check": null 
+}

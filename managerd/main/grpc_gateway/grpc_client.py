@@ -1,5 +1,5 @@
 #
-# Copyright (c) 2021-2023, Bozhidar Genev,Impulse XDR. All Rights Reserved.    
+# Copyright (c) 2024, Bozhidar Genev,Impulse XDR. All Rights Reserved.    
 # Impulse is licensed under the Impulse User License Agreement at the root of this project.
 #
 
@@ -42,7 +42,6 @@ def open_secure_channel(grpc_agent_ip):
 
 def json_to_string(data):
 	return json.dumps(data)
-
 
 def string_to_json(data):
 	return json.loads(data)
@@ -272,10 +271,22 @@ def suricata_custom_ruleset_sync_grpc(grpc_agent_ip, ruleset_data):
 				timeout=5
 			) 
 		) 
-		#print("suricata_custom_ruleset_sync_grpc: ", data)
 		return {'result': data, 'error': False}
 	except grpc.RpcError as e:
 		return errorReturnObj(e)
 
 
-
+def create_custom_logs_stream_grpc(grpc_agent_ip, logfile_path):
+	stub = open_secure_channel(grpc_agent_ip)
+	request = grpc_gateway_pb2.CreateCustomLogsStreamRequest(logfile_path=logfile_path)
+	try:
+		data = convert_protobuf_message_to_json(
+			stub.CreateCustomLogsStream(
+				request, 
+				metadata=[handle_access_token(grpc_agent_ip)],
+				timeout=2
+			) 
+		) 
+		return {'result': data, 'error': False}
+	except grpc.RpcError as e:
+		return errorReturnObj(e)

@@ -20,7 +20,6 @@ def gen_query_based_on_type(test_query, query_type):
 
 def sca_run_method(sca_checks):
 	all_tests = []
-	ip_agent = config.get('Env','IP_MANAGER')
 	
 	instance = osquery_spawn_instance()
 

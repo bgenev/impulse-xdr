@@ -1,7 +1,7 @@
 #!/bin/bash
 
 #
-# Copyright (c) 2021-2023, Bozhidar Genev,Impulse XDR. All Rights Reserved.    
+# Copyright (c) 2024, Bozhidar Genev,Impulse XDR. All Rights Reserved.    
 # Impulse is licensed under the Impulse User License Agreement at the root of this project.
 #
 
@@ -48,6 +48,7 @@ fi
 #$PROJECT_ROOT_DIR/install_modules/shared/check_docker_installed.sh $OS_TYPE
 
 IP_MANAGER=$(awk -F "=" '/IP_MANAGER/ {print $2}' impulse.conf | tr -d ' ')
+STATIC_IP_ADDR=$(awk -F "=" '/STATIC_IP_ADDR/ {print $2}' impulse.conf | tr -d ' ')
 MANAGER_PROXY_IP=$(awk -F "=" '/MANAGER_PROXY_IP/ {print $2}' impulse.conf | tr -d ' ')
 MANAGER_VM_INSTANCE_PUBLIC_IP=$(awk -F "=" '/MANAGER_VM_INSTANCE_PUBLIC_IP/ {print $2}' impulse.conf | tr -d ' ')
 
@@ -119,7 +120,7 @@ chmod -R 755 /var/impulse
 chown -R 755 /var/impulse
 
 if [[ $AGENT_TYPE == 'heavy' ]]; then
-	$PROJECT_ROOT_DIR/install_modules/shared/nids_provision.sh $PROJECT_ROOT_DIR $AGENT_TYPE $IP_HOST
+	$PROJECT_ROOT_DIR/install_modules/shared/nids_provision.sh $PROJECT_ROOT_DIR $AGENT_TYPE $STATIC_IP_ADDR
 else 
 	echo "Continue.."
 fi
@@ -127,20 +128,18 @@ fi
 echo "Creating TLS certificates..."
 openssl req -new -newkey rsa:4096 -x509 -sha256 -days 365 -subj "/CN=localhost" -nodes -out /var/impulse/etc/ssl/certs/impulse.crt -keyout /var/impulse/etc/ssl/private/impulse.key
 
-$PROJECT_ROOT_DIR/install_modules/manager/impulse_grpc_tls.sh
+$PROJECT_ROOT_DIR/install_modules/manager/impulse_grpc_tls.sh $IP_MANAGER
+cp /opt/impulse/build/grpc_tls_manager/ca-cert.pem /opt/impulse/build/agent/grpc/tls
+
 
 cd $PROJECT_ROOT_DIR
 cp ./build/nginx/impulse /var/impulse/etc/nginx/ 
 
 echo "Setting up Rsyslog..."
 $PROJECT_ROOT_DIR/install_modules/manager/impulse_rsyslog.sh $PROJECT_ROOT_DIR $AGENT_TYPE $DB_NAME_MANAGER $IP_HOST $IMPULSE_DB_SERVER_PWD $AGENT_TAG_ID
+cp /var/impulse/etc/rsyslog/ssl/ca-cert.pem /opt/impulse/build/agent/tls/ca-cert.pem
 
 cd $PROJECT_ROOT_DIR
-
-#docker load --input /opt/impulse/build/shared/rsyslog-image/impulse_rsyslog_image.tar
-
-## managerd image 
-#docker load --input /opt/impulse/build/managerd_image/impulse_managerd_image.tar.gz
 
 $PROJECT_ROOT_DIR/install_modules/manager/impulse_manager_systemd.sh $PROJECT_ROOT_DIR $IP_HOST $AGENT_TYPE $OS_TYPE
 
@@ -158,8 +157,8 @@ sudo docker compose --file ./docker-compose-manager.yml --env-file ./impulse.con
 
 sleep 10
 
-systemctl start impulse-manager.service
-systemctl enable impulse-manager.service
+systemctl start impulse-manager.service impulse-manager-grpc-server.service
+systemctl enable impulse-manager.service impulse-manager-grpc-server.service
 
 docker exec -it impulse-datastore psql --username=postgres -c 'CREATE DATABASE "'$DB_NAME_MANAGER'";'
 docker exec -it impulse-datastore psql --username=postgres -c 'CREATE DATABASE "impulse_manager";'
@@ -184,13 +183,12 @@ $PROJECT_ROOT_DIR/install_modules/manager/impulse_crontab.sh $PROJECT_ROOT_DIR $
 echo "Task: OSquery setup ..."
 $PROJECT_ROOT_DIR/install_modules/shared/osquery.sh $PROJECT_ROOT_DIR $OS_TYPE $PACKAGE_MGR
 
-/usr/bin/docker exec -i impulse-datastore psql --username=postgres -d impulse_manager -c "INSERT INTO osquery_packs (pack_name, pack_id, pack_version, pack_type) VALUES ('impulse_core_pack', '0001', '1', 'ioc')"
+docker exec -i impulse-datastore psql --username=postgres -d impulse_manager -c "INSERT INTO osquery_packs (pack_name, pack_id, pack_version, pack_type) VALUES ('impulse_core_pack', '0001', '1', 'ioc')"
 
 IP_HOST_INSERT="'"$IP_HOST"'"
 docker exec -it impulse-datastore psql --username=postgres -d impulse_manager -c "INSERT INTO pack_deployments (asset_ip, pack_id, pack_version, pack_status_on_agent, deployment_status) VALUES("$IP_HOST_INSERT", '0001', '1', true, true);"
 
-/usr/bin/docker exec -i impulse-datastore psql --username=postgres -d impulse_manager -c "INSERT INTO suricata_custom_rulesets (ruleset_name, ruleset_latest_version) VALUES ('suricata_custom_rules', '1')"
-
+docker exec -i impulse-datastore psql --username=postgres -d impulse_manager -c "INSERT INTO suricata_custom_rulesets (ruleset_name, ruleset_latest_version) VALUES ('suricata_custom_rules', '1')"
 
 public_id=$(dig +short myip.opendns.com @resolver1.opendns.com)
 
@@ -198,7 +196,7 @@ docker exec -i impulse-datastore psql --username=postgres -d impulse_manager -c 
 docker exec -i impulse-datastore psql --username=postgres -d impulse_manager -c "INSERT INTO whitelisted_ips (ip_addr) SELECT ('"$IP_MANAGER"') where not exists (SELECT ip_addr FROM whitelisted_ips WHERE ip_addr = '"$IP_MANAGER"');"
 
 if [[ $MANAGER_PROXY_IP != '' ]]; then
-	/usr/bin/docker exec -i impulse-datastore psql --username=postgres -d impulse_manager -c "INSERT INTO whitelisted_ips (ip_addr) VALUES ('"$MANAGER_PROXY_IP"')"
+	docker exec -i impulse-datastore psql --username=postgres -d impulse_manager -c "INSERT INTO whitelisted_ips (ip_addr) VALUES ('"$MANAGER_PROXY_IP"')"
 fi 
 
 $PROJECT_ROOT_DIR/install_modules/shared/firewall.sh $SETUP_TYPE $IP_MANAGER $PACKAGE_MGR $OS_TYPE $FIREWALL_BACKEND
@@ -206,9 +204,10 @@ $PROJECT_ROOT_DIR/install_modules/shared/firewall.sh $SETUP_TYPE $IP_MANAGER $PA
 echo "Post-Installation Setup..."
 
 curl -i -X POST -H "Content-Type: application/json" --data '{"ip_addr":"'"$IP_HOST"'","manager_database":"'"$DB_NAME_MANAGER"'"}' http://127.0.0.1:5020/local-endpoint/fleet/register-manager
+
 curl -i -X POST -H "Content-Type: application/json" --data '{"ip_addr":"'"$IP_HOST"'","agent_db":"'"$DB_NAME_MANAGER"'","alias":"manager"}' http://127.0.0.1:5020/local-endpoint/fleet/set-active-database
 
-curl -i -X POST -H "Content-Type: application/json" --data '{"os_type":"'"$OS_TYPE"'","os_type_verbose":"'"$AGENT_OS_TYPE_VERBOSE"'", "manager_id": "'"$MANAGER_ID"'", "package_manager": "'"$PACKAGE_MGR"'", "manager_ip": "'"$IP_HOST"'"}' http://127.0.0.1:5020/local-endpoint/manager-init
+curl -i -X POST -H "Content-Type: application/json" --data '{"os_type":"linux", "os_type_verbose":"'"$AGENT_OS_TYPE_VERBOSE"'", "manager_id": "'"$MANAGER_ID"'", "package_manager": "'"$PACKAGE_MGR"'", "manager_ip": "'"$IP_HOST"'"}' http://127.0.0.1:5020/local-endpoint/manager-init
 
 echo "Generate admin password for web interface..."
 WEB_INTERFACE_USERNAME="impulse"
@@ -219,8 +218,6 @@ curl -i -X POST -H "Content-Type: application/json" --data '{"username":"'$WEB_I
 ## Whitelist client; all additional IPs used to ssh into the server or access the UI, must be whitelisted or they 
 ## will get blocked by the fleet firewall. To whitelist, go to /fleet/firewall -> Manage IP 
 
-#$PROJECT_ROOT_DIR/install_modules/manager/whitelist_ips.sh 
-/usr/bin/wget http://127.0.0.1:5020/local-endpoint/set-default-whitelisted -O /dev/null
 
 echo "WEB_INTERFACE_USERNAME:" 
 echo $WEB_INTERFACE_USERNAME
@@ -250,7 +247,15 @@ if [[ $PACKAGE_MGR = "rpm" ]]; then
 	firewall-cmd --permanent --add-port=7001/tcp
 fi 
 
+## Post-install tasks 
+sleep 5
+/usr/bin/wget http://127.0.0.1:5020/local-endpoint/set-default-whitelisted -O /dev/null
+
+/opt/impulse/tasks_manager/cron_tasks/syst_posture_task.sh
 sleep 2
+/opt/impulse/tasks_manager/cron_tasks/sca_tests.sh
+
+## Check status
 /opt/impulse/impulse-control.sh status
 
 BUILD_END_TIME=$(date)

@@ -55,6 +55,8 @@ input(type="imtcp" port="7514" )
 $template myFormat,"%msg%\n"
 $ActionFileDefaultTemplate myFormat
 
+$EscapeControlCharactersOnReceive off
+$Escape8BitCharactersOnReceive off
 
 ## Filter duplicated messages
 $RepeatedMsgReduction on

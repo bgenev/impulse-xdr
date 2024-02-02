@@ -1282,10 +1282,12 @@
         "indicator_name": "file_events",
         "table_title": "File Integrity Monitoring",
         "named_columns": [
-            "target_path"
+            "target_path",
+            "path"
         ],
         "alert_columns": [
-            "target_path"
+            "target_path",
+            "path"
         ],
         "category": "files_and_folders",
         "description": "File event",
@@ -1295,6 +1297,7 @@
         ],
         "score": 0.5
     },
+
     {
         "indicator_name": "critical_binary_modified",
         "table_title": "Critical Binaries",
@@ -1456,5 +1459,313 @@
             "T1543.002"
         ],
         "score": 1
+    },
+
+
+    {
+        "indicator_name": "scheduled_tasks",
+        "table_title": "Scheduled Tasks",
+        "named_columns": [
+            "name",
+            "path"
+        ],
+        "alert_columns": [
+            "name",
+            "path"
+        ],
+        "category": "processes",
+        "description": "Scheduled Tasks",
+        "mitre_ref": [
+        ],
+        "score": 0.1
+    },
+
+    {
+        "indicator_name": "powershell_events",
+        "table_title": "Powershell Events",
+        "named_columns": [
+            "script_text",
+            "script_name"
+        ],
+        "alert_columns": [
+            "script_text",
+            "script_name"
+        ],
+        "category": "processes",
+        "description": "Powershell Events",
+        "mitre_ref": [
+        ],
+        "score": 0.5
+    },
+
+    {
+        "indicator_name": "programs",
+        "table_title": "Programs",
+        "named_columns": [
+            "name",
+            "install_location"
+        ],
+        "alert_columns": [
+            "name",
+            "install_location"
+        ],
+        "category": "programs",
+        "description": "Programs",
+        "mitre_ref": [
+        ],
+        "score": 2
+    },
+
+    {
+        "indicator_name": "logged_in_users",
+        "table_title": "Logged-in Users",
+        "named_columns": [
+            "user",
+            "host"
+        ],
+        "alert_columns": [
+            "user",
+            "host"
+        ],
+        "category": "users",
+        "description": "Logged-in users",
+        "mitre_ref": [
+        ],
+        "score": 2
+    },
+
+    {
+        "indicator_name": "appcompat_shims",
+        "table_title": "Appcompat shims",
+        "named_columns": [
+            "executable",
+            "path"
+        ],
+        "alert_columns": [
+            "executable",
+            "path"
+        ],
+        "category": "appcompat_shims",
+        "description": "Appcompat shims",
+        "mitre_ref": [
+        ],
+        "score": 0.5
+    },
+
+    {
+        "indicator_name": "certificates",
+        "table_title": "Certificates",
+        "named_columns": [
+            "common_name",
+            "subject"
+        ],
+        "alert_columns": [
+            "common_name",
+            "subject"
+        ],
+        "category": "certificates",
+        "description": "Certificates",
+        "mitre_ref": [
+        ],
+        "score": 0.5
+    },
+
+    {
+        "indicator_name": "chocolatey_packages",
+        "table_title": "Chocolatey Packages",
+        "named_columns": [
+            "name",
+            "summary"
+        ],
+        "alert_columns": [
+            "name",
+            "summary"
+        ],
+        "category": "installed_packages",
+        "description": "Chocolatey Packages",
+        "mitre_ref": [
+        ],
+        "score": 2
+    },
+
+    {
+        "indicator_name": "chrome_extensions",
+        "table_title": "Chrome Extensions",
+        "named_columns": [
+            "name",
+            "profile_path"
+        ],
+        "alert_columns": [
+            "name",
+            "profile_path"
+        ],
+        "category": "chrome_extensions",
+        "description": "Chrome Extensions",
+        "mitre_ref": [
+        ],
+        "score": 1
+    },    
+
+    {
+        "indicator_name": "drivers",
+        "table_title": "Drivers",
+        "named_columns": [
+            "device_name"
+        ],
+        "alert_columns": [
+            "device_name"
+        ],
+        "category": "drivers",
+        "description": "Drivers",
+        "mitre_ref": [
+        ],
+        "score": 1
+    },  
+    
+    {
+        "indicator_name": "patches",
+        "table_title": "Patches",
+        "named_columns": [
+            "patches"
+        ],
+        "alert_columns": [
+            "patches"
+        ],
+        "category": "patches",
+        "description": "Patches",
+        "mitre_ref": [
+        ],
+        "score": 1
+    },  
+
+    {
+        "indicator_name": "pipes",
+        "table_title": "Pipes",
+        "named_columns": [
+            "name"
+        ],
+        "alert_columns": [
+            "name"
+        ],
+        "category": "pipes",
+        "description": "Pipes",
+        "mitre_ref": [
+        ],
+        "score": 0.1
+    },     
+    
+    {
+        "indicator_name": "services",
+        "table_title": "Services",
+        "named_columns": [
+            "display_name"
+        ],
+        "alert_columns": [
+            "display_name"
+        ],
+        "category": "services",
+        "description": "Services",
+        "mitre_ref": [
+        ],
+        "score": 0.5
+    },         
+
+    {
+        "indicator_name": "shared_resources",
+        "table_title": "Shared Resources",
+        "named_columns": [
+            "display_name"
+        ],
+        "alert_columns": [
+            "display_name"
+        ],
+        "category": "shared_resources",
+        "description": "Shared Resources",
+        "mitre_ref": [
+        ],
+        "score": 0.5
+    },  
+    
+    {
+        "indicator_name": "Windows Crashes",
+        "table_title": "windows_crashes",
+        "named_columns": [
+            "path"
+        ],
+        "alert_columns": [
+            "path"
+        ],
+        "category": "windows_crashes",
+        "description": "Windows Crashes",
+        "mitre_ref": [
+        ],
+        "score": 0.1
+    },   
+
+    {
+        "indicator_name": "wmi_cli_event_consumers",
+        "table_title": "wmi_cli_event_consumers",
+        "named_columns": [
+            "name",
+            "executable_path"
+        ],
+        "alert_columns": [
+            "name",
+            "executable_path"
+        ],
+        "category": "wmi_cli_event_consumers",
+        "description": "wmi_cli_event_consumers",
+        "mitre_ref": [
+        ],
+        "score": 0.1
+    },
+    
+    {
+        "indicator_name": "wmi_event_filters",
+        "table_title": "wmi_event_filters",
+        "named_columns": [
+            "name"
+        ],
+        "alert_columns": [
+            "name"
+        ],
+        "category": "wmi_event_filters",
+        "description": "wmi_event_filters",
+        "mitre_ref": [
+        ],
+        "score": 0.1
+    },   
+
+    {
+        "indicator_name": "wmi_filter_consumer_binding",
+        "table_title": "wmi_filter_consumer_binding",
+        "named_columns": [
+            "consumer"
+        ],
+        "alert_columns": [
+            "consumer"
+        ],
+        "category": "wmi_filter_consumer_binding",
+        "description": "wmi_filter_consumer_binding",
+        "mitre_ref": [
+        ],
+        "score": 0.1
+    },
+    
+    {
+        "indicator_name": "wmi_script_event_consumers",
+        "table_title": "wmi_script_event_consumers",
+        "named_columns": [
+            "name"
+        ],
+        "alert_columns": [
+            "name"
+        ],
+        "category": "wmi_script_event_consumers",
+        "description": "wmi_script_event_consumers",
+        "mitre_ref": [
+        ],
+        "score": 0.1
     }
+
 ]

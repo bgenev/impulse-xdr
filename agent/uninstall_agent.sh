@@ -1,7 +1,7 @@
 #!/bin/bash
 
 #
-# Copyright (c) 2021-2023, Bozhidar Genev - All Rights Reserved.Impulse XDR   
+# Copyright (c) 2024, Bozhidar Genev - All Rights Reserved.Impulse XDR   
 # Impulse is licensed under the Impulse User License Agreement at the root of this project.
 #
 
@@ -18,7 +18,7 @@ apt purge -y osquery
 systemctl stop impulse-main impulse-containers impulse-nids osquery
 systemctl disable impulse-main impulse-containers impulse-nids osquery
 
-rm /etc/systemd/system/impulse-main.service 
+rm /etc/systemd/system/impulse-agent-grpc-client.service 
 rm /etc/systemd/system/impulse-containers.service
 rm /etc/systemd/system/impulse-nids.service
 

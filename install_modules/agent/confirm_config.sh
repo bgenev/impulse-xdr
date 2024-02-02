@@ -1,14 +1,14 @@
 #!/bin/bash
 
 
-IP_AGENT=$1
+AGENT_IP=$1
 AGENT_TYPE=$2
 AGENT_ID=$3
 HOST_INTERFACE=$4
 
-read -p "Agent IP Address: $IP_AGENT (y/n)? " CONT
+read -p "Agent IP Address: $AGENT_IP (y/n)? " CONT
 if [ "$CONT" = "y" ]; then
-  echo $IP_AGENT" confirmed. Continue.";
+  echo $AGENT_IP" confirmed. Continue.";
 
 elif [ "$CONT" = "n" ]; then
   echo "No. Please check your environment and modify impulse.conf";

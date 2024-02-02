@@ -1,7 +1,7 @@
 #!/bin/bash
 
 #
-# Copyright (c) 2021-2023, Bozhidar Genev - All Rights Reserved.Impulse XDR   
+# Copyright (c) 2024, Bozhidar Genev - All Rights Reserved.Impulse XDR   
 # Impulse is licensed under the Impulse User License Agreement at the root of this project.
 #
 
@@ -18,10 +18,10 @@ if [[ $SYST_STATE == 'stop' ]]
 then
 	echo "Stop and deactivate Impulse..."
 
-	systemctl stop impulse-main osqueryd rsyslog syslog.socket
+	systemctl stop impulse-agent-grpc-client osqueryd rsyslog syslog.socket
 	#systemctl stop impulse-containers
 
-	systemctl disable impulse-main osqueryd rsyslog
+	systemctl disable impulse-agent-grpc-client osqueryd rsyslog
 	#systemctl disable  impulse-containers
 	
 	if [[ $NIDS_ENABLED == 'true' && $AGENT_TYPE == 'heavy' ]]; then
@@ -35,8 +35,8 @@ elif [[ $SYST_STATE == 'start' ]]
 then
 	echo "Start and enable Impulse..."
 
-	systemctl enable impulse-main osqueryd rsyslog # impulse-containers
-	systemctl start impulse-main osqueryd rsyslog syslog.socket # impulse-containers
+	systemctl enable impulse-agent-grpc-client osqueryd rsyslog # impulse-containers
+	systemctl start impulse-agent-grpc-client osqueryd rsyslog syslog.socket # impulse-containers
 	
 
 	if [[ $NIDS_ENABLED == 'true' && $AGENT_TYPE == 'heavy' ]]; then
@@ -52,7 +52,7 @@ then
 	printf "\n\n "
 	printf "Components "
 	printf "\n\n "
-	printf "impulse-main: "$(systemctl is-active impulse-main)
+	printf "impulse-agent-grpc-client: "$(systemctl is-active impulse-agent-grpc-client)
 	printf "\n\n "
 	# printf "impulse-containers: "$(systemctl is-active impulse-containers)
 	# printf "\n\n "

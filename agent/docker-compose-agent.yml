@@ -1,4 +1,6 @@
-version: "3"
+version: "3"  # optional since v1.27.0
+#name: "impulse-agent"
+
 services:
   rsyslog:
     image: bgenev/impulse-rsyslog
@@ -15,3 +17,4 @@ services:
       - /var/impulse/log/suricata:/var/impulse/log/suricata
       - /var/log/osquery:/var/log/osquery
     restart: always
+

@@ -1,5 +1,5 @@
 #
-# Copyright (c) 2021-2023, Bozhidar Genev - All Rights Reserved.Impulse XDR   
+# Copyright (c) 2024, Bozhidar Genev - All Rights Reserved.Impulse XDR   
 # Impulse is licensed under the Impulse User License Agreement at the root of this project.
 #
 
@@ -11,6 +11,7 @@ def get_cis_compliance_checks():
 	with open(pack_file_path, 'r') as json_file:
 		checks_data = json.load(json_file)
 		json_file.close()
+		
 	return checks_data
 
 
