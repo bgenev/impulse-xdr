@@ -2,7 +2,7 @@
 
 #### Deep Security Visibility & Protection
 
-Impulse XDR is the easiest way to start monitoring your servers and endpoints including VPS, VPC, VMs, Droplets or Linux/Windows 10/11 machines. 
+Impulse XDR is the easiest way to start monitoring your servers and endpoints including VPS, VPC networks, VMs, Linux Desktop and Windows 10/11 assets.
 
 Whether your goal is to secure a single VPS server or large cloud network (VPC), Impulse will help you get there. Set up deep visibility and protection for your infrastucture in two steps: 
 
