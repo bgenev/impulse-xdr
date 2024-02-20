@@ -42,7 +42,7 @@ rm -rf /usr/share/osquery
 cd /opt 
 rm -rf /opt/impulse
 
-systemctl restart cron 
+systemctl restart cron crond 
 
 # deluser impulse_siem
 # rm -rf /home/impulse_siem

@@ -127,23 +127,23 @@ def run_malware_scanner(agent_ip):
 	malware_scanner_task(agent_ip)
 	
 
-#@celery_app.task
+@celery_app.task
 def scan_by_os_type(osquery_string, package_type, selected_targets):
 	hosts_results, failed_hosts = run_distributed_query(osquery_string, selected_targets)
 
+	print("==> selected_targets: ", selected_targets, "hosts_results:", len(hosts_results))
 	for host_result in hosts_results:
+		print("host_result:", host_result)
 
 		pkg_name = host_result['name']
 		agent_ip = host_result['asset_id']
+		
 		try:
 			version_installed = host_result['version']
 		except:
 			version_installed = 'n/a'
 
-		package_check = AssetsPackagesInstalled.query.filter_by(
-			package_name=pkg_name, 
-			asset_id=agent_ip,
-		).first()
+		package_check = AssetsPackagesInstalled.query.filter_by(package_name=pkg_name).filter_by(asset_id=agent_ip).first()
 		
 		if package_check == None:
 			new_rec = AssetsPackagesInstalled(
@@ -182,8 +182,6 @@ def start_sca_scan_task(agent_ip, manager_ip_addr):
 			15
 		)
 		tests_results = tests_results[0][0]
-		#print("==> tests_results: ", tests_results)
-
 		sca_update_agent_results({ "agent_ip": agent_ip, "tests_results": tests_results })
 
 

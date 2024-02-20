@@ -12,6 +12,9 @@ if [ -x "$(command -v sestatus)" ]; then
         semodule -i /opt/impulse/build/shared/selinux_policy/impulse_fedora_policy.pp
     fi   
 	semodule --reload
+
+  # disable selinux 
+  #setenforce 0
 else
 	echo "No selinux detected."
 fi

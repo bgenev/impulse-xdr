@@ -423,11 +423,16 @@ class PackagesCvesMap(db.Model):
 	description = db.Column(db.String(10000))
 	fixed_version = db.Column(db.String(100))
 	status = db.Column(db.String(100))
-	
-	cve_severity = db.Column(db.String(100))
+	impulse_management = db.Column(db.String(50))
 	cve_id = db.Column(db.String(100))
 	cve_data = db.Column(JSONB)
 	message = db.Column(JSONB)
+
+	published_date = db.Column(db.DateTime())
+	last_modified_date = db.Column(db.DateTime())
+	base_severity = db.Column(db.String(100))
+	exploitability_score = db.Column(db.String(100))
+
 	created_on = db.Column(db.DateTime())
 	
 
@@ -613,6 +618,7 @@ class GrpcSnapshots(db.Model):
 	sca_report = db.Column(JSONB)
 	man_page = db.Column(JSONB)
 	inventory_item = db.Column(JSONB)
+	installed_packages = db.Column(JSONB)
 	task_id = db.Column(db.String(100))
 	updated_on = db.Column(db.DateTime, server_default=db.func.now())
 

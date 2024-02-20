@@ -27,7 +27,7 @@ kernelk_cron_file="
 
 # CVEs Run Scan and Update
 # multiproc
-0 12 * * * root $PROJECT_ROOT_DIR/tasks_manager/cron_tasks/cves_scan.sh
+0 12 * * * root $PROJECT_ROOT_DIR/tasks_manager/cron_tasks/scan_installed_packages.sh
 
 # FIM file_hash scan
 # multiproc

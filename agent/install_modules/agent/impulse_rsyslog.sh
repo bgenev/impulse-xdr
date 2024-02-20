@@ -129,3 +129,75 @@ echo "$AGENT_GENERAL_CONF_TEMPLATE" > "/etc/rsyslog.conf"
 systemctl enable rsyslog
 systemctl restart rsyslog
 
+
+
+
+
+
+
+
+
+
+
+
+
+# # rsyslog configuration file
+
+# # For more information see /usr/share/doc/rsyslog-*/rsyslog_conf.html
+# # If you experience problems, see http://www.rsyslog.com/doc/troubleshoot.html
+
+# #### MODULES ####
+
+# # The imjournal module bellow is now used as a message source instead of imuxsock.
+# $ModLoad imuxsock # provides support for local system logging (e.g. via logger command)
+# # Tachtler
+# # default: $ModLoad imjournal # provides access to the systemd journal
+# # $ModLoad imjournal # provides access to the systemd journal
+# #$ModLoad imklog # reads kernel messages (the same are read from journald)
+# # Tachtler
+# # default: #$ModLoad immark  # provides --MARK-- message capability
+# $ModLoad immark  # provides --MARK-- message capability
+
+# # Provides UDP syslog reception
+# #$ModLoad imudp
+# #$UDPServerRun 514
+
+# # Provides TCP syslog reception
+# #$ModLoad imtcp
+# #$InputTCPServerRun 514
+
+
+# #### GLOBAL DIRECTIVES ####
+
+# # Where to place auxiliary files
+# $WorkDirectory /var/lib/rsyslog
+
+# # Use default timestamp format
+# $ActionFileDefaultTemplate RSYSLOG_TraditionalFileFormat
+
+# # File syncing capability is disabled by default. This feature is usually not required,
+# # not useful and an extreme performance hit
+# #$ActionFileEnableSync on
+
+# # Include all config files in /etc/rsyslog.d/
+# $IncludeConfig /etc/rsyslog.d/*.conf
+
+# # Turn off message reception via local log socket;
+# # local messages are retrieved through imjournal now.
+# # Tachtler
+# # default: $OmitLocalLogging on
+# $OmitLocalLogging off
+
+# # File to store the position in the journal
+# # Tachtler
+# # default: $IMJournalStateFile imjournal.state
+# # $IMJournalStateFile imjournal.state
+
+
+# #### RULES ####
+ 
+# # Tachtler - new -
+# # Write all Log-Information to graylog
+# #$template GRAYLOGRFC5424,"<%PRI%>%PROTOCOL-VERSION% %TIMESTAMP:::date-rfc3339% %HOSTNAME% %APP-NAME% %PROCID% %MSGID% %STRUCTURED-DATA% %msg%\n"
+# #*.*                                                     @10.7.0.110:514;GRAYLOGRFC5424
+# *.*                                                     @10.7.0.110:514;RSYSLOG_SyslogProtocol23Format

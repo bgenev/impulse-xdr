@@ -107,6 +107,8 @@ mkdir -p /var/impulse/data/rsyslog/spool
 mkdir -p /var/impulse/data/quarantined_files
 mkdir -p /var/log/impulse
 
+mkdir -p /var/spool/rsyslog
+
 ## with system rsyslog
 mkdir -p /etc/ssl/impulse
 mkdir -p /etc/rsyslog.d/impulse
@@ -133,6 +135,11 @@ echo "Creating TLS certificates..."
 openssl req -new -newkey rsa:4096 -x509 -sha256 -days 365 -subj "/CN=localhost" -nodes -out /var/impulse/etc/ssl/certs/impulse.crt -keyout /var/impulse/etc/ssl/private/impulse.key 
 
 $PROJECT_ROOT_DIR/install_modules/agent/impulse_systemd_services.sh $PROJECT_ROOT_DIR $IP_HOST $AGENT_TYPE $OS_TYPE
+
+# SELinux must be adjusted for rsyslog on Alma/CentOS/RHEL distributions
+
+## or temporary disable it with
+# setenforce 0 
 
 echo "Create Indexer templates..."
 $PROJECT_ROOT_DIR/install_modules/agent/impulse_rsyslog.sh $PROJECT_ROOT_DIR $AGENT_TYPE $IP_MANAGER $AGENT_TAG_ID $PACKAGE_MGR

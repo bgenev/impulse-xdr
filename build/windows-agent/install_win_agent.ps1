@@ -1,4 +1,6 @@
 
+#Requires -RunAsAdministrator
+
 Set-ExecutionPolicy -ExecutionPolicy unrestricted -Force -Confirm:$false
 
 # Install chocolately if not available 
@@ -19,6 +21,10 @@ Copy-Item "C:\Program Files\impulse\build\osquery\osquery.conf" -Destination "C:
 Restart-Service -Name osqueryd
 Restart-Service -Name nxlog
 
+# Refresh Env Vars
+Import-Module $env:ChocolateyInstall\helpers\chocolateyProfile.psm1
+refreshenv
+
 # Create virtual environment 
 cd 'C:\Program Files\impulse'
 python -m venv venv
@@ -36,16 +42,3 @@ cd 'C:\Program Files\impulse\build\nssm-2.24\win64'
 
 sc.exe start impulse-agentd
 
-
-
-
-### Notes 
-
-# wget manager_url/agent-secret-key -o "C:\Program Files\syncthing.tar.gz"
-# tar -xf 'C:\Program Files\log2.tar.gz'
-
-## Create the impulse project folder in Program Files 
-## New-Item -Path "C:\Program Files\" -Name "impulse" -ItemType Directory
-
-## Install the Impulse service 
-# "C:\Program Files\impulse\venv7\Scripts\python.exe" "C:\Program Files\impulse\agentd\grpc_server.py"

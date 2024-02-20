@@ -75,17 +75,18 @@ $LocalHostName '$AGENT_TAG_ID'
 $PreserveFQDN on
 
 module(load="imuxsock") # provides support for local system logging
-module(load="imklog" permitnonkernelfacility="on") # provides kernel logging support and enable non-kernel klog messages
 module(load="imfile" PollingInterval="10")
+
+# # Where to place auxiliary files
+global(workDirectory="/var/lib/rsyslog")
+# # Use default timestamp format
+# module(load="builtin:omfile" Template="RSYSLOG_TraditionalFileFormat")
 
 $template logsFormat,"%msg%\n"
 $ActionFileDefaultTemplate logsFormat
-
 $MaxMessageSize 512k
-
 # Filter duplicated messages
 $RepeatedMsgReduction on
-
 # Set the default permissions for all log files.
 $FileOwner root
 $FileGroup root
@@ -95,8 +96,6 @@ $Umask 0022
 $PrivDropToUser root
 $PrivDropToGroup root
 
-$WorkDirectory /var/spool/rsyslog 
-
 ############################## TLS Setup ####################################
 $DefaultNetstreamDriverCAFile /etc/ssl/impulse/ca-cert.pem
 $DefaultNetstreamDriver gtls
@@ -104,7 +103,6 @@ $ActionSendStreamDriverMode 1
 $ActionSendStreamDriverAuthMode anon
 #############################################################################
 
-#$IncludeConfig /etc/rsyslog.d/impulse/*.conf
 include(file="/etc/rsyslog.d/impulse/*.conf")
 
 ## Set up buffering 
@@ -112,9 +110,10 @@ $ActionQueueType LinkedList # use asynchronous processing
 $ActionQueueFileName dbq # set file name, also enables disk mode
 $ActionResumeRetryCount -1 # infinite retries on insert failure
 
-# # TCP send to Manager
+## TCP send to Manager
 *.* @@'$IP_MANAGER':7514  # Manager IP_ADDR is dynamically generated from the config file. 
 & ~
+
 '
 
 if [[ $AGENT_TYPE == 'heavy' ]]; 
@@ -136,119 +135,32 @@ systemctl restart rsyslog
 
 
 
-
-
-
-
-
-
-
-
-
-###
-### OLD WAY WITH CONTAINARIZED RSYSLOG
-###
-
-
-# #### Rsyslog Agent
-# LIGHT_AGENT_CONFD_RSYSLOG_TEMPLATE='
-# # OSquery  
-# $InputFileName /var/log/osquery/osqueryd.results.log
-# $InputFileTag osquery-agent
-# $InputFileStateFile osquery-agent
-# $InputFilePollInterval 10
-# $InputRunFileMonitor
-# '
-
-# HEAVY_AGENT_CONFD_RSYSLOG_TEMPLATE='
-# # OSquery  
-# $InputFileName /var/log/osquery/osqueryd.results.log
-# $InputFileTag osquery-agent
-# $InputFileStateFile osquery-agent
-# $InputFilePollInterval 10
-# $InputRunFileMonitor
-
-# # eve-alerts.json 
-# $InputFileName /var/impulse/log/suricata/eve-alert.json
-# $InputFileTag eve-alert-agent
-# $InputFileStateFile eve-alert-agent
-# $InputFilePollInterval 10
-# $InputRunFileMonitor
-
-# # eve-flow.json 
-# $InputFileName /var/impulse/log/suricata/eve-flow.json
-# $InputFileTag eve-flow-agent
-# $InputFileStateFile eve-flow-agent
-# $InputFilePollInterval 10
-# $InputRunFileMonitor
-
-# # eve-dns.json 
-# $InputFileName /var/impulse/log/suricata/eve-dns.json
-# $InputFileTag eve-dns-agent
-# $InputFileStateFile eve-dns-agent
-# $InputFilePollInterval 10
-# $InputRunFileMonitor
-# '
-
-
-
-
-# AGENT_GENERAL_CONF_TEMPLATE='
 # ### This file is managed by Impulse. 
-
 # ## Remote Agent Unique ID
 # $LocalHostName '$AGENT_TAG_ID'
 # $PreserveFQDN on
+# #### GLOBAL DIRECTIVES ####
+# global(workDirectory="/var/lib/rsyslog") # Where to place auxiliary files
+# module(load="builtin:omfile" Template="RSYSLOG_TraditionalFileFormat") # Use default timestamp format
 
-# $ModLoad imuxsock # provides support for local system logging
-# $ModLoad imklog   # provides kernel logging support (previously done by rklogd)
-# #$ModLoad immark  # provides --MARK-- message capability
-# $ModLoad imfile 
+# # make gtls driver the default and set certificate files
+# global(
+# DefaultNetstreamDriver="gtls"
+# DefaultNetstreamDriverCAFile="/etc/ssl/impulse/ca-cert.pem"
+# )
 
-# $template logsFormat,"%msg%\n"
-# $ActionFileDefaultTemplate logsFormat
-
-# $MaxMessageSize 512k
-
-# # Filter duplicated messages
-# $RepeatedMsgReduction on
-
-# # Set the default permissions for all log files.
-# $FileOwner root
-# $FileGroup root
-# $FileCreateMode 0640
-# $DirCreateMode 0755
-# $Umask 0022
-# $PrivDropToUser root
-# $PrivDropToGroup root
-
-# $WorkDirectory /var/spool/rsyslog  #Where to place spool files
-
-# ############################## TLS Setup ####################################
-# $DefaultNetstreamDriverCAFile /etc/ssl/impulse/ca-cert.pem
-# $DefaultNetstreamDriver gtls
-# $ActionSendStreamDriverMode 1
-# $ActionSendStreamDriverAuthMode anon
-# #############################################################################
-
-# $IncludeConfig /etc/rsyslog.d/*.conf # Include all config files in /etc/rsyslog.d/
-
-# ## Set up buffering 
-# $ActionQueueType LinkedList # use asynchronous processing
-# $ActionQueueFileName dbq # set file name, also enables disk mode
-# $ActionResumeRetryCount -1 # infinite retries on insert failure
-
-# # # TCP send to Manager
-# *.* @@'$IP_MANAGER':7514  # Manager IP_ADDR is dynamically generated from the config file. 
-# & ~
-# '
-
-# if [[ $AGENT_TYPE == 'heavy' ]]; 
-# then
-# 	echo "$HEAVY_AGENT_CONFD_RSYSLOG_TEMPLATE" > "/var/impulse/etc/rsyslog/rsyslog.d/agent.conf"
-# else 
-# 	echo "$LIGHT_AGENT_CONFD_RSYSLOG_TEMPLATE" > "/var/impulse/etc/rsyslog/rsyslog.d/agent.conf"
-# fi
-
-# echo "$AGENT_GENERAL_CONF_TEMPLATE" > "/var/impulse/etc/rsyslog/rsyslog.conf"
-
+# #### MODULES ####
+# module(load="imfile")
+# include(file="/etc/rsyslog.d/impulse/*.conf" mode="optional") # Include all config files in /etc/rsyslog.d/
+# #### FORWARDING SETUP ####
+# action(type="omfwd"  
+# # # An on-disk queue is created for this action. If the remote host is
+# # # down, messages are spooled to disk and sent when it is up again.
+# #queue.filename="fwdRule1"       # unique name prefix for spool files
+# #queue.maxdiskspace="1g"         # 1gb space limit (use as much as possible)
+# queue.saveonshutdown="on"       # save messages to disk on shutdown
+# queue.type="LinkedList"         # run asynchronously
+# action.resumeRetryCount="-1"    # infinite retries if host is down
+# StreamDriver="gtls"
+# StreamDriverMode="1" # run driver in TLS-only mode
+# Target="192.168.0.37" Port="7514" Protocol="tcp")

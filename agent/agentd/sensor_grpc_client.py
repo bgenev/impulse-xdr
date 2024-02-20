@@ -128,11 +128,34 @@ def start_main_thread(streaming_stub):
 					result = get_agent_system_posture(syst_posture_queries)	
 					result = json.dumps(result)	
 
-				elif task_code == "gather_installed_packages":
-					args = json.loads( response.args )
-					all_packages = {'python_packages': exec_osqueryd("select * from python_packages")}
-					#result = json.dumps(result)
-					pass 	
+				elif task_code == "installed_packages":
+					os_type = args['os_type']
+
+					package_list = []
+
+					if os_type == 'linux':
+						result_dict = exec_osqueryd('select * from deb_packages;')
+
+						package_list.append({"type": "deb_package", "result": result_dict })
+
+						if len(result_dict) == 0:
+							result_dict = exec_osqueryd('select * from rpm_packages;')
+							package_list.append({"type": "rpm_package", "result": result_dict })
+
+					elif os_type == 'windows':
+						programs_dict = exec_osqueryd('select * from programs;')
+						chocolatey_packages_dict = exec_osqueryd('select * from chocolatey_packages;')
+
+						package_list.append({"type": "windows_program", "result": programs_dict })
+						package_list.append({"type": "windows_chocolatey_package", "result": chocolatey_packages_dict })
+					else:
+						pass 
+
+					python_packages_dict = exec_osqueryd('select * from python_packages;')
+
+					package_list.append({"type": "python_package", "result": python_packages_dict })
+
+					result = json.dumps(package_list)
 
 				elif task_code == "man_page":
 					service_name = args['service_name']
@@ -158,7 +181,6 @@ def start_main_thread(streaming_stub):
 						target_agent_ip
 					)				
 					result = json.dumps(respJson) 
-
 
 				elif task_code == "take_action":
 					indicator_name = args['indicator_name']
@@ -198,6 +220,7 @@ def start_main_thread(streaming_stub):
 
 					with open(OSQUERY_CONF_IN_USE, "w") as jsonFile:
 						json.dump(core_pack_data, jsonFile, indent=4)
+
 					subprocess.Popen(['systemctl', 'restart', 'osqueryd'])
 
 					respJson = {
@@ -209,8 +232,6 @@ def start_main_thread(streaming_stub):
 				else:
 					pass 
 				
-				print("Task return result: ", result)
-
 			except Exception as e:
 				print("exception doing task: ", e)
 				pass 
@@ -234,7 +255,6 @@ def run():
 		credentials=ca_root_cert
 	) as channel:
 		streaming_stub = manager_grpc_server_pb2_grpc.GrpcServerStub(channel)
-		#unary_stub = manager_grpc_server_pb2_grpc.GrpcServerStub(channel)
 		start_main_thread(streaming_stub)
 
 if __name__ == '__main__':
@@ -242,6 +262,5 @@ if __name__ == '__main__':
 		print("[START SENSOR CLIENT]..")
 		run()
 	except Exception as e:
-		print("__main__: ", e)
 		logging.debug('[SERVICE EXITING] logs:', e)
 

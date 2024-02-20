@@ -19,10 +19,10 @@ else
 	echo "No pkg manager specified. Exit"
 fi
 
-mkdir /etc/osquery/packs/
-mkdir /etc/osquery/packs/core/
-mkdir /etc/osquery/packs/premium/
-mkdir /etc/osquery/packs/custom/
+# mkdir /etc/osquery/packs/
+# mkdir /etc/osquery/packs/core/
+# mkdir /etc/osquery/packs/premium/
+# mkdir /etc/osquery/packs/custom/
 
 cp -r $PROJECT_ROOT_DIR/build/shared/osquery/* /etc/osquery
 

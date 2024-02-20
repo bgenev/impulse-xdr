@@ -14,8 +14,8 @@ fi
 echo "$kernelk_cron_file" > /etc/cron.d/impulse
 
 if [[ $OS_TYPE == 'ubuntu' || $OS_TYPE == 'debian' || $OS_TYPE = "linuxmint" ]]; then
-	service cron reload 
-	service cron restart 
+	service crond reload 
+	service crond restart 
 fi
 
 if [[ $OS_TYPE == 'centos' || $OS_TYPE = "fedora" ]]; then

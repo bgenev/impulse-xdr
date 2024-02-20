@@ -3,7 +3,6 @@
 SYSTD_ACTION=$1
 
 cd /opt/impulse
-#IP_MANAGER=$(awk -F "=" '/IP_MANAGER/ {print $2}' impulse.conf | tr -d ' ')
 
 
 if [[ $SYSTD_ACTION == 'start' ]]; then	

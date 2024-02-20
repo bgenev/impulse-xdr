@@ -53,7 +53,6 @@ MANAGER_PROXY_IP=$(awk -F "=" '/MANAGER_PROXY_IP/ {print $2}' impulse.conf | tr 
 MANAGER_VM_INSTANCE_PUBLIC_IP=$(awk -F "=" '/MANAGER_VM_INSTANCE_PUBLIC_IP/ {print $2}' impulse.conf | tr -d ' ')
 
 IMPULSE_DB_SERVER_PWD=$(awk -F "=" '/IMPULSE_DB_SERVER_PWD/ {print $2}' impulse.conf | tr -d ' ')
-MANAGER_ID=$(awk -F "=" '/MANAGER_ID/ {print $2}' impulse.conf | tr -d ' ')
 HOST_INTERFACE=$(awk -F "=" '/HOST_INTERFACE/ {print $2}' impulse.conf | tr -d ' ')
 SETUP_TYPE=$(awk -F "=" '/SETUP_TYPE/ {print $2}' impulse.conf | tr -d ' ')
 AGENT_TYPE=$(awk -F "=" '/AGENT_TYPE/ {print $2}' impulse.conf | tr -d ' ')
@@ -201,13 +200,18 @@ fi
 
 $PROJECT_ROOT_DIR/install_modules/shared/firewall.sh $SETUP_TYPE $IP_MANAGER $PACKAGE_MGR $OS_TYPE $FIREWALL_BACKEND
 
+
+# Vulnerability Management
+$PROJECT_ROOT_DIR/install_modules/manager/cvedb_vulns.sh
+
+
 echo "Post-Installation Setup..."
 
 curl -i -X POST -H "Content-Type: application/json" --data '{"ip_addr":"'"$IP_HOST"'","manager_database":"'"$DB_NAME_MANAGER"'"}' http://127.0.0.1:5020/local-endpoint/fleet/register-manager
 
 curl -i -X POST -H "Content-Type: application/json" --data '{"ip_addr":"'"$IP_HOST"'","agent_db":"'"$DB_NAME_MANAGER"'","alias":"manager"}' http://127.0.0.1:5020/local-endpoint/fleet/set-active-database
 
-curl -i -X POST -H "Content-Type: application/json" --data '{"os_type":"linux", "os_type_verbose":"'"$AGENT_OS_TYPE_VERBOSE"'", "manager_id": "'"$MANAGER_ID"'", "package_manager": "'"$PACKAGE_MGR"'", "manager_ip": "'"$IP_HOST"'"}' http://127.0.0.1:5020/local-endpoint/manager-init
+curl -i -X POST -H "Content-Type: application/json" --data '{"os_type":"linux", "os_type_verbose":"'"$AGENT_OS_TYPE_VERBOSE"'", "manager_id": "'"$IP_HOST"'", "package_manager": "'"$PACKAGE_MGR"'", "manager_ip": "'"$IP_HOST"'"}' http://127.0.0.1:5020/local-endpoint/manager-init
 
 echo "Generate admin password for web interface..."
 WEB_INTERFACE_USERNAME="impulse"
@@ -218,6 +222,35 @@ curl -i -X POST -H "Content-Type: application/json" --data '{"username":"'$WEB_I
 ## Whitelist client; all additional IPs used to ssh into the server or access the UI, must be whitelisted or they 
 ## will get blocked by the fleet firewall. To whitelist, go to /fleet/firewall -> Manage IP 
 
+
+
+## Make sure the interface is accessible 
+if [[ $PACKAGE_MGR = "deb" ]]; then
+	ufw allow 7001/tcp
+fi
+
+if [[ $PACKAGE_MGR = "rpm" ]]; then
+	firewall-cmd --permanent --add-port=7001/tcp
+fi 
+
+
+## Post-Install Tasks 
+sleep 5
+/usr/bin/wget http://127.0.0.1:5020/local-endpoint/set-default-whitelisted -O /dev/null
+
+/opt/impulse/tasks_manager/cron_tasks/syst_posture_task.sh
+
+sleep 10
+/opt/impulse/tasks_manager/cron_tasks/sca_tests.sh
+
+sleep 5
+/opt/impulse/tasks_manager/cron_tasks/scan_installed_packages.sh
+
+
+touch /var/impulse/data/manager/manager_creds.txt
+chmod 600 /var/impulse/data/manager/manager_creds.txt
+printf "username:"$WEB_INTERFACE_USERNAME >> /var/impulse/data/manager/manager_creds.txt
+printf "\npassword:"$WEB_INTERFACE_PASSWORD"\n" >> /var/impulse/data/manager/manager_creds.txt
 
 echo "WEB_INTERFACE_USERNAME:" 
 echo $WEB_INTERFACE_USERNAME
@@ -232,30 +265,9 @@ echo ""
 echo "To stop, start or check manager status:" 
 echo "/opt/impulse/impulse-control.sh stop/start/status" 
 
-touch /var/impulse/data/manager/manager_creds.txt
-chmod 600 /var/impulse/data/manager/manager_creds.txt
-printf "username:"$WEB_INTERFACE_USERNAME >> /var/impulse/data/manager/manager_creds.txt
-printf "\npassword:"$WEB_INTERFACE_PASSWORD"\n" >> /var/impulse/data/manager/manager_creds.txt
 
-
-## make sure the interface is accessible 
-if [[ $PACKAGE_MGR = "deb" ]]; then
-	ufw allow 7001/tcp
-fi
-
-if [[ $PACKAGE_MGR = "rpm" ]]; then
-	firewall-cmd --permanent --add-port=7001/tcp
-fi 
-
-## Post-install tasks 
+## Status
 sleep 5
-/usr/bin/wget http://127.0.0.1:5020/local-endpoint/set-default-whitelisted -O /dev/null
-
-/opt/impulse/tasks_manager/cron_tasks/syst_posture_task.sh
-sleep 2
-/opt/impulse/tasks_manager/cron_tasks/sca_tests.sh
-
-## Check status
 /opt/impulse/impulse-control.sh status
 
 BUILD_END_TIME=$(date)

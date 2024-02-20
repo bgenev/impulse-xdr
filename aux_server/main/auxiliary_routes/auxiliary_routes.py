@@ -86,6 +86,32 @@ class RestartOsquerydManagerHost(Resource):
 		return None 
 
 
+class GatherInstalledPackagesManagerHost(Resource):
+	def get(self):
+		package_list = []
+
+		instance = osquery_spawn_instance()
+		#results_obj = osquery_exec(instance, osquery_string)
+
+		results_obj = osquery_exec(instance, 'select * from deb_packages;')
+		result_dict = results_obj.response
+
+		package_list.append({"type": "deb_package", "result": result_dict })
+
+		if len(result_dict) == 0:
+			results_obj = osquery_exec(instance, 'select * from rpm_packages;')
+			result_dict = results_obj.response
+			package_list.append({"type": "rpm_package", "result": result_dict })
+
+		python_packages_obj = osquery_exec(instance, 'select * from python_packages;')
+		result_dict = python_packages_obj.response
+
+		package_list.append({"type": "python_package", "result": result_dict })
+
+		return package_list
+
+
+
 class RunScpPacksManagerHost(Resource):
 	def post(self):
 		postedData = request.get_json()
@@ -206,7 +232,6 @@ class SetActiveCapHost(Resource):
 		return resp
 
 
-
 class UpdateCustomSuricataRuleset(Resource):
 	def post(self):
 		postedData = request.get_json()
@@ -215,7 +240,6 @@ class UpdateCustomSuricataRuleset(Resource):
 			# with open(suricata_custom_rules_filepath, "w") as f:
 			# 	for line in ruleset_data:
 			# 		f.write(line)
-
 			subprocess.run("docker exec -it  impulse-suricata suricatasc -c ruleset-reload-nonblocking")
 			subprocess.run("systemctl restart impulse-nids")
 
@@ -247,5 +271,5 @@ api.add_resource(GetSystemDmidecode, '/get-system-dmidecode-uuid')
 api.add_resource(CreateAgent, '/create-agent')
 api.add_resource(SetActiveCapHost, '/set-active-host-cap')
 api.add_resource(UpdateCustomSuricataRuleset, '/update-custom-suricata-ruleset-manager-host')
-
 api.add_resource(NftManagerReload, '/nft-reload-manager')
+api.add_resource(GatherInstalledPackagesManagerHost, '/gather-installed-packages-manager-host')
