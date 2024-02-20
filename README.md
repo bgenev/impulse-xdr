@@ -12,9 +12,12 @@ Whether your goal is to secure a single VPS server or large cloud network (VPC),
 
 That's it. Security telemetry and analytics start flowing to your screen! 
 
-Impulese provides integrity monitoring for every aspect of your environment - files, processes, connections, ports, users, authentications, installed packages, kernel modules, etc. every variable that could be an indicator of compromise is tracked and analysed.
-
 [Documentation](https://impulse-xdr.com/docs/introduction/)
+
+![fleet_firewall2](https://github.com/bgenev/impulse-xdr/assets/129767083/3c7c1865-5489-47c8-b099-9f9aef69aad7)
+
+![detections_and_iocs](https://github.com/bgenev/impulse-xdr/assets/129767083/b0e8d299-6d71-438c-8eff-3c5b6eb80614)
+
 
 ## Main Features:
 
@@ -23,6 +26,8 @@ Ingests telemetry data from its fleet of monitoring sensors and provides securit
 
 #### Indicators of Compormise
 Built-in core indicators of compromise track security events on hosts and alert you in case of anomalous activity.
+
+Event if certain events don't generate a detection, they are still added to the "IOCs History" database which provides integrity monitoring for every aspect of your environment - files, processes, connections, ports, users, authentications, installed packages, kernel modules, etc. every variable that could be an indicator of compromise is tracked and analysed.
 
 #### Network Visibility & IDS
 Monitors network flows, detects intrusion attempts and automatically blocks offenders with active response.
