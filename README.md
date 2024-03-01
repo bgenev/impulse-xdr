@@ -4,13 +4,15 @@
 
 ImpulseXDR is a complete security monitoring solution for servers and endpoints that comes with its own custom threat detection framework, indexing, storage and visualisation. 
 
-Impulse takes a different approach to host intrusion detection that provides deeper visibility with minimal performance impact. Instead of looking for specific malware signatures, it uses trackers for indicators of compromise (implemented with osquery) that divide system activity into one of 50 different types. Malware comes in all shapes and forms but its output always falls into one of these categories - connections to C&C centers, modified files, systemd services, background tasks, auths, new processes, etc. Impulse assigns different metrics to each IoC group depending on its level of significance and aggregates them into detections. Therefore, it provides both a full history of everything important that has ever happened on the system and a filtered dashboard with high-severity detections.
+Impulse takes a different approach to host intrusion detection that provides deeper visibility with minimal performance impact. 
 
-Impulse uses high-performance, open-source components to deliver a solution that only needs 1-core, 1.5 GB RAM and can be installed on everything from cheap VPS/VMs, to laptops and Raspberry Pi.
+Instead of looking for specific malware signatures, it uses trackers for indicators of compromise (implemented with osquery) that divide system activity into one of 50 different types. Malware comes in all shapes and forms but its output always falls into one of these predefined categories - connections to C&C centers, modified files, systemd services, background tasks, auths, new processes, etc. Impulse assigns different metrics/weight to each IoC group depending on its level of significance and continuously monitors for new events. It then aggregates bursts of events, indicative of anomalous activity, into detections. 
 
-It only takes two steps to set up deep security visibility and protection for your infrastucture and endpoints: 
+Therefore, you get a full history of everything important that has ever happened on the system and a filtered dashboard with high-severity detections.
 
-1. Install the self-hosted security events manager on one of your existing instances. It runs on all major Linux distributions and requires close to zero configuration. 
+Set up deep security visibility and protection for your infrastucture in two steps: 
+
+1. Install the self-hosted security events manager on one of your existing machines (this could be any VM, VPS, laptop or Raspberry Pi with 1-core, 1.5gb RAM). It runs on all major Linux distributions and requires close to zero configuration. 
 
 2. Deploy a light or heavy sensor on each endpoint, depending on the features and level of visibility that you need. 
 
