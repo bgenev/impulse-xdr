@@ -2,7 +2,7 @@
 
 #### Deep Security Visibility & Protection
 
-ImpulseXDR is a complete security monitoring solution for servers and endpoints that comes with its own custom threat detection framework, indexing, storage and visualisation. 
+ImpulseXDR is a complete security monitoring solution for servers and endpoints that comes with custom threat detection framework, indexing, storage and visualisation. 
 
 Impulse takes a different approach to host intrusion detection that provides deeper visibility with minimal performance impact. 
 
