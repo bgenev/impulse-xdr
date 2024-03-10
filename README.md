@@ -11,7 +11,7 @@ It’s organised around a self-hosted, manager-sensor architecture that provides
 
 ### What makes it better at threat detection? 
 
-Instead of looking for specific malware signatures, it uses indicators of compromise tracked via their on-disk forensic artefacts. Malware comes in all shapes and forms but its end output always falls into one of these categories - connections to C&C centres, modified files, new processes, modified services/background tasks, authentications, etc. Impulse assigns different metrics/weight to each IOC group (implemented with osquery) depending on its level of significance and continuously monitors for new events. It then aggregates bursts of events, indicative of anomalous activity, into detections. 
+Instead of looking for specific malware signatures, it tracks indicators of compromise via their on-disk forensic artefacts. Malware comes in all shapes and forms but its output is always and same and falls into one of these categories - connections to C&C centres, modified files, new processes, modified services/background tasks, authentications, etc. Impulse assigns different metrics/weight to each IOC group (implemented with osquery) depending on its level of significance and continuously monitors for new events. It then aggregates bursts of events, indicative of anomalous activity, into detections. 
 
 This approach provides a much deeper visibility and allows detections of unknown threats from behavioural activity patterns rather than constantly updated signatures. Users get a full historical chain of events with everything important that has ever happened on the system and a filtered dashboard with high-severity detections. 
 
