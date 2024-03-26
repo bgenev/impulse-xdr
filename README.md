@@ -27,7 +27,7 @@ This approach provides a much deeper visibility and allows detections of unknown
 ![architecture_diagram](https://github.com/bgenev/impulse-xdr/assets/129767083/7524750f-8bea-4291-8ef0-6ea351aba8f0)
 
 
-## 🚴‍♂️ What can I use it for?
+## 🚴‍♂️ Main Features
 
 - **Security Analytics**: Ingests telemetry data from its fleet of monitoring sensors and provides security analytics & insights.
 - **Indicators of Compormise**: Built-in core indicators of compromise track security events on hosts and alert you in case of anomalous activity. Even if certain events don't generate a detection, they are still added to an "IOCs History" database which provides integrity monitoring for every aspect of your environment - files, processes, connections, ports, users, authentications, installed packages, kernel modules, etc. every variable that could be an indicator of compromise is tracked and analysed.
@@ -43,32 +43,32 @@ This approach provides a much deeper visibility and allows detections of unknown
 
 ## 👣 What indicators (IOCs) does it track?
 
-• Unusual inbound and outbound network traffic 
-• Unusual authentications
-• New or unknown applications, processes and background tasks  
-• Unusual activity from administrator or privileged accounts
-• An increase in incorrect login attempts that may indicate brute force attack
-• New or modified files and large numbers of requests for the same file 
-• Suspicious registry or system file changes 
-• Modified system binaries 
-• New cron-tabs and Systemd services 
-• Open ports 
-• Unusual Domain Name Servers (DNS) requests and registry configurations  
-• Newly generated compressed files  
+- Unusual inbound and outbound network traffic
+- Unusual authentications
+- New or unknown applications, processes and background tasks  
+- Unusual activity from administrator or privileged accounts
+- An increase in incorrect login attempts that may indicate brute force attack
+- New or modified files and large numbers of requests for the same file 
+- Suspicious registry or system file changes 
+- Modified system binaries 
+- New cron-tabs and Systemd services 
+- Open ports 
+- Unusual Domain Name Servers (DNS) requests and registry configurations  
+- Newly generated compressed files  
 
 and many more. 
 
 ## 🛠️ What can I protect/monitor with it? 
 
-1. **Cloud VMs in VPC.** It works with any cloud provider such as AWS, DigitalOcean, Azure, GCP, Alibaba, etc.
+1. **Cloud VMs in VPC.** Works with any cloud provider including AWS, DigitalOcean, Azure, GCP, Alibaba, etc.
 
-2. **VPS server.** Either deploy in stand-alone mode or deploy the manager on one VPS and then place a sensor on the target VPS.
+2. **VPS server.** Either deploy in standalone mode or deploy the manager on one VPS and then place a sensor on the target VPS.
 
 3. **Cluster of VPS servers.** If you have multiple VPS servers spread across various providers, simply choose one of them as the manager and place light/heavy sensors on the rest.
 
-4. **Website host.** Install in stand-alone mode to start monitoring and reduce server load by blocking port scanners.
+4. **Website host.** Install in standalone mode to lockdown your host and reduce load by blocking port scanners.
 
-5. **Personal workstation.** Deploy on your laptop and gain instant security visibility and threat-detection. 
+5. **Monitor personal workstation.** The Impulse EDR provides real-time threat-detection & integrity monitoring for personal computers. A hardened Linux Desktop such as Debian with Impulse EDR monitoring is one of the most secure configurations that you can get.
 
 6. **IOT device, Raspberry Pi or similar.** Light sensors can be installed on any Linux device that provides ssh access. 
 
