@@ -1,49 +1,65 @@
-### Impulse XDR - Deep Security Visibility & Protection
+<div align=center>
+<h1>Impulse XDR</h1>
+<h2>
+<a href="https://impulse-xdr.com/docs/get-started/install_manager">Quickstart</a> |
+<a href="https://impulse-xdr.com/docs/introduction">Docs</a> |
+<a href="https://impulse-xdr.com">Web</a> |    
+<a href="https://github.com/bgenev/impulse-xdr/releases">Releases</a>
+</h2>
+</div>
 
-### Introduction
+### Welcome to Impulse XDR!
 
-Impulse is a fully automated security monitoring solution for servers and endpoints that comes with threat detection sensors, storage and visualisation. It can be deployed on any device or VM running Linux such as cloud VMs in VPC networks, VPS servers or personal workstations and IoTs. 
+## 🌟 Deep Security Visibility & Protection
+
+Impulse is a fully automated SIEM/XDR with real-time threat detection sensors, storage and visualisation. It detects malware from behavioural patterns rather than signatures and enables deeper visibility than legacy tools. It can be deployed on any device or VM running Linux such as cloud VMs in VPC networks, VPS servers or personal workstations and IoTs. 
 
 It’s organised around a self-hosted, manager-sensor architecture that provides traditional SIEM capabilities like centralized log storage, indexing and normalization, but also automated log-correlation and real-time threat detection via its open-source EDR sensors. It installs in 5 mins on as little as 1.5 gb RAM, 1-core VM.
 
-![instance_v1](https://github.com/bgenev/impulse-xdr/assets/129767083/b5af88ee-4bc0-47d7-858d-017b06d7f726)
+![instance_with_detection](https://github.com/bgenev/impulse-xdr/assets/129767083/fea77d03-5fc3-4d66-b402-53abf90dd629)
 
 
-### What makes it better at threat detection? 
+## 🍀 What makes it better at threat detection? 
 
 Instead of looking for specific malware signatures, it tracks indicators of compromise via their on-disk forensic artefacts. Malware comes in all shapes and forms but its output is always the same - connections to C&C centres, modified files, new processes, modified services/background tasks, authentications, etc. Impulse assigns different metrics/weight to each IOC group (implemented with osquery) depending on its level of significance and continuously monitors for new events. It then aggregates bursts of events, indicative of anomalous activity, into detections. 
 
 This approach provides a much deeper visibility and allows detections of unknown threats from behavioural activity patterns rather than constantly updated signatures. Users get a full historical chain of events with everything important that has ever happened on the system and a filtered dashboard with high-severity detections. 
 
-### What indicators of compromise does it detect?
+![architecture_diagram](https://github.com/bgenev/impulse-xdr/assets/129767083/7524750f-8bea-4291-8ef0-6ea351aba8f0)
+
+
+## 🚴‍♂️ What can I use it for?
+
+- **Security Analytics**: Ingests telemetry data from its fleet of monitoring sensors and provides security analytics & insights.
+- **Indicators of Compormise**: Built-in core indicators of compromise track security events on hosts and alert you in case of anomalous activity. Even if certain events don't generate a detection, they are still added to an "IOCs History" database which provides integrity monitoring for every aspect of your environment - files, processes, connections, ports, users, authentications, installed packages, kernel modules, etc. every variable that could be an indicator of compromise is tracked and analysed.
+- **Network Visibility & IDS**: Monitors network flows, detects intrusion attempts and automatically blocks offenders with active response.
+- **File Integrity Monitoring**: Tracks changes on the filesystem tree and notifies you about file or permission modifications.
+- **Security Policies**: Monitors system configuration settings to ensure compliance with preset core security policies.
+- **Active Response**: Automatically blocks suspicious IPs, stops processes, closes ports and quarantines files.
+- **Fleet Firewall**: Fleet firewall blocks offenders across the fleet.
+- **Threat Intel**: Integrates with high-quality threat intelligence providers to enrich your context data.
+- **Vulnerability Scanning**: Discovers installed packages and associated CVEs.
+- **Self-Hosted & Open-Core**: Data never leaves you servers.
+
+
+## 👣 What indicators (IOCs) does it track?
 
 • Unusual inbound and outbound network traffic 
-
 • Unusual authentications
-
 • New or unknown applications, processes and background tasks  
-
 • Unusual activity from administrator or privileged accounts
-
 • An increase in incorrect login attempts that may indicate brute force attack
-
 • New or modified files and large numbers of requests for the same file 
-
 • Suspicious registry or system file changes 
-
 • Modified system binaries 
-
 • New cron-tabs and Systemd services 
-
 • Open ports 
-
 • Unusual Domain Name Servers (DNS) requests and registry configurations  
-
 • Newly generated compressed files  
 
 and many more. 
 
-### What can I protect with it? 
+## 🛠️ What can I protect/monitor with it? 
 
 1. **Cloud VMs in VPC.** It works with any cloud provider such as AWS, DigitalOcean, Azure, GCP, Alibaba, etc.
 
@@ -55,11 +71,11 @@ and many more.
 
 5. **Personal workstation.** Deploy on your laptop and gain instant security visibility and threat-detection. 
 
-6. **IOT device, Raspberry Pi or similar.** Light sensors can be installed on any device that provides ssh access. 
+6. **IOT device, Raspberry Pi or similar.** Light sensors can be installed on any Linux device that provides ssh access. 
 
 7. **Install on local VM and learn cybersecurity/sysadmin.** The level of visibility provided by Impulse means that you can use it to learn and play around with Linux environments. Deploy on localhost VM, then modify system settings or try to attack the VM and observe what changes in the “IOT History” dashboard.
 
-### How to get started and documentation
+## 📘 How to get started and documentation
 
 Set up deep security visibility and protection for your infrastructure in two steps:
 
@@ -72,46 +88,7 @@ That's it. Security telemetry and analytics start flowing to your screen!
 [Setup & Documentation](https://impulse-xdr.com/docs/introduction/)
 
 
-### Main Features:
-
-#### Security Analytics
-Ingests telemetry data from its fleet of monitoring sensors and provides security analytics & insights.
-
-#### Indicators of Compormise
-Built-in core indicators of compromise track security events on hosts and alert you in case of anomalous activity.
-
-Even if certain events don't generate a detection, they are still added to an "IOCs History" database which provides integrity monitoring for every aspect of your environment - files, processes, connections, ports, users, authentications, installed packages, kernel modules, etc. every variable that could be an indicator of compromise is tracked and analysed.
-
-#### Network Visibility & IDS
-Monitors network flows, detects intrusion attempts and automatically blocks offenders with active response.
-
-#### File Integrity Monitoring
-Tracks changes on the filesystem tree and notifies you about file or permission modifications.
-
-#### Security Policies
-Monitors system configuration settings to ensure compliance with preset core security policies.
-
-#### Active Response
-Automatically blocks suspicious IPs, stops processes, closes ports and quarantines files.
-
-#### Fleet firewall
-Fleet firewall blocks offenders across the fleet.
-
-#### Malware scanner
-Integrated with VirursTotal to scan for malicious files on your hosts.
-
-#### Threat Intel
-Integrates with high-quality threat intelligence providers to enrich your context data.
-
-#### Vulnerability Scanning
-Discovers installed packages and associated CVEs.
-
-#### Self-Hosted & Open-Core
-Data never leaves you servers.
-
-
-
-### How does it compare with other security monitoring tools?
+## How does it compare with other security monitoring tools?
 
 | Feature                                                                                  | Other Tools                                              | Impulse XDR                         |
 | --------------------------------------------------------------------------------------------- | -------------------------------------------------------- | ---------------------------------------------------------------------------- |
@@ -155,5 +132,5 @@ Data never leaves you servers.
 ![sca_v1](https://github.com/bgenev/impulse-xdr/assets/129767083/227a0490-37d1-4cc5-bb16-5ee5e7c3cb36)
 
 
-**Distributed Query**
+**Live Query**
 ![distrib_query_v1](https://github.com/bgenev/impulse-xdr/assets/129767083/3095c112-7021-4c68-b1ac-659fc9f686f7)
