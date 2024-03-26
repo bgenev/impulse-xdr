@@ -10,11 +10,15 @@ set -e
 BUILD_START_TIME=$(date)
 PROJECT_ROOT_DIR=$(pwd)
 
+
+if [[ $PROJECT_ROOT_DIR != '/opt/impulse' ]]; then # Project must be located in /opt
+	echo "Project root must be /opt/impulse. Please untar the installation package in /opt and start the installation script from there." 
+	exit 
+fi
+
 $PROJECT_ROOT_DIR/install_modules/shared/sudo_user_check.sh
 
 $PROJECT_ROOT_DIR/install_modules/manager/syst_requirements_check_manager.sh
-
-#$PROJECT_ROOT_DIR/install_modules/shared/move_project.sh $PROJECT_ROOT_DIR
 
 OS_TYPE=$($PROJECT_ROOT_DIR/install_modules/shared/determine_os_distribution.sh) 
 AGENT_OS_TYPE_VERBOSE=$($PROJECT_ROOT_DIR/install_modules/shared/determine_os_distribution.sh)
@@ -69,6 +73,12 @@ echo "FIREWALL_BACKEND: "$FIREWALL_BACKEND
 echo "PYTH_USE_SYST_VER: "$PYTH_USE_SYST_VER
 echo "SETUP_TYPE: "$SETUP_TYPE
 echo "AGENT_TYPE: "$AGENT_TYPE
+
+# check pass is alpha-numeric
+if [[ "$IMPULSE_DB_SERVER_PWD" =~ [^a-zA-Z0-9] ]]; then
+  echo "Please only use letters and numbers for the password."
+  exit
+fi
 
 $PROJECT_ROOT_DIR/install_modules/manager/confirm_config.sh $IP_MANAGER $AGENT_TYPE $HOST_INTERFACE
 
@@ -204,6 +214,7 @@ $PROJECT_ROOT_DIR/install_modules/shared/firewall.sh $SETUP_TYPE $IP_MANAGER $PA
 # Vulnerability Management
 $PROJECT_ROOT_DIR/install_modules/manager/cvedb_vulns.sh
 
+sleep 5
 
 echo "Post-Installation Setup..."
 
@@ -219,11 +230,6 @@ WEB_INTERFACE_PASSWORD=$(cat /dev/urandom | tr -dc 'a-zA-Z0-9' | fold -w 10 | he
 
 curl -i -X POST -H "Content-Type: application/json" --data '{"username":"'$WEB_INTERFACE_USERNAME'", "email": "admin@localhost", "name": "impulse", "password":"'$WEB_INTERFACE_PASSWORD'", "user_type":"admin"}' http://127.0.0.1:5020/api/register
 
-## Whitelist client; all additional IPs used to ssh into the server or access the UI, must be whitelisted or they 
-## will get blocked by the fleet firewall. To whitelist, go to /fleet/firewall -> Manage IP 
-
-
-
 ## Make sure the interface is accessible 
 if [[ $PACKAGE_MGR = "deb" ]]; then
 	ufw allow 7001/tcp
@@ -233,9 +239,11 @@ if [[ $PACKAGE_MGR = "rpm" ]]; then
 	firewall-cmd --permanent --add-port=7001/tcp
 fi 
 
-
 ## Post-Install Tasks 
 sleep 5
+
+## Whitelist client; all additional IPs used to ssh into the server or access the UI, must be whitelisted or they 
+## will get blocked by the fleet firewall. To whitelist, go to /fleet/firewall -> Manage IP 
 /usr/bin/wget http://127.0.0.1:5020/local-endpoint/set-default-whitelisted -O /dev/null
 
 /opt/impulse/tasks_manager/cron_tasks/syst_posture_task.sh

@@ -540,6 +540,7 @@ class ScaResults(db.Model):
 	__bind_key__ = 'impulse_manager'
 	id = db.Column(db.Integer, primary_key=True)
 	agent_ip = db.Column(db.String(100))
+	pack_id = db.Column(db.String(100))
 	rule_id = db.Column(db.Integer)
 	test_state = db.Column(db.String(100))
 	updated_on = db.Column(db.DateTime, server_default=db.func.now())

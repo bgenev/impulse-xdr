@@ -1,7 +1,7 @@
 {
   "files": {
     "main.css": "/static/css/main.a6858757.css",
-    "main.js": "/static/js/main.42557b8c.js",
+    "main.js": "/static/js/main.3b7135cd.js",
     "static/media/Montserrat-Medium.ttf": "/static/media/Montserrat-Medium.e2d60bc49517598c0ce8.ttf",
     "static/media/OpenSans-SemiBold.ttf": "/static/media/OpenSans-SemiBold.d31d0aaa8d4384de5eeb.ttf",
     "static/media/OpenSans-Regular.ttf": "/static/media/OpenSans-Regular.9ccd5e1b1dbea150336d.ttf",
@@ -18,6 +18,6 @@
   },
   "entrypoints": [
     "static/css/main.a6858757.css",
-    "static/js/main.42557b8c.js"
+    "static/js/main.3b7135cd.js"
   ]
 }

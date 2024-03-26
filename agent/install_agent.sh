@@ -10,8 +10,13 @@ set -e
 BUILD_START_TIME=$(date)
 PROJECT_ROOT_DIR=$(pwd)
 
-$PROJECT_ROOT_DIR/install_modules/shared/sudo_user_check.sh
 
+if [[ $PROJECT_ROOT_DIR != '/opt/impulse' ]]; then # Project must be located in /opt
+	echo "Project root must be /opt/impulse. Please untar the installation package in /opt and start the installation script from there." 
+	exit 
+fi
+
+$PROJECT_ROOT_DIR/install_modules/shared/sudo_user_check.sh
 
 #$PROJECT_ROOT_DIR/install_modules/shared/move_project.sh $PROJECT_ROOT_DIR
 

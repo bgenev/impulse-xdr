@@ -1,4 +1,4 @@
-version: "3" 
+#version: "3" 
 services:
 
   managerd:
@@ -59,7 +59,7 @@ services:
     volumes:
       - /opt/impulse:/opt/impulse
       - /var/impulse:/var/impulse
-      - /opt/impulse/build/deb_sec_tracker:/opt/impulse/build/deb_sec_tracker
+    #  - /opt/impulse/build/deb_sec_tracker:/opt/impulse/build/deb_sec_tracker
     restart: always
 
   nginx-frontend:
@@ -92,7 +92,7 @@ services:
     container_name: impulse-message-broker
     image: 'redis:alpine'
     volumes:
-      - /opt/impulse/build/deb_sec_tracker/deb_sec_tracker.json:/opt/impulse/build/deb_sec_tracker/deb_sec_tracker.json
+    #  - /opt/impulse/build/deb_sec_tracker/deb_sec_tracker.json:/opt/impulse/build/deb_sec_tracker/deb_sec_tracker.json
       - /tmp:/tmp   
     cap_add:
       - SYS_NICE  

@@ -78,7 +78,7 @@ IMPULSE_DB_PWD = agent_config.get('Env','IMPULSE_DB_SERVER_PWD')
 local_ips = ['10.0.2.', '192.168.']
 executor = ThreadPoolExecutor(5)
 
-checks_dict = get_cis_compliance_checks()
+core_cis_compliance_checks = get_cis_compliance_checks()
 
 
 @celery_app.task
@@ -111,11 +111,6 @@ def check_agents_status(ip_addr, manager_ip_addr, get_system_info):
 
 
 @celery_app.task
-def sca_run_fleet_task(agent_ip, manager_ip_addr):
-	start_sca_scan_task(agent_ip, manager_ip_addr)
-
-
-@celery_app.task
 def fim_vt_task(agent_ip):
 	last_analysed_obj = get_last_analysed_meta(agent_ip)
 	fim_last_id_analysed = last_analysed_obj.fim_last_id_analysed		
@@ -131,7 +126,8 @@ def run_malware_scanner(agent_ip):
 def scan_by_os_type(osquery_string, package_type, selected_targets):
 	hosts_results, failed_hosts = run_distributed_query(osquery_string, selected_targets)
 
-	print("==> selected_targets: ", selected_targets, "hosts_results:", len(hosts_results))
+	#print("==> selected_targets: ", selected_targets, "hosts_results:", len(hosts_results))
+
 	for host_result in hosts_results:
 		print("host_result:", host_result)
 
@@ -160,15 +156,52 @@ def scan_by_os_type(osquery_string, package_type, selected_targets):
 			pass 	
 
 
-def start_sca_scan_task(agent_ip, manager_ip_addr):
+
+@celery_app.task
+def sca_run_fleet_task(agent_ip, manager_ip_addr, pack_id):
+	start_sca_scan_task(agent_ip, manager_ip_addr, pack_id)
+
+
+# {
+# 	"id": 1002,
+# 	"name": "Ensure mounting of freevxfs filesystems is disabled.",
+# 	"description": "The freevxfs filesystem type is a free version of the Veritas type filesystem. This is the primary filesystem type for HP-UX operating systems.",
+# 	"test_query": "from kernel_modules where name = 'freevxfs';",
+# 	"query_type": "negative_success",
+# },
+
+
+def start_sca_scan_task(agent_ip, manager_ip_addr, pack_id):
+	## check pack_id and get the queries for it 
+
+	if pack_id == 'core_scp_pack':
+		checks_dict = core_cis_compliance_checks
+	else:
+		# get dict from db
+		#  
+		pack_queries = PackQueries.query.filter_by(pack_id=pack_id).first()
+
+		checks_dict = []
+
+		for i in pack_queries:
+			checks_dict.append({
+				"rule_id": i.id,
+				"pack_id": i.pack_id,
+				"query_string": i.query_string,
+				"query_type": i.query_type,
+				"description": i.description,
+				"name": i.name
+			})
+
+	print("checks_dict: ", len(checks_dict))
+
 	if agent_ip == manager_ip_addr:
-		
 		# this should also post to grpc_snapshots for consistency
 		data={ "checks_dict": checks_dict }
 		r = requests.post("http://127.0.0.1:5021/run-sca-scan-manager-host", json=data, verify=False)
 		tests_results = r.json()
 
-		sca_update_agent_results({ "agent_ip": agent_ip, "tests_results": tests_results })
+		sca_update_agent_results({ "agent_ip": agent_ip, "tests_results": tests_results, "pack_id": pack_id })
 	else:			
 		#pass 
 		task_id = create_task_id()
@@ -181,8 +214,11 @@ def start_sca_scan_task(agent_ip, manager_ip_addr):
 			1,
 			15
 		)
+
+		print("*** tests_results: ", tests_results)
+
 		tests_results = tests_results[0][0]
-		sca_update_agent_results({ "agent_ip": agent_ip, "tests_results": tests_results })
+		sca_update_agent_results({ "agent_ip": agent_ip, "tests_results": tests_results, "pack_id": pack_id })
 
 
 @celery_app.task

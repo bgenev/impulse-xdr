@@ -335,14 +335,12 @@ def extract_macosx_min_system_version(path_to_lib):
 
 def read_mach_header(lib_file, seek=None):
     """
-    This funcition parse mach-O header and extract
-    information about minimal system version
+    This function parses a Mach-O header and extracts
+    information about the minimal macOS version.
 
     :param lib_file: reference to opened library file with pointer
     """
-    if seek is not None:
-        lib_file.seek(seek)
-    base_class, magic_number = get_base_class_and_magic_number(lib_file)
+    base_class, magic_number = get_base_class_and_magic_number(lib_file, seek)
     arch = "32" if magic_number == MH_MAGIC else "64"
 
     class SegmentBase(base_class):
