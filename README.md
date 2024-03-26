@@ -1,5 +1,5 @@
 <div align=center>
-<h1>Impulse XDR</h1>
+<h1>Welcome to Impulse XDR!</h1>
 <h2>
 <a href="https://impulse-xdr.com/docs/get-started/install_manager">Quickstart</a> |
 <a href="https://impulse-xdr.com/docs/introduction">Docs</a> |
@@ -8,7 +8,6 @@
 </h2>
 </div>
 
-### Welcome to Impulse XDR!
 
 ## 🌟 Deep Security Visibility & Protection
 
