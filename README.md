@@ -13,7 +13,9 @@
 
 Impulse is a fully automated SIEM/XDR with real-time threat detection sensors, storage and visualisation. It detects malware from behavioural patterns rather than signatures and enables deeper visibility than legacy tools. It can be deployed on any device or VM running Linux such as cloud VMs in VPC networks, VPS servers or personal workstations and IoTs. 
 
-It’s organised around a self-hosted, manager-sensor architecture that provides traditional SIEM capabilities like centralized log storage, indexing and normalization, but also automated log-correlation and real-time threat detection via its open-source EDR sensors. It installs in 5 mins on as little as 1.5 gb RAM, 1-core VM.
+It’s organised around a self-hosted, manager-sensor architecture that provides traditional SIEM capabilities like centralized log storage, indexing and normalization, but also automated log-correlation and real-time threat detection via its open-source EDR/NDR sensors. 
+
+Can be used as a complete security management solution or as additional layer of security that simply forwards Detections, EDR and NDR logs to your existing security stack.
 
 ![instance_with_detection](https://github.com/bgenev/impulse-xdr/assets/129767083/fea77d03-5fc3-4d66-b402-53abf90dd629)
 
@@ -61,7 +63,6 @@ Network monitoring & intrusion detection with turnkey Suricata solution, optimis
 **Threat Detection Engine** 
 
 Threat Detection Engine correlates signals and aggregates them into detections.
-
 
 
 ## 🚴‍♂️ Main Features
