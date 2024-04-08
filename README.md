@@ -18,13 +18,48 @@ It’s organised around a self-hosted, manager-sensor architecture that provides
 ![instance_with_detection](https://github.com/bgenev/impulse-xdr/assets/129767083/fea77d03-5fc3-4d66-b402-53abf90dd629)
 
 
-## 🍀 What makes it better at threat detection? 
+## What makes it better at threat detection? 
 
 Instead of looking for specific malware signatures, it tracks indicators of compromise via their on-disk forensic artefacts. Malware comes in all shapes and forms but its output is always the same - connections to C&C centres, modified files, new processes, modified services/background tasks, authentications, etc. Impulse assigns different metrics/weight to each IOC group (implemented with osquery) depending on its level of significance and continuously monitors for new events. It then aggregates bursts of events, indicative of anomalous activity, into detections. 
 
 This approach provides a much deeper visibility and allows detections of unknown threats from behavioural activity patterns rather than constantly updated signatures. Users get a full historical chain of events with everything important that has ever happened on the system and a filtered dashboard with high-severity detections. 
 
-![architecture_diagram](https://github.com/bgenev/impulse-xdr/assets/129767083/7524750f-8bea-4291-8ef0-6ea351aba8f0)
+## Components
+
+**Host Sensor (EDR)**
+
+Tracks every important variable that could be indicator of compromise and filters noise at the edge. Core version detects:
+
+- Processes & Background Tasks
+- Authentications & SSH Activity
+- Connections & Socket Events
+- Shell History & Root Commands
+- Ports & Interfaces
+- Services & Crons
+- Files & Permissions
+- Users & Groups
+- DEP/RPM/Python Packages
+- Kernel Modules
+- Offensive Tools
+
+**Network Sensor (NDR)**
+
+Network monitoring & intrusion detection with turnkey Suricata solution, optimised for performance and ease-of-use. Completely decoupled from the rest of the setup and can be installed on host or VM with custom CPU/RAM and NIC:
+
+- Detects Malicious Traffic & Generates Alerts
+- Enriches logs with IP threat intelligence
+- Shows Signature Payloads & Packet Flows
+- Maps Attacker Geolocation
+- Create & distribute custom rulesets
+- Automatically blocks attackers via distributed nftables-based fleet firewall
+- Extracts Files from Flows
+- Tracks DNS, HTTP and DHCP requests
+
+**Threat Detection Engine** 
+Threat Detection Engine correlates signals and aggregates them into detections.
+
+![edr_diagram_v5](https://github.com/bgenev/impulse-xdr/assets/129767083/8fdfda63-392e-438c-9d07-004d5c1d7c16)
+
 
 
 ## 🚴‍♂️ Main Features
@@ -41,24 +76,7 @@ This approach provides a much deeper visibility and allows detections of unknown
 - **Self-Hosted & Open-Core**: Data never leaves you servers.
 
 
-## 👣 What indicators (IOCs) does it track?
-
-- Unusual inbound and outbound network traffic
-- Unusual authentications
-- New or unknown applications, processes and background tasks  
-- Unusual activity from administrator or privileged accounts
-- An increase in incorrect login attempts that may indicate brute force attack
-- New or modified files and large numbers of requests for the same file 
-- Suspicious registry or system file changes 
-- Modified system binaries 
-- New cron-tabs and Systemd services 
-- Open ports 
-- Unusual Domain Name Servers (DNS) requests and registry configurations  
-- Newly generated compressed files  
-
-and many more. 
-
-## 🛠️ What can I protect/monitor with it? 
+## 🛠️ Use Cases  
 
 1. **Cloud VMs in VPC.** Works with any cloud provider including AWS, DigitalOcean, Azure, GCP, Alibaba, etc.
 
