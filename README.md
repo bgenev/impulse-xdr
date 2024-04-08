@@ -26,6 +26,9 @@ This approach provides a much deeper visibility and allows detections of unknown
 
 ## Components
 
+![edr_diagram_v5](https://github.com/bgenev/impulse-xdr/assets/129767083/8fdfda63-392e-438c-9d07-004d5c1d7c16)
+
+
 **Host Sensor (EDR)**
 
 Tracks every important variable that could be indicator of compromise and filters noise at the edge. Core version detects:
@@ -56,9 +59,8 @@ Network monitoring & intrusion detection with turnkey Suricata solution, optimis
 - Tracks DNS, HTTP and DHCP requests
 
 **Threat Detection Engine** 
-Threat Detection Engine correlates signals and aggregates them into detections.
 
-![edr_diagram_v5](https://github.com/bgenev/impulse-xdr/assets/129767083/8fdfda63-392e-438c-9d07-004d5c1d7c16)
+Threat Detection Engine correlates signals and aggregates them into detections.
 
 
 
