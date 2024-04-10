@@ -41,7 +41,7 @@ Tracks every important variable that could be indicator of compromise and filter
 - Services & Crons
 - Files & Permissions
 - Users & Groups
-- DEP/RPM/Python Packages
+- Deb/RPM/Python Packages
 - Kernel Modules
 - Offensive Tools
 
